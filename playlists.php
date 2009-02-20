@@ -1,5 +1,6 @@
 <?php
 require_once('http_response.php');
+require_once('config.php');
 
 /**
  * Delete a specific playlist in the logged in user's space.
@@ -41,7 +42,7 @@ function get_private_list()
 	$output = '';
 
 	$playlists= array();
-	$dir = scandir("playlists/${_SERVER['REMOTE_USER']}");
+	$dir = scandir(PLAYLISTS_URL . $_SERVER['REMOTE_USER']);
 	if ($dir) {
 		foreach ($dir as $file) {
 			if ($file != '.' && $file != '..') {
@@ -146,7 +147,7 @@ function save($name, $playlist)
  */
 function build_filename($name)
 {
-	$filename = "playlists/${_SERVER['REMOTE_USER']}/${name}";
+	$filename = PLAYLISTS_URL . "${_SERVER['REMOTE_USER']}/${name}";
 	return $filename;
 }
 
@@ -222,6 +223,11 @@ function transform($title, $json, $format)
 //   main processing
 //===================================================================
 
+//
+// URLs should be handled in the convention specified in the REST microformat.
+// http://microformats.org/wiki/rest/urls
+//
+
 // get everything after the name of this script
 $rest_uri = substr($_SERVER['REQUEST_URI'], strlen($_SERVER['SCRIPT_NAME']));
 
@@ -236,18 +242,22 @@ if (sizeof($elements) > 1) {
 	}
 }
 
-switch($_SERVER['REQUEST_METHOD']) {
+$method = isset($_GET['_method']) ? $_GET['method'] : $_SERVER['REQUEST_METHOD'];
+
+switch($method) {
 	// read
 	case 'GET':
 		if (isset($name)) {
 			get($name, $format);
 		} else {
+			// get a list of the current user's playlists
 			get_private_list();
+			// get a list of all other user's playlists
 //			get_all();
 		}
 		break;
 
-	// create & update
+	// update & create
 	case 'POST':
 	case 'PUT':
 		$playlist = $_POST['playlist'];
