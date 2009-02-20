@@ -6,7 +6,7 @@ require_once('lib/id3.php');
 require_once('config.php');
 
 $output = home();
-return $output;
+echo $output;
 
 /**
  * Handler method for the base page
@@ -24,7 +24,7 @@ function home()
 	}
 
 	// get a list of dirs and show them
-	$path = MUSIC_DIR . "/$base";
+	$path = MUSIC_DIR."/$base";
 	$output['cp'] = ($search ? $search : $base);
 
 	// build the lists of files and dirs
@@ -47,52 +47,44 @@ function home()
 			$rel_dir = ($base) ? "$base/$f" : $f;
 
 			// determine the file extension
-			$path_info = pathinfo($f);
-			$file_end = strtolower($path_info['extension']);
+			$path_info = pathinfo($rel_dir);
+			$dirname = $path_info['dirname']; // /var/www
+			$basename = $path_info['basename']; //  index.html
+			$filename = $path_info['filename']; //  index
+			$extension = strtolower($path_info['extension']); //  html
 
 			// build the output for a dir
 			if (is_dir($abs_dir)) {
 				$output['d'][] = array('d' => escapeOutput($rel_dir), 'l' => escapeOutput($f));
 			}
 			// build the output for a file
-			elseif ($file_end == 'mp3') {
+			elseif ($extension == 'mp3') {
 				// TODO encode in utf8
 //				$f = utf8_encode($f);
 //				$rel_dir = utf8_encode($rel_dir);
 
-				// set defaults for artist, title, album
-				$artist = '';
-				$title = '';
-				$album = '';
-
 				// initialize ID3
 				$id3 = new id3(MUSIC_DIR."/$rel_dir");
-				// get the ID3 information
-//				$id3info = $getID3->analyze(MUSIC_DIR . "/$rel_dir");
-//				getid3_lib::CopyTagsToComments($id3info);
 
 				// get any artist, title, album information found
 				$artist = $id3->artist();
-//				if (!empty($id3info['comments_html']['artist'])) {
-//					$artist = utf8_encode($id3info['comments_html']['artist'][0]);
-////				} else {
-////					$artist = utf8_encode($rel_dir);
-//				}
-//				if (!empty($id3info['comments_html']['title'])) {
-//					$title = utf8_encode($id3info['comments_html']['title'][0]);
-//				} else {
-					$title = utf8_encode($path_info['filename']);
-//				}
-//				if (!empty($id3info['comments_html']['album'])) {
-//					$album = utf8_encode($id3info['comments_html']['album'][0]);
-//					//$artist .= ' - ' . $album;
-//				}
+				if (empty($artist)) {
+					$artist = $dirname;
+				}
+				$title = $id3->title();
+				if (empty($title)) {
+					$title = $filename;
+				}
+				$album = $id3->album();
+				if (empty($album)) {
+					$album = '';
+				}
 
-				$output['f'][] = array('p' => escapeOutput(MUSIC_URL ."$rel_dir"), 'f' => MUSIC_URL . escapeOutput($f), 'a' => escapeOutput($artist), 't' => escapeOutput($title), 'l' => escapeOutput($album));
+				$output['f'][] = array('p' => escapeOutput(MUSIC_URL ."$rel_dir"), 'f' => MUSIC_URL.escapeOutput($f), 'a' => escapeOutput($artist), 't' => escapeOutput($title), 'l' => escapeOutput($album));
 			}
 		}
 	}
-	echo json_encode($output);
+	return json_encode($output);
 }
 
 /**
