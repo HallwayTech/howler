@@ -1,6 +1,6 @@
 <?php
 // import external id3 library
-//require_once('lib/getid3/getid3/getid3.php');
+require_once('lib/id3.php');
 
 // import configuration settings
 require_once('config.php');
@@ -31,9 +31,7 @@ function home()
 	$output['d'] = array();
 	$output['f'] = array();
 	if ($base || (!$base && $search)) {
-		// initialize getID3
 		$dir_list = scandir($path);
-//		$getID3 = new getID3;
 		foreach ($dir_list as $f) {
 			// continue if $f is current directory ['.'],
 			// parent directory ['..'], or fails a matching test.
@@ -67,11 +65,14 @@ function home()
 				$title = '';
 				$album = '';
 
+				// initialize ID3
+				$id3 = new id3(MUSIC_DIR."/$rel_dir");
 				// get the ID3 information
 //				$id3info = $getID3->analyze(MUSIC_DIR . "/$rel_dir");
 //				getid3_lib::CopyTagsToComments($id3info);
 
 				// get any artist, title, album information found
+				$artist = $id3->artist();
 //				if (!empty($id3info['comments_html']['artist'])) {
 //					$artist = utf8_encode($id3info['comments_html']['artist'][0]);
 ////				} else {
