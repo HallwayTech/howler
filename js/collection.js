@@ -1,6 +1,7 @@
 var Collection = function() {
 	var _curOpts = {dir:'', search:''};
 	var _lastOpts = {dir:'', search:''};
+	var _curPath = '';
 	var _curUrl = '';
 	var _dataCache = {};
 	var _alphaMenu = {items: ['#', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']};
@@ -33,8 +34,8 @@ var Collection = function() {
 
 		view: function(options) {
 			$('body').css('cursor', 'wait');
-			var output = $('#output');
-			output.html('Loading...');
+			var output_area = $('#output');
+			output_area.html('Loading...');
 
 			var d = '';
 			var s = '';
@@ -56,23 +57,20 @@ var Collection = function() {
 				_lastOpts['search'] = '';
 			}
 
-			_curOpts['dir'] = (d != '') ? d.substring(0, d.lastIndexOf("/")) : '';
+			_curOpts['dir'] = (d != '') ? d.substring(0, d.lastIndexOf('/')) : '';
 			_curOpts['search'] = s;
 
+			_curPath = d ? d : s;
 			_curUrl = _buildUrl(d, s);
 			// if the output isn't available in cache, retrieve it from the server
 			if (_dataCache[_curUrl]) {
-				_renderCurrentCollection(output);
+				_renderCurrentCollection(output_area);
 			} else {
 				Collection.refresh();
 			}
 		},
 
 		addSong: function(idx) {
-			// escape problem characters
-			// the file name is stored in the href field which will automatically
-			// escape some characters so we have to be selective here and not use
-			// escape(..)
 			var meta = _dataCache[_curUrl].f[idx];
 			var file = meta.p;
 
@@ -104,6 +102,7 @@ var Collection = function() {
 
 		refresh: function() {
 			$.getJSON(_curUrl, function(data, textStatus) {
+				data['cp'] = _curPath;
 				_dataCache[_curUrl] = data;
 				// get template and merge with data
 				_renderCurrentCollection($('#output'));

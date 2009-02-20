@@ -25,7 +25,6 @@ function home()
 
 	// get a list of dirs and show them
 	$path = MUSIC_DIR."/$base";
-	$output['cp'] = ($search ? $search : $base);
 
 	// build the lists of files and dirs
 	$output['d'] = array();
