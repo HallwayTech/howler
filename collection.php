@@ -1,6 +1,6 @@
 <?php
 // import external id3 library
-require_once('lib/getid3.php');
+//require_once('lib/getid3/getid3/getid3.php');
 
 // import configuration settings
 require_once('config.php');
@@ -33,7 +33,7 @@ function home()
 	if ($base || (!$base && $search)) {
 		// initialize getID3
 		$dir_list = scandir($path);
-		$getID3 = new getID3;
+//		$getID3 = new getID3;
 		foreach ($dir_list as $f) {
 			// continue if $f is current directory ['.'],
 			// parent directory ['..'], or fails a matching test.
@@ -68,24 +68,24 @@ function home()
 				$album = '';
 
 				// get the ID3 information
-				$id3info = $getID3->analyze(MUSIC_DIR . "/$rel_dir");
-				getid3_lib::CopyTagsToComments($id3info);
+//				$id3info = $getID3->analyze(MUSIC_DIR . "/$rel_dir");
+//				getid3_lib::CopyTagsToComments($id3info);
 
 				// get any artist, title, album information found
-				if (!empty($id3info['comments_html']['artist'])) {
-					$artist = utf8_encode($id3info['comments_html']['artist'][0]);
+//				if (!empty($id3info['comments_html']['artist'])) {
+//					$artist = utf8_encode($id3info['comments_html']['artist'][0]);
+////				} else {
+////					$artist = utf8_encode($rel_dir);
+//				}
+//				if (!empty($id3info['comments_html']['title'])) {
+//					$title = utf8_encode($id3info['comments_html']['title'][0]);
 //				} else {
-//					$artist = utf8_encode($rel_dir);
-				}
-				if (!empty($id3info['comments_html']['title'])) {
-					$title = utf8_encode($id3info['comments_html']['title'][0]);
-				} else {
 					$title = utf8_encode($path_info['filename']);
-				}
-				if (!empty($id3info['comments_html']['album'])) {
-					$album = utf8_encode($id3info['comments_html']['album'][0]);
-					//$artist .= ' - ' . $album;
-				}
+//				}
+//				if (!empty($id3info['comments_html']['album'])) {
+//					$album = utf8_encode($id3info['comments_html']['album'][0]);
+//					//$artist .= ' - ' . $album;
+//				}
 
 				$output['f'][] = array('p' => escapeOutput(MUSIC_URL ."$rel_dir"), 'f' => MUSIC_URL . escapeOutput($f), 'a' => escapeOutput($artist), 't' => escapeOutput($title), 'l' => escapeOutput($album));
 			}
