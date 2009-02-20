@@ -8,7 +8,6 @@ if ($_GET['mode'] == 'dev') {
 }
 ?>
 	</head>
-
 	<body>
 		<div id="player">
 			<!-- menus -->
