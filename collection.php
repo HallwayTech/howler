@@ -1,7 +1,10 @@
 <?php
-require_once('/usr/share/php-getid3/getid3.php');
+// import external id3 library
+require_once('getid3.php');
 
-//"""Beginning point for processing of this script."""
+// import configuration settings
+require_once('config.php');
+
 $output = home();
 return $output;
 
@@ -10,7 +13,6 @@ return $output;
  */
 function home()
 {
-	$root = '/var/media/music/';
 	$output = array();
 	$base = '';
 	$search = '';
@@ -22,7 +24,7 @@ function home()
 	}
 
 	// get a list of dirs and show them
-	$path = $root . $base;
+	$path = MUSIC_DIR . $base;
 	$output['cp'] = ($search ? $search : $base);
 
 	// build the lists of files and dirs
@@ -33,13 +35,22 @@ function home()
 		$dir_list = scandir($path);
 		$getID3 = new getID3;
 		foreach ($dir_list as $f) {
+			// continue if $f is current directory ['.'],
+			// parent directory ['..'], or fails a matching test.
 			if ($f == '.' || $f == '..' || !matches($search, $f)) {
 				continue;
 			}
 
+			// create directory reference by concatenating path and the current
+			// directory listing item
 			$dir = "$path/$f";
+
+			// create a short name but be sure it doesn't start with a slash
 			$shortname = ($base) ? "$base/$f" : $f;
-			$file_end = strtolower(substr($f, strlen($f) - 4));
+
+			// determine the file extension
+			$path_info = pathinfo($f);
+			$file_end = strtolower($path_info['extension']);
 
 			// build the output for a dir
 			if (is_dir($dir)) {
@@ -47,17 +58,20 @@ function home()
 			}
 			// build the output for a file
 			elseif ($file_end == '.mp3') {
-				// encode in utf8
+				// TODO encode in utf8
 //				$f = utf8_encode($f);
 //				$shortname = utf8_encode($shortname);
 
+				// set defaults for artist, title, album
 				$artist = '';
 				$title = '';
 				$album = '';
 
-				$id3info = $getID3->analyze("/var/media/music/$shortname");
+				// get the ID3 information
+				$id3info = $getID3->analyze(MUSIC_DIR . "/$shortname");
 				getid3_lib::CopyTagsToComments($id3info);
 
+				// get any artist, title, album information found
 				if (!empty($id3info['comments_html']['artist'])) {
 					$artist = utf8_encode($id3info['comments_html']['artist'][0]);
 				} else {
@@ -73,7 +87,7 @@ function home()
 					//$artist .= ' - ' . $album;
 				}
 
-				$output['f'][] = array('p' => escapeOutput("music/$shortname"), 'f' => escapeOutput($f), 'a' => escapeOutput($artist), 't' => escapeOutput($title), 'l' => escapeOutput($album));
+				$output['f'][] = array('p' => escapeOutput(MUSIC_URL ."$shortname"), 'f' => escapeOutput($f), 'a' => escapeOutput($artist), 't' => escapeOutput($title), 'l' => escapeOutput($album));
 			}
 		}
 	}
