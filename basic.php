@@ -11,7 +11,7 @@ $swf_width = '100%';
 <html>
 <head>
 <?php
-if ($_GET['mode'] == 'dev') {
+if ($_GET['_mode'] == 'dev') {
 	require_once('inc/head_basic_dev.inc');
 } else {
 	require_once('inc/head_basic.inc');
