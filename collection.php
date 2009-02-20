@@ -1,6 +1,6 @@
 <?php
 // import external id3 library
-require_once('getid3.php');
+require_once('lib/getid3.php');
 
 // import configuration settings
 require_once('config.php');
