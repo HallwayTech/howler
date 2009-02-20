@@ -23,7 +23,7 @@ var Playlist = function() {
 		addItem: function(item) {
 			item.type = 'sound';
 			item.start = '0';
-			alert('addItem: ' + item.file);
+//			alert('addItem: ' + item.file);
 			item.file = PROC_LOAD_FILE + '?d=' + encodeURIComponent(item.file);
 			Playlist._playlist.push(item);
 			Playlist.refresh(true);

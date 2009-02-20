@@ -76,9 +76,9 @@ var Collection = function() {
 			var meta = _dataCache[_curUrl].f[idx];
 			var file = meta.p;
 
-			alert('addSong: ' + file);
+//			alert('addSong: ' + file);
 
-			var item = {'file':decodeURICompnent(escape(file))};
+			var item = {'file':decodeURIComponent(escape(file))};
 			item.album = meta.l;
 			if (meta.a) {
 				item.artist = meta.a;

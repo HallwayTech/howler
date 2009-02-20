@@ -137,7 +137,7 @@ var Player = function() {
 				// pick the correct item
 				var next = Playlist._playlist[Playlist._playingIdx];
 
-				alert('play:' + next.file);
+//				alert('play:' + next.file);
 
 				// load, play and highlight the item
 				player.sendEvent('LOAD', [next]);

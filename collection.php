@@ -24,7 +24,7 @@ function home()
 	}
 
 	// get a list of dirs and show them
-	$path = MUSIC_DIR . $base;
+	$path = MUSIC_DIR . "/$base";
 	$output['cp'] = ($search ? $search : $base);
 
 	// build the lists of files and dirs
@@ -43,24 +43,24 @@ function home()
 
 			// create directory reference by concatenating path and the current
 			// directory listing item
-			$dir = "$path/$f";
+			$abs_dir = "$path/$f";
 
 			// create a short name but be sure it doesn't start with a slash
-			$shortname = ($base) ? "$base/$f" : $f;
+			$rel_dir = ($base) ? "$base/$f" : $f;
 
 			// determine the file extension
 			$path_info = pathinfo($f);
 			$file_end = strtolower($path_info['extension']);
 
 			// build the output for a dir
-			if (is_dir($dir)) {
-				$output['d'][] = array('d' => escapeOutput($shortname), 'l' => escapeOutput($f));
+			if (is_dir($abs_dir)) {
+				$output['d'][] = array('d' => escapeOutput($rel_dir), 'l' => escapeOutput($f));
 			}
 			// build the output for a file
-			elseif ($file_end == '.mp3') {
+			elseif ($file_end == 'mp3') {
 				// TODO encode in utf8
 //				$f = utf8_encode($f);
-//				$shortname = utf8_encode($shortname);
+//				$rel_dir = utf8_encode($rel_dir);
 
 				// set defaults for artist, title, album
 				$artist = '';
@@ -68,26 +68,26 @@ function home()
 				$album = '';
 
 				// get the ID3 information
-				$id3info = $getID3->analyze(MUSIC_DIR . "/$shortname");
+				$id3info = $getID3->analyze(MUSIC_DIR . "/$rel_dir");
 				getid3_lib::CopyTagsToComments($id3info);
 
 				// get any artist, title, album information found
 				if (!empty($id3info['comments_html']['artist'])) {
 					$artist = utf8_encode($id3info['comments_html']['artist'][0]);
-				} else {
-					$artist = utf8_encode($shortname);
+//				} else {
+//					$artist = utf8_encode($rel_dir);
 				}
 				if (!empty($id3info['comments_html']['title'])) {
 					$title = utf8_encode($id3info['comments_html']['title'][0]);
 				} else {
-					$title = utf8_encode($f);
+					$title = utf8_encode($path_info['filename']);
 				}
 				if (!empty($id3info['comments_html']['album'])) {
 					$album = utf8_encode($id3info['comments_html']['album'][0]);
 					//$artist .= ' - ' . $album;
 				}
 
-				$output['f'][] = array('p' => escapeOutput(MUSIC_URL ."$shortname"), 'f' => escapeOutput($f), 'a' => escapeOutput($artist), 't' => escapeOutput($title), 'l' => escapeOutput($album));
+				$output['f'][] = array('p' => escapeOutput(MUSIC_URL ."$rel_dir"), 'f' => MUSIC_URL . escapeOutput($f), 'a' => escapeOutput($artist), 't' => escapeOutput($title), 'l' => escapeOutput($album));
 			}
 		}
 	}
