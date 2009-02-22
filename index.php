@@ -1,7 +1,10 @@
+<?php
+require_once('config.php');
+?>
 <html>
 	<head>
 <?php
-if ($_GET['_mode'] == 'dev') {
+if (MODE == 'dev') {
 	require_once('inc/head_dev.inc');
 } else {
 	require_once('inc/head.inc');

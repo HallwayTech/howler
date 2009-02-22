@@ -9,6 +9,10 @@
 // and end with a slash.
 //
 
+// set the running mode of the system.
+// Known settings: dev
+define('MODE', 'dev');
+
 // File system location of the root of music.  Does not end with a slash.
 define('MUSIC_DIR', '/var/media/music');
 

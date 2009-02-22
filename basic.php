@@ -1,4 +1,6 @@
 <?php
+require_once('config.php');
+
 $playlist = $_POST['playlist'];
 $file = '';
 if (isset($playlist)) {
@@ -11,7 +13,7 @@ $swf_width = '100%';
 <html>
 <head>
 <?php
-if ($_GET['_mode'] == 'dev') {
+if (MODE == 'dev') {
 	require_once('inc/head_basic_dev.inc');
 } else {
 	require_once('inc/head_basic.inc');
