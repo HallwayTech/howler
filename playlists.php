@@ -40,7 +40,7 @@ function get_private_list() {
     $output = '';
 
     $playlists = array ();
-    $dir = scandir(PLAYLISTS_URL . $_SERVER['REMOTE_USER']);
+    $dir = scandir(PLAYLISTS_DIR . "/${_SERVER['REMOTE_USER']}");
     if ($dir) {
         foreach ($dir as $file) {
             if ($file != '.' && $file != '..') {
@@ -66,7 +66,7 @@ function get_all() {
     $output = '';
 
     $playlists = array ();
-    $dir = scandir('playlists');
+    $dir = scandir(PLAYLISTS_DIR);
     if ($dir) {
         foreach ($dir as $file) {
             if ($file != '.' && $file != '..') {
@@ -116,19 +116,25 @@ function get($name, $format) {
  *
  * @param name The name of the playlist to save.
  */
-function save($name, $playlist) {
-    // get the list info from the post
-    $playlist = stripslashes($playlist);
-
+function save($name, $playlist)
+{
+    $response_code = 0;
+    $message = '';
     // create the filename by prepending the user name to the playlist name
     $filename = build_filename($name);
 
-    echo "name: ${name}, list: ${playlist}, user: ${_SERVER['REMOTE_USER']}, file: ${filename}";
-
-    // persist the playlist to file
-    $file = fopen($filename, 'w');
-    fwrite($file, $playlist);
-    fclose($file);
+    if (is_writeable($filename)) {
+        // persist the playlist to file
+        $file = fopen($filename, 'w');
+        fwrite($file, stripslashes($playlist));
+        fclose($file);
+        $response_code = 201;
+    } else {
+        $response_code = 401;
+        $message = 'Unable to write playlist.';
+    }
+    send_response_code($response_code);
+    echo $message;
 }
 
 //===================================================================
@@ -141,7 +147,7 @@ function save($name, $playlist) {
  * @param name The name of the playlist to work with.
  */
 function build_filename($name) {
-    $filename = PLAYLISTS_URL . "${_SERVER['REMOTE_USER']}/${name}";
+    $filename = PLAYLISTS_DIR . "/${_SERVER['REMOTE_USER']}/${name}";
     return $filename;
 }
 
