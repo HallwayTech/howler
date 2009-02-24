@@ -1,8 +1,8 @@
-var Wii = function() {
+var Basic = function() {
 	return {
 		init: function() {
-			$.getJSON('playlists.php', function(data) {
-				var output = Template.processTemplate('playlistsTemplate', data);
+			$.getJSON('playlists.php', function(json) {
+				var output = Template.processTemplate('playlistsTemplate', json);
 				$('#playlistsArea').html(output);
 			});
 		}
@@ -10,5 +10,5 @@ var Wii = function() {
 }();
 
 $(document).ready(function() {
-	Wii.init();
+	Basic.init();
 });

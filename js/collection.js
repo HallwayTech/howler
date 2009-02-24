@@ -101,11 +101,19 @@ var Collection = function() {
 		},
 
 		refresh: function() {
-			$.getJSON(_curUrl, function(data, textStatus) {
-				data['cp'] = _curPath;
-				_dataCache[_curUrl] = data;
-				// get template and merge with data
-				_renderCurrentCollection($('#output'));
+			$.ajax({
+				type: 'GET',
+				dataType: 'json',
+				url: _curUrl,
+				success: function(json, textStatus) {
+					json['cp'] = _curPath;
+					_dataCache[_curUrl] = json;
+					// get template and merge with data
+					_renderCurrentCollection($('#output'));
+				},
+				error: function() {
+					alert('Unable to retrieve collection.');
+				}
 			});
 		}
 	}

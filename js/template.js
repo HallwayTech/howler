@@ -12,12 +12,12 @@ var Template = function()
 		 * before.  If cacheIdx is provided, the output is cached under that arbitrary
 		 * index.
 		 */
-		processTemplate: function(templateId, data, cacheIdx) {
+		processTemplate: function(templateId, json, cacheIdx) {
 			if (!Template.templateCache[templateId]) {
 				Template.templateCache[templateId] = TrimPath.parseDOMTemplate(templateId);
 			}
 
-			var output = Template.templateCache[templateId].process(data);
+			var output = Template.templateCache[templateId].process(json);
 			if (cacheIdx) {
 				Template.outputCache[cacheIdx] = output;
 			}
