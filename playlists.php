@@ -8,7 +8,8 @@ require_once ('config.php');
  * @param name The name of the playlist to be deleted.  The name is resolved to
  *             the user's space.
  */
-function delete($name) {
+function delete($name)
+{
     $response_code = 0;
     $output = '';
 
@@ -19,11 +20,11 @@ function delete($name) {
         if (unlink($filename)) {
             $response_code = 204;
         } else {
-            $response_code = 401;
+            $response_code = 422;
             $output = "Unable to unlink '$filename': $unlinked";
         }
     } else {
-        $response_code = 405;
+        $response_code = 422;
         $output = "File '$filename' is not writeable.";
     }
 
@@ -35,7 +36,8 @@ function delete($name) {
 /**
  * Get all playlists available to the current logged in user.
  */
-function get_private_list() {
+function get_private_list()
+{
     $response_code = 0;
     $output = '';
 
@@ -61,7 +63,8 @@ function get_private_list() {
 /**
  * Get all playlists available to the current logged in user.
  */
-function get_all() {
+function get_all()
+{
     $response_code = 0;
     $output = '';
 
@@ -89,7 +92,8 @@ function get_all() {
  *
  * @param name The name of the playlist to retrieve.
  */
-function get($name, $format) {
+function get($name, $format)
+{
     $response_code = 0;
     $output = '';
 
@@ -99,7 +103,6 @@ function get($name, $format) {
         $file = fopen($filename, 'r');
         $json = fread($file, filesize($filename));
         fclose($file);
-        //$output = $json;
         $output = transform($name, $json, $format);
         $response_code = 200;
     } else {
@@ -146,7 +149,8 @@ function save($name, $playlist)
  *
  * @param name The name of the playlist to work with.
  */
-function build_filename($name) {
+function build_filename($name)
+{
     $filename = PLAYLISTS_DIR . "/${_SERVER['REMOTE_USER']}/${name}";
     return $filename;
 }
@@ -156,7 +160,8 @@ function build_filename($name) {
  *
  * Understood formats: json, xspf, atom
  */
-function get_format($name) {
+function get_format($name)
+{
     $format = null;
 
     if (preg_match('/\.xspf$/', $name)) {
@@ -175,44 +180,18 @@ function get_format($name) {
 /**
  * Factory method to transform json into a different format.
  */
-function transform($title, $json, $format) {
+function transform($title, $json, $format)
+{
     // line ending
-    $le = "\n";
-    $ind = "\t";
     $data = json_decode($json, true);
 
     $output = '';
     if ($format == 'atom') {
-        $output = "<feed xmlns='http://www.w3.org/2005/Atom' xmlns:media='http://search.yahoo.com/mrss/'>$le";
-        $output .= "$ind<title>$title</title>$le";
-
-        foreach ($data as $track) {
-            $output .= "$ind<entry>$le";
-            $output .= "$ind$ind<title>${track['title']}</title>$le";
-            $output .= "$ind$ind<media:credit role='author'>${track['artist']}</media:credit>$le";
-            $output .= "$ind$ind<media:content url='${track['file']}' type='audio/mp3' />$le";
-            $output .= "$ind</entry>$le";
-        }
-
-        $output .= "</feed>";
-    }
-    elseif ($format == 'xspf') {
-        $output = "<?xml version='1.0' encoding='UTF-8'?>$le";
-        $output .= "<playlist version='1' xmlns='http://xspf.org/ns/0/'>$le";
-        $output .= "$ind<title>$title</title>$le";
-        $output .= "$ind<trackList>$le";
-
-        foreach ($data as $track) {
-            $output .= "$ind$ind<track>$le";
-            $output .= "$ind$ind$ind<title>${track['title']}</title>$le";
-            $output .= "$ind$ind$ind<album>${track['album']}</album>$le";
-            $output .= "$ind$ind$ind<creator>${track['artist']}</creator>$le";
-            $output .= "$ind$ind$ind<location>${track['file']}</location>$le";
-            $output .= "$ind$ind</track>$le";
-        }
-
-        $output .= "$ind</trackList>$le";
-        $output .= "</playlist>$le";
+		require_once('lib/classes/Atom.php');
+		$output = Atom::marshall($title, $data);
+    } elseif ($format == 'xspf') {
+		require_once('lib/classes/Xspf.php');
+		$output = Xspf::marshall($title, $data);
     } else {
         $output = $json;
     }
