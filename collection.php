@@ -114,9 +114,9 @@ function matches($search, $f)
     $retval = false;
     if (!$search) {
         $retval = true;
-    } elseif ($search == '#' && is_numeric(substr($f, 0, 1))) {
-        $retval = true;
     } elseif (substr($f, 0, 1) == $search) {
+        $retval = true;
+    } elseif ($search == '#' && is_numeric(substr($f, 0, 1))) {
         $retval = true;
     }
     return $retval;

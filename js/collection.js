@@ -50,7 +50,7 @@ var Collection = function() {
 				s = _lastOpts['search'];
 			} else if (options.search) {
 				// if the current 'search' == the previous search, clear the current search
-				s = options.search;
+				s = encodeURIComponent(options.search);
 			}
 			_lastOpts = _curOpts;
 			if (_curOpts['search'] == _lastOpts['search'] && _curOpts['dir'] && _lastOpts['dir']) {
