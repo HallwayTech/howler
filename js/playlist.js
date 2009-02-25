@@ -23,7 +23,7 @@ var Playlist = function() {
 		addItem: function(item) {
 			item.type = 'sound';
 			item.start = '0';
-			alert('addItem: ' + item.file);
+//			alert('addItem: ' + item.file);
 			item.file = PROC_LOAD_FILE + '?d=' + encodeURIComponent(item.file);
 			Playlist._playlist.push(item);
 			Playlist.refresh(true);
@@ -58,9 +58,17 @@ var Playlist = function() {
 				Playlist.clear();
 			} else {
 				var url = PROC_PLAYLISTS + '/' + encodeURIComponent(name);
-				$.get(url, function(data, textStatus) {
-					Playlist._playlist = JSON.parse(data);
-					Playlist.refresh();
+				$.ajax({
+					type: 'GET',
+					dataType: 'json',
+					url: url,
+					success: function(json, textStatus) {
+						Playlist._playlist = json;
+						Playlist.refresh();
+					},
+					error: function(data, textStatus) {
+						alert('Unable to load playlist [' + name + ']');
+					}
 				});
 			}
 		},
@@ -94,9 +102,17 @@ var Playlist = function() {
 		},
 
 		reload: function() {
-			$.getJSON(PROC_PLAYLISTS, function(data) {
-				var output = Template.processTemplate('savedPlaylistsTemplate', data);
-				$('#savedPlaylists').html(output);
+			$.ajax({
+				type: 'GET',
+				dataType: 'json',
+				url: PROC_PLAYLISTS,
+				success: function(json, textStatus) {
+					var output = Template.processTemplate('savedPlaylistsTemplate', json);
+					$('#savedPlaylists').html(output);
+				},
+				error: function(data, textStatus) {
+					alert('Unable to get playlists.');
+				}
 			});
 		},
 
@@ -104,8 +120,15 @@ var Playlist = function() {
 			var name = $('#savedPlaylistsItems').val();
 			if (name != '_new') {
 				var url = PROC_PLAYLISTS + '/' + name;
-				$.delete_(url, function() {
-					Playlist.reload();
+				$.ajax({
+					type: 'DELETE',
+					url: url,
+					success: function() {
+						Playlist.reload();
+					},
+					error: function () {
+						alert('Unable to delete playlist [' + name + ']');
+					}
 				});
 			}
 		},
@@ -142,8 +165,15 @@ var Playlist = function() {
 			}
 			if (name != null) {
 				var playlist = JSON.stringify(Playlist._playlist);
-				$.post(PROC_PLAYLISTS + '/' + name, {'playlist': playlist}, function() {
-					Playlist.reload();
+				$.ajax({
+					type: 'POST',
+					url: PROC_PLAYLISTS + '/' + name,
+					data: {'playlist': playlist},
+					success: function() {
+						Playlist.reload();
+					},
+					error: function() {
+					}
 				});
 			}
 		}

@@ -7,21 +7,20 @@ $qs = urldecode($qs);
 $file = stripslashes($qs);
 
 if (!is_readable($file)) {
-	header("Status: 404 Not Found");
-	print "Unable to find the requested file [$file]";
-}
-else {
-	$filename = basename($file);
-	$filesize = filesize($file);
+    header("Status: 404 Not Found");
+    print "Unable to find the requested file [$file]";
+} else {
+    $filename = basename($file);
+    $filesize = filesize($file);
 
-	header("Content-Disposition: attachment; filename=".urlencode($filename));
-	header("Content-Type: audio/mpeg");
-	header("Content-Length: ".$filesize);
-	header("Pragma: no-cache");
-	header("Expires: 0");
+    header("Content-Disposition: attachment; filename=".urlencode($filename));
+    header("Content-Type: audio/mpeg");
+    header("Content-Length: ".$filesize);
+    header("Pragma: no-cache");
+    header("Expires: 0");
 
-	$fp=fopen("$file","r");
-	print fread($fp,$filesize);
-	fclose($fp);
+    $fp=fopen("$file","r");
+    print fread($fp,$filesize);
+    fclose($fp);
 }
 ?>
