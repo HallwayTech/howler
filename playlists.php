@@ -182,16 +182,15 @@ function get_format($name)
  */
 function transform($title, $json, $format)
 {
+    require_once('lib/transformers.php');
     // line ending
     $data = json_decode($json, true);
 
     $output = '';
     if ($format == 'atom') {
-		require_once('lib/classes/Atom.php');
-		$output = Atom::marshall($title, $data);
+		$output = marshallAtom($title, $data);
     } elseif ($format == 'xspf') {
-		require_once('lib/classes/Xspf.php');
-		$output = Xspf::marshall($title, $data);
+		$output = marshallXspf($title, $data);
     } else {
         $output = $json;
     }
