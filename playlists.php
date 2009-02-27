@@ -124,9 +124,9 @@ function save($name, $playlist)
     $response_code = 0;
     $message = '';
     // create the filename by prepending the user name to the playlist name
-    $filename = build_filename($name);
 
-    if (is_writeable($filename)) {
+    if (is_writeable(playlist_dir())) {
+    	$filename = build_filename($name);
         // persist the playlist to file
         $file = fopen($filename, 'w');
         fwrite($file, stripslashes($playlist));
@@ -151,8 +151,14 @@ function save($name, $playlist)
  */
 function build_filename($name)
 {
-    $filename = PLAYLISTS_DIR . "/${_SERVER['REMOTE_USER']}/${name}";
+    $filename = playlist_dir(). "/${name}";
     return $filename;
+}
+
+function playlist_dir()
+{
+    $dir = PLAYLISTS_DIR . "/${_SERVER['REMOTE_USER']}";
+	return $dir;
 }
 
 /**
