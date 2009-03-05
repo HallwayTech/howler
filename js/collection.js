@@ -6,15 +6,6 @@ var Collection = function() {
 	var _dataCache = {};
 	var _alphaMenu = {items: ['#', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']};
 
-	function _buildUrl(d, s) {
-		var url = 'collection.php?';
-
-		url += 'd=' + unescape(encodeURIComponent(d)) + '&';
-		url += 's=' + unescape(encodeURIComponent(s));
-
-		return url;
-	}
-
 	function _renderCurrentCollection(output) {
 		var markup = Template.processTemplate('collectionTemplate', _dataCache[_curUrl]);
 		output.html(markup);
@@ -32,41 +23,50 @@ var Collection = function() {
 			Collection.view({'dir':-1});
 		},
 
-		view: function(options) {
+		search: function(search) {
 			$('body').css('cursor', 'wait');
 			var output_area = $('#output');
 			output_area.html('Loading...');
 
-			var d = '';
-			var s = '';
-			// check for a directory first.  search should override any previous
-			// set dirs but only if a directory is not currently being requested
-			if (options.dir) {
-				if (options.dir == -1) {
-					d = _lastOpts['dir'];
-				} else {
-					d = _dataCache[_curUrl].d[options.dir].d;
-				}
-				s = _lastOpts['search'];
-			} else if (options.search) {
-				// if the current 'search' == the previous search, clear the current search
-				s = encodeURIComponent(options.search);
-			}
-			_lastOpts = _curOpts;
-			if (_curOpts['search'] == _lastOpts['search'] && _curOpts['dir'] && _lastOpts['dir']) {
-				_lastOpts['search'] = '';
-			}
+			// if the current 'search' == the previous search, clear the current search
+			var s = encodeURIComponent(search);
+			_curPath = s;
+			_curUrl = 'search.php?s=' + unescape(encodeURIComponent(s));
 
-			_curOpts['dir'] = (d != '') ? d.substring(0, d.lastIndexOf('/')) : '';
-			_curOpts['search'] = s;
-
-			_curPath = d ? d : s;
-			_curUrl = _buildUrl(d, s);
 			// if the output isn't available in cache, retrieve it from the server
 			if (_dataCache[_curUrl]) {
 				_renderCurrentCollection(output_area);
 			} else {
 				Collection.refresh();
+			}
+		},
+
+		view: function(dir) {
+			$('body').css('cursor', 'wait');
+			var output_area = $('#output');
+			output_area.html('Loading...');
+
+			var d = '';
+			// check for a directory first.  search should override any previous
+			// set dirs but only if a directory is not currently being requested
+			if (dir) {
+				if (dir == -1) {
+					d = _lastOpts['dir'];
+				} else {
+					d = _dataCache[_curUrl].d[dir].d;
+				}
+				_lastOpts = _curOpts;
+
+				_curOpts['dir'] = (d != '') ? d.substring(0, d.lastIndexOf('/')) : '';
+
+				_curPath = d;
+				_curUrl = 'collection.php?d=' + unescape(encodeURIComponent(d));
+				// if the output isn't available in cache, retrieve it from the server
+				if (_dataCache[_curUrl]) {
+					_renderCurrentCollection(output_area);
+				} else {
+					Collection.refresh();
+				}
 			}
 		},
 

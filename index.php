@@ -104,7 +104,7 @@ if (MODE == 'dev') {
 <textarea id="alphaNavTemplate" class="template">
 <ul>
 {for nav in items}
-    <li onclick="Collection.view({search:'${nav}'});return false">${nav}</li>
+    <li onclick="Collection.search('${nav}');return false">${nav}</li>
 {/for}
 </ul>
 </textarea>
@@ -126,7 +126,7 @@ if (MODE == 'dev') {
 
 <ul class='dirs'>
 {for _d in d}
-<li class='dir'><a href="#" onclick='Collection.view({dir:"${_d_index}"});return false'>${_d.l}</a></li>
+<li class='dir'><a href="#" onclick="Collection.view('${_d_index}');return false">${_d.l}</a></li>
 {/for}
 </ul>
 
