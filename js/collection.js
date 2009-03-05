@@ -1,6 +1,6 @@
 var Collection = function() {
-	var _curOpts = {dir:'', search:''};
-	var _lastOpts = {dir:'', search:''};
+	var _curDir = 0;
+	var _lastDir = 0;
 	var _curPath = '';
 	var _curUrl = '';
 	var _dataCache = {};
@@ -19,8 +19,8 @@ var Collection = function() {
 			$('#alphaNav').html(menu);
 		},
 
-		goBack: function() {
-			Collection.view({'dir':-1});
+		back: function() {
+			Collection.view(-1);
 		},
 
 		search: function(search) {
@@ -31,6 +31,7 @@ var Collection = function() {
 			// if the current 'search' == the previous search, clear the current search
 			var s = encodeURIComponent(search);
 			_curPath = s;
+			_curDir = s;
 			_curUrl = 'search.php?s=' + unescape(encodeURIComponent(s));
 
 			// if the output isn't available in cache, retrieve it from the server
@@ -51,14 +52,12 @@ var Collection = function() {
 			// set dirs but only if a directory is not currently being requested
 			if (dir) {
 				if (dir == -1) {
-					d = _lastOpts['dir'];
+					d = _lastDir;
 				} else {
 					d = _dataCache[_curUrl].d[dir].d;
 				}
-				_lastOpts = _curOpts;
-
-				_curOpts['dir'] = (d != '') ? d.substring(0, d.lastIndexOf('/')) : '';
-
+				_lastDir = _curDir;
+				_curDir = (d != '') ? d.substring(0, d.lastIndexOf('/')) : '';
 				_curPath = d;
 				_curUrl = 'collection.php?d=' + unescape(encodeURIComponent(d));
 				// if the output isn't available in cache, retrieve it from the server
