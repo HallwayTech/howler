@@ -1,30 +1,34 @@
 <?php
 require_once('config.php');
 require_once('lib/id3.php');
+require_once('http_utils.php');
 
 // build the lists of files and dirs
 $output['d'] = array();
 $output['f'] = array();
-if ($_GET['s']) {
-	$search = strtolower($_GET['s']);
 
-	// get a list of dirs and show them
-	$dir_list = scandir(MUSIC_DIR);
-	foreach ($dir_list as $f) {
-		if (matches($search, $f)) {
-			// create directory reference by concatenating path and the current
-			// directory listing item
-			$abs_dir = MUSIC_DIR."/$f";
-			$rel_dir = $f;
+$uri = http_script_uri();
 
-			// build the output for a dir
-			if (is_dir($abs_dir)) {
-				$output['d'][] = array(
-					'd' => $rel_dir,
-					'l' => $f);
-			}
-		}
-	}
+if ($uri) {
+    $search = strtolower($uri);
+
+    // get a list of dirs and show them
+    $dir_list = scandir(MUSIC_DIR);
+    foreach ($dir_list as $f) {
+        if (matches($search, $f)) {
+            // create directory reference by concatenating path and the current
+            // directory listing item
+            $abs_dir = MUSIC_DIR."/$f";
+            $rel_dir = $f;
+
+            // build the output for a dir
+            if (is_dir($abs_dir)) {
+                $output['d'][] = array(
+                    'd' => $rel_dir,
+                    'l' => $f);
+            }
+        }
+    }
 }
 echo json_encode($output);
 
