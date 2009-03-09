@@ -1,6 +1,5 @@
 var Collection = function() {
-	var _curDir = 0;
-	var _lastDir = 0;
+	var _history = [];
 	var _curPath = '';
 	var _curUrl = '';
 	var _dataCache = {};
@@ -30,9 +29,9 @@ var Collection = function() {
 
 			// if the current 'search' == the previous search, clear the current search
 			var s = encodeURIComponent(search);
-			_curPath = s;
-			_curDir = s;
+			_curPath = [s];
 			_curUrl = 'search.php?s=' + unescape(encodeURIComponent(s));
+			_history = [_curUrl];
 
 			// if the output isn't available in cache, retrieve it from the server
 			if (_dataCache[_curUrl]) {
@@ -43,23 +42,24 @@ var Collection = function() {
 		},
 
 		view: function(dir) {
-			$('body').css('cursor', 'wait');
-			var output_area = $('#output');
-			output_area.html('Loading...');
-
-			var d = '';
-			// check for a directory first.  search should override any previous
-			// set dirs but only if a directory is not currently being requested
 			if (dir) {
+				$('body').css('cursor', 'wait');
+				var output_area = $('#output');
+				output_area.html('Loading...');
+
+				// determine directory to look up
+				// track the last directory looked up
 				if (dir == -1) {
-					d = _lastDir;
+					_history.pop();
+					_curUrl = _history[_history.length - 1];
+					if (_curUrl) {
+						_curPath = _curUrl.substring(_curUrl.indexOf('=') + 1);
+					}
 				} else {
-					d = _dataCache[_curUrl].d[dir].d;
+					_curPath = _dataCache[_curUrl].d[dir].d;
+					_curUrl = 'collection.php?d=' + unescape(encodeURIComponent(_curPath));
+					_history.push(_curUrl);
 				}
-				_lastDir = _curDir;
-				_curDir = (d != '') ? d.substring(0, d.lastIndexOf('/')) : '';
-				_curPath = d;
-				_curUrl = 'collection.php?d=' + unescape(encodeURIComponent(d));
 				// if the output isn't available in cache, retrieve it from the server
 				if (_dataCache[_curUrl]) {
 					_renderCurrentCollection(output_area);
@@ -100,20 +100,22 @@ var Collection = function() {
 		},
 
 		refresh: function() {
-			$.ajax({
-				type: 'GET',
-				dataType: 'json',
-				url: _curUrl,
-				success: function(json, textStatus) {
-					json['cp'] = _curPath;
-					_dataCache[_curUrl] = json;
-					// get template and merge with data
-					_renderCurrentCollection($('#output'));
-				},
-				error: function() {
-					alert('Unable to retrieve collection.');
-				}
-			});
+			if (_curUrl) {
+				$.ajax({
+					type: 'GET',
+					dataType: 'json',
+					url: _curUrl,
+					success: function(json, textStatus) {
+						json['cp'] = _curPath;
+						_dataCache[_curUrl] = json;
+						// get template and merge with data
+						_renderCurrentCollection($('#output'));
+					},
+					error: function() {
+						alert('Unable to retrieve collection.');
+					}
+				});
+			}
 		}
 	}
 }();
