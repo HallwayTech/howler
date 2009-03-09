@@ -1,5 +1,29 @@
 <?php
 /**
+ * Gets the ID3 information found on a file.
+ *
+ * @return list(artist, title, album)
+ */
+function id3Info($file)
+{
+	$id3 = new id3($file);
+
+	$artist = $id3->artist();
+	if (empty($artist)) {
+		$artist = $dirname;
+	}
+	$title = $id3->title();
+	if (empty($title)) {
+		$title = $filename;
+	}
+	$album = $id3->album();
+	if (empty($album)) {
+		$album = '';
+	}
+	return array($artist, $title, $album);
+}
+
+/**
  * Code found at http://rasher.dk/source/mp3/id3.php
  * Published under the terms of the GPL (http://www.gnu.org/copyleft/gpl.html)
  *
