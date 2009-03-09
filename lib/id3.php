@@ -143,7 +143,7 @@ class id3 {
         if(filesize($file)<128) { $this->adderror("File $file is less than 128 bytes long"); fclose($fp); return false; }
         fseek($fp, -128, SEEK_END);
         $rawtag = fread($fp, 128);
-        $tag = unpack("a3tag/a30title/a30artist/a30album/a4year/A30comment/C1genre", $rawtag);
+        $tag = @unpack("a3tag/a30title/a30artist/a30album/a4year/A30comment/C1genre", $rawtag);
 
         if ($tag['tag'] != 'TAG') {
             $this->adderror("File $file doesn't contain a id3v1 tag");
@@ -154,7 +154,7 @@ class id3 {
         else { $this->v1tag = true; }
 
         if (substr($tag['comment'], -2, 1) == "\0") {
-            $temp = unpack("a28comment/A1null/C1track", $tag['comment']);
+            $temp = @unpack("a28comment/A1null/C1track", $tag['comment']);
             $this->track = $temp['track'];
             $this->comment = $temp['comment'];
         }
@@ -327,7 +327,7 @@ class id3 {
         if ($this->v2['extended'] == true) {
             // Figure out the size of the extended header
             $extendedsize = fread($fp, 4);
-            $temp = unpack("H8size", $extendedsize);
+            $temp = @unpack("H8size", $extendedsize);
             $extendedsize = $this->decode_synchsafe($temp['size']);
 
             $rawextended = fread($fp, $extendedsize);
@@ -346,7 +346,7 @@ class id3 {
         $read = $extended;
 
         while($read < ($this->v2['size'] - $extended)) {
-            $frameheader = unpack("a4name/a4size/C1statusflags/C1formatflags", substr($rawframes, $read, 10));
+            $frameheader = @unpack("a4name/a4size/C1statusflags/C1formatflags", substr($rawframes, $read, 10));
             if ($frameheader['name'] == false) {
                 $this->v2['padding'] = $this->v2['size'] - $read + $extended;
                 break;
