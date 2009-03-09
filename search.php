@@ -40,13 +40,12 @@ function matches($search, $f)
     $f = str_replace('_', '', $f);
     $f = str_replace('(', '', $f);
     $f = trim($f);
-    $f = strtolower($f);
     $retval = false;
     if (!$search) {
         $retval = true;
-    } elseif (substr($f, 0, 1) == $search) {
-        $retval = true;
     } elseif ($search == '#' && is_numeric(substr($f, 0, 1))) {
+        $retval = true;
+	} elseif (stripos($f, $search) === 0) {
         $retval = true;
     }
     return $retval;
