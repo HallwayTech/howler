@@ -9,66 +9,69 @@ require_once('config.php');
  * Handler method for the base page
  */
 $output = array();
-$base = '';
-if ($_GET['d']) {
-	$base = $_GET['d'];
-	$base = str_replace("\\'", "'", $base);
-}
+
+// get whatever is after the name of the script
+// add 1 to skip the first slash
+$script_name = $_SERVER['SCRIPT_NAME'];
+$request_uri = $_SERVER['REQUEST_URI'];
+$len_script_name = strlen($script_name);
+$len_request_uri = strlen($request_uri);
 
 // build the lists of files and dirs
 $output['d'] = array();
 $output['f'] = array();
-if ($base) {
-	// get a list of dirs and show them
-	$path = MUSIC_DIR."/$base";
 
-	$dir_list = scandir($path);
-	foreach ($dir_list as $f) {
-		// continue if $f is current directory ['.'],
-		// parent directory ['..'], or fails a matching test.
-		if ($f == '.' || $f == '..') {
-			continue;
-		}
+if ($len_request_uri != $len_script_name) {
+	$uri = substr($request_uri, $len_script_name + 1);
+    $uri = str_replace("\\'", "'", $uri);
+	$uri = urldecode($uri);
 
-		// create directory reference by concatenating path and the current
-		// directory listing item
-		$abs_dir = "$path/$f";
+    // get a list of dirs and show them
+    $path = MUSIC_DIR."/$uri";
 
-		// create a short name but be sure it doesn't start with a slash
-		$rel_dir = "$base/$f";
+    $dir_list = scandir($path);
+    foreach ($dir_list as $f) {
+        // continue if $f is current directory '.' or parent directory '..'
+        if ($f == '.' || $f == '..') {
+            continue;
+        }
 
-		// determine the file extension
-		$path_info = pathinfo($rel_dir);
-		$dirname = $path_info['dirname']; // /var/www
-		$basename = $path_info['basename']; //  index.html
-		$filename = $path_info['filename']; //  index
-		$extension = strtolower($path_info['extension']); //  html
+        // create directory reference by concatenating path and the current
+        // directory listing item
+        $abs_dir = "$path/$f";
 
-		// build the output for a dir
-		if (is_dir($abs_dir)) {
-			$output['d'][] = array(
-				'd' => $rel_dir,
-				'l' => $f);
-		}
-		// build the output for a file
-		elseif ($extension == 'mp3') {
-			// TODO encode in utf8
-//                $f = utf8_encode($f);
-//                $rel_dir = utf8_encode($rel_dir);
+        // create a short name. be sure it doesn't start with a slash
+        $rel_dir = "$uri/$f";
 
-			// initialize ID3
+        // determine the file extension
+        $path_info = pathinfo($rel_dir);
+        $dirname = $path_info['dirname']; // /var/www
+        $basename = $path_info['basename']; //  index.html
+        $filename = $path_info['filename']; //  index
+        $extension = strtolower($path_info['extension']); //  html
 
-			// get any artist, title, album information found
-			list($artist, $title, $album) = id3Info(MUSIC_DIR."/$rel_dir");
-			
-			$output['f'][] = array(
-				'p' => MUSIC_URL.$rel_dir,
-				'f' => MUSIC_URL.$f,
-				'a' => $artist,
-				't' => $title,
-				'l' => $album);
-		}
-	}
+        // build the output for a dir
+        if (is_dir($abs_dir)) {
+            $output['d'][] = array(
+                'd' => $rel_dir,
+                'l' => $f);
+        }
+        // build the output for a file
+        elseif ($extension == 'mp3') {
+            $f = utf8_encode($f);
+            $rel_dir = utf8_encode($rel_dir);
+
+            // get any artist, title, album information found
+            list($artist, $title, $album) = id3Info(MUSIC_DIR."/$rel_dir");
+
+            $output['f'][] = array(
+                'p' => MUSIC_URL.$rel_dir,
+                'f' => MUSIC_URL.$f,
+                'a' => $artist,
+                't' => $title,
+                'l' => $album);
+        }
+    }
 }
 echo json_encode($output);
 ?>
