@@ -119,7 +119,7 @@ if (MODE == 'dev') {
     <div id="collectionNav">
         <ul>
             <li id="refreshLink"><a href='#' onclick='Collection.refresh();return false'>Refresh</a></li>
-            <li id="backLink"><a href="#" onclick='Collection.goBack();return false'>Go back</a></li>
+            <li id="backLink"><a href="#" onclick='Collection.back();return false'>Go back</a></li>
             <li id="addAllLink"><a href='#' onclick='Collection.addAll();return false'>Add All Songs</a></li>
         </ul>
     </div>
