@@ -272,7 +272,7 @@ class id3 {
 
         // Read tag header
         $rawheader = fread($fp, 10);
-        $header = unpack("a3id3/C1major/C1revision/C1flags/H8size", $rawheader);
+        $header = @unpack("a3id3/C1major/C1revision/C1flags/H8size", $rawheader);
 
         // Test if ID3v2 tag is present
         if ($header['id3'] != 'ID3') {
