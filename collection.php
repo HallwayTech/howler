@@ -1,9 +1,7 @@
 <?php
-// import external id3 library
 require_once('lib/id3.php');
-
-// import configuration settings
 require_once('config.php');
+require_once('http_utils.php');
 
 /**
  * Handler method for the base page
@@ -12,20 +10,13 @@ $output = array();
 
 // get whatever is after the name of the script
 // add 1 to skip the first slash
-$script_name = $_SERVER['SCRIPT_NAME'];
-$request_uri = $_SERVER['REQUEST_URI'];
-$len_script_name = strlen($script_name);
-$len_request_uri = strlen($request_uri);
+$uri = http_script_uri();
 
 // build the lists of files and dirs
 $output['d'] = array();
 $output['f'] = array();
 
-if ($len_request_uri != $len_script_name) {
-	$uri = substr($request_uri, $len_script_name + 1);
-    $uri = str_replace("\\'", "'", $uri);
-	$uri = urldecode($uri);
-
+if ($uri) {
     // get a list of dirs and show them
     $path = MUSIC_DIR."/$uri";
 

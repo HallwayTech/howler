@@ -30,7 +30,7 @@ var Collection = function() {
 			// if the current 'search' == the previous search, clear the current search
 			var s = encodeURIComponent(search);
 			_curPath = [s];
-			_curUrl = 'search.php?s=' + unescape(encodeURIComponent(s));
+			_curUrl = 'search.php/' + encodeURIComponent(s);
 			_history = [_curUrl];
 
 			// if the output isn't available in cache, retrieve it from the server
@@ -41,23 +41,23 @@ var Collection = function() {
 			}
 		},
 
-		view: function(dir) {
-			if (dir) {
+		view: function(dirIdx) {
+			if (dirIdx) {
 				$('body').css('cursor', 'wait');
 				var output_area = $('#output');
 				output_area.html('Loading...');
 
 				// determine directory to look up
 				// track the last directory looked up
-				if (dir == -1) {
+				if (dirIdx == -1) {
 					_history.pop();
 					_curUrl = _history[_history.length - 1];
 					if (_curUrl) {
 						_curPath = _curUrl.substring(_curUrl.indexOf('=') + 1);
 					}
 				} else {
-					_curPath = _dataCache[_curUrl].d[dir].d;
-					_curUrl = 'collection.php?d=' + unescape(encodeURIComponent(_curPath));
+					_curPath = _dataCache[_curUrl].d[dirIdx].d;
+					_curUrl = 'collection.php/' + encodeURIComponent(_curPath);
 					_history.push(_curUrl);
 				}
 				// if the output isn't available in cache, retrieve it from the server
@@ -75,7 +75,7 @@ var Collection = function() {
 
 //			alert('addSong: ' + file);
 
-			var item = {'file':decodeURIComponent(escape(file))};
+			var item = {'file':file};
 			item.album = meta.l;
 			if (meta.a) {
 				item.artist = meta.a;
@@ -111,8 +111,8 @@ var Collection = function() {
 						// get template and merge with data
 						_renderCurrentCollection($('#output'));
 					},
-					error: function() {
-						alert('Unable to retrieve collection.');
+					error: function(request, textStatus, errorThrown) {
+						alert('Unable to retrieve collection [' + textStatus + ': ' + errorThrown + ']');
 					}
 				});
 			}
