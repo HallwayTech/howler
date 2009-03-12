@@ -75,6 +75,11 @@ var Collection = function() {
 			}
 		},
 
+		refresh: function() {
+			var url = history[history.length - 1];
+			Collection.update(url);
+		},
+
 		/**
 		 * Search for entries
 		 *
