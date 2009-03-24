@@ -25,6 +25,7 @@ function playerReady(thePlayer) {
 var Player = function() {
 	var _repeat = 'NONE' // SONG, LIST;
 	var _random = false;
+	var _state = null;
 
 	return {
 		create: function() {
@@ -69,7 +70,14 @@ var Player = function() {
 		 *          false otherwise
 		 */
 		random: function(checked) {
-			_random = checked;
+			if (typeof(checked) != 'undefined') {
+				_random = checked;
+				if (_state != 'PLAYING') {
+					Player.controls.next();
+				}
+			} else {
+				return _random;
+			}
 		},
 
 		/**
@@ -173,9 +181,10 @@ var Player = function() {
 			 * state in (IDLE, BUFFERING, PLAYING, PAUSED, COMPLETED)
 			 */
 			stateTracker: function(info) {
+				_state = info['newstate'];
 				// if playing is complete, progress the playlist forward by 1, load next
 				// song into the player, and change the highlighted playlist item.
-				if (info['newstate'] == 'COMPLETED') {
+				if (_state == 'COMPLETED') {
 					if (_repeat == 'SONG') {
 						Player.controls.play();
 					} else {
