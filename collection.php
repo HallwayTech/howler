@@ -6,13 +6,13 @@ require_once('http_utils.php');
 /**
  * Handler method for the base page
  */
-$output = array();
 
 // get whatever is after the name of the script
 // add 1 to skip the first slash
 $uri = http_script_uri();
 
 // build the lists of files and dirs
+$output = array();
 $output['d'] = array();
 $output['f'] = array();
 
@@ -57,7 +57,8 @@ if ($uri) {
 
             $output['f'][] = array(
                 'p' => MUSIC_URL.$rel_dir,
-                'f' => MUSIC_URL.$f,
+                //'p' => MUSIC_URL.$dirname,
+                'f' => $f,
                 'a' => $artist,
                 't' => $title,
                 'l' => $album);

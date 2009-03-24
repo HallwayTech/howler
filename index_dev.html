@@ -142,7 +142,7 @@
 
 <ul class='files'>
 {for _f in f}
-<li class='file'><a href="#" onclick="Collection.addSong(${_f_index});return false" class="fileAdd">[add]</a> ${_f.a} - ${_f.t}</li>
+<li class='file'><a href="#" onclick="Collection.addSong(${_f_index});return false" class="fileAdd">[add]</a> {if _f.a && _f.t}${_f.a} - ${_f.t}{else}${_f.f}{/if}</li>
 {/for}
 </ul>
 {else}
