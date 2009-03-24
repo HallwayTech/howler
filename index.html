@@ -3,17 +3,17 @@
         <meta http-equiv=”Content-Type” content=”text/html; charset=utf-8″ />
         <!-- external libraries -->
         <script type="text/javascript" src="lib/jquery-1.3.2.min.js"></script>
-        <script type="text/javascript" src="lib/jquery-ui-personalized-1.5.2.min.js"></script>
+        <script type="text/javascript" src="lib/jquery-ui-1.7.custom.min.js"></script>
         <script type="text/javascript" src="lib/swfobject-2.1.min.js"></script>
         <script type="text/javascript" src="lib/trimpath-template-1.0.38.min.js"></script>
         <script type="text/javascript" src="lib/querystring-1.3.min.js"></script>
         <script type="text/javascript" src="lib/json2.min.js"></script>
         <!-- local scripts -->
-        <script type="text/javascript" src="js/template.js"></script>
-        <script type="text/javascript" src="js/playlist.js"></script>
-        <script type="text/javascript" src="js/player.js"></script>
-        <script type="text/javascript" src="js/collection.js"></script>
-        <script type="text/javascript" src="js/actions.js"></script>
+        <script type="text/javascript" src="js/template.min.js"></script>
+        <script type="text/javascript" src="js/playlist.min.js"></script>
+        <script type="text/javascript" src="js/player.min.js"></script>
+        <script type="text/javascript" src="js/collection.min.js"></script>
+        <script type="text/javascript" src="js/actions.min.js"></script>
         <!-- stylesheets -->
         <link rel="stylesheet" type="text/css" href="css/playlist.css" />
         <link rel="stylesheet" type="text/css" href="css/collection.css" />
@@ -29,12 +29,12 @@
                 <div class="player_menu"><input type="button" id="restart_player" onclick="Actions.restartPlayer()" value="Restart player" />
                 </div>
                 <!-- random menu -->
-                <div class="player_menu"><input type="checkbox" id="random" onclick="Playlist.random()"/><label for="random"> Random?</label></div>
+                <div class="player_menu"><input type="checkbox" id="random" onclick="Player.random(this.checked)"/><label for="random"> Random?</label></div>
                 <!-- repeat menu -->
                 <div class="player_menu"><select id="repeat_menu">
-                        <option onclick="Playlist.repeat('NONE')">Repeat None</option>
-                        <option onclick="Playlist.repeat('SONG')">Repeat Song</option>
-                        <option onclick="Playlist.repeat('LIST')">Repeat List</option>
+                        <option onclick="Player.repeat('NONE')">Repeat None</option>
+                        <option onclick="Player.repeat('SONG')">Repeat Song</option>
+                        <option onclick="Player.repeat('LIST')">Repeat List</option>
                     </select>
                 </div>
             </div>
