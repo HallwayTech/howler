@@ -1,0 +1,1 @@
+#playlistItems{list-style-type:none;padding:1;margin:1;}#playlist{overflow-y:auto;height:80%;}.playlistItem{border:1px solid #aaa;padding:2px;margin:3px;}.playlistItem .content{cursor:pointer;float:left;width:95%;}.playlistItem .remove{float:right;}.album{font-style:italic;display:block;}#savedPlaylistsItems{width:100%;}
