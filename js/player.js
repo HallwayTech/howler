@@ -23,7 +23,7 @@ function playerReady(thePlayer) {
  * functionality.
  */
 var Player = function() {
-	var _repeat = 'NONE' // LIST, SONG;
+	var _repeat = 'NONE' // SONG, LIST;
 	var _random = false;
 
 	return {
@@ -68,8 +68,8 @@ var Player = function() {
 		 * @returns true if play should be random
 		 *          false otherwise
 		 */
-		random: function() {
-			_random = $('#random').is(':checked');
+		random: function(checked) {
+			_random = checked;
 		},
 
 		/**

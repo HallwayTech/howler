@@ -1,5 +1,5 @@
 var Playlist = function() {
-	var _performRefresh = true;
+	var performRefresh = true;
 	var PROC_PLAYLISTS = 'playlists.php';
 	var PROC_LOAD_FILE = 'loadfile.php';
 
@@ -23,14 +23,13 @@ var Playlist = function() {
 		addItem: function(item) {
 			item.type = 'sound';
 			item.start = '0';
-//			alert('addItem: ' + item.file);
 			item.file = PROC_LOAD_FILE + '?d=' + encodeURIComponent(item.file);
 			Playlist._playlist.push(item);
 			Playlist.refresh(true);
 		},
 
 		allowRefresh: function(refreshNow) {
-			_performRefresh = true;
+			performRefresh = true;
 			if (refreshNow) {
 				Playlist.refresh(true);
 			}
@@ -44,12 +43,25 @@ var Playlist = function() {
 		},
 
 		highlightPlaying: function() {
-			$('.nowPlaying').removeClass('nowPlaying');
-			$('#playlistItem_' + Playlist._playingIdx).addClass('nowPlaying');
+			if (Playlist._playingIdx >= 0) {
+				// clear last played song
+				$('.nowPlaying').removeClass('nowPlaying');
+
+				// highlight current song
+				$('#playlistItem_' + Playlist._playingIdx).addClass('nowPlaying');
+
+				// calculate top position and scroll to it
+				var playlistTop = $('#playlist').position()['top'];
+				var nowPlayingTop = $('.nowPlaying').position()['top'];
+				var topDiff = nowPlayingTop - playlistTop;
+				var scrollTop = $('#playlist').scrollTop();
+
+				$('#playlist').scrollTop(scrollTop + topDiff);
+			}
 		},
 
 		holdRefresh: function() {
-			_performRefresh = false;
+			performRefresh = false;
 		},
 
 		load: function() {
@@ -74,26 +86,13 @@ var Playlist = function() {
 		},
 
 		refresh: function(highlightPlaying) {
-			if (_performRefresh) {
+			if (performRefresh) {
 				var output = Template.processTemplate('playlistTemplate', {'items':Playlist._playlist});
 				$('#playlist').html(output);
 				$('#playlistItems').sortable({
 					axis: 'y',
 					opacity: .75,
-					update: function(ev, ui) {
-						var newPlaylist = [];
-						var visList = $('#playlistItems').sortable('toArray');
-						for (var _i_ = 0; _i_ < visList.length; _i_++) {
-							var visItem = visList[_i_];
-							if ($('#' + visItem).hasClass('nowPlaying')) {
-								Playlist._playingIdx = _i_;
-							}
-							var visId = visItem.substring(visItem.indexOf('_') + 1);
-							newPlaylist[_i_] = Playlist._playlist[visId];
-						}
-						Playlist._playlist = newPlaylist;
-						Playlist.refresh(true);
-					}
+					update: Playlist.updateSortable
 				});
 				if (highlightPlaying) {
 					Playlist.highlightPlaying();
@@ -176,6 +175,21 @@ var Playlist = function() {
 					}
 				});
 			}
+		},
+
+		updateSortable: function(ev, ui) {
+			var newPlaylist = [];
+			var visList = $('#playlistItems').sortable('toArray');
+			for (var _i_ = 0; _i_ < visList.length; _i_++) {
+				var visItem = visList[_i_];
+				if ($('#' + visItem).hasClass('nowPlaying')) {
+					Playlist._playingIdx = _i_;
+				}
+				var visId = visItem.substring(visItem.indexOf('_') + 1);
+				newPlaylist[_i_] = Playlist._playlist[visId];
+			}
+			Playlist._playlist = newPlaylist;
+			Playlist.refresh(true);
 		}
 	}
 }();

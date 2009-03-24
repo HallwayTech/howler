@@ -6,6 +6,14 @@ for f in `ls js/ | grep \.js$`; do
 	java -jar ../yuicompressor-2.4.2/build/yuicompressor-2.4.2.jar "js/${f}" > "js/$f_new"
 done
 
+##### minify local css files #####
+rm -rf css/*.min.css
+for f in `ls css/ | grep \.css$`; do
+	f_new="${f:0:${#f}-2}min.css"
+	echo "Minifying ${f} to ${f_new}"
+	java -jar ../yuicompressor-2.4.2/build/yuicompressor-2.4.2.jar "css/${f}" > "css/$f_new"
+done
+
 ##### minify external libraries #####
 #for f in `ls lib/ | grep \.js$`; do
 #	echo "Minifying ${f} to ${f}"
