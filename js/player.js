@@ -72,7 +72,7 @@ var Player = function() {
 		random: function(checked) {
 			if (typeof(checked) != 'undefined') {
 				_random = checked;
-				if (_state != 'PLAYING') {
+				if (_random && _state != 'PLAYING') {
 					Player.controls.next();
 				}
 			} else {
