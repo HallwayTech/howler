@@ -23,11 +23,17 @@ function playerReady(thePlayer) {
  * functionality.
  */
 var Player = function() {
-	var _repeat = 'NONE' // SONG, LIST;
+	// constants
+	var MAX_HIST = 5;
+
+	// default setup states
+	var _repeat = 'LIST'; // NONE, SONG, LIST
 	var _random = false;
 	var _state = null;
+	var _history = [];
 
 	return {
+
 		create: function() {
 			var swfUrl = 'lib/player-4.2.90.swf';
 			var width = '100%';
@@ -120,7 +126,12 @@ var Player = function() {
 							// get random playlist position
 							// then play it
 							next = Math.round(Math.random() * (Playlist._playlist.length - 1));
-						} while (next == Playlist._playingIdx);
+						} while (next == Playlist._playingIdx || _history[next]);
+						_history.push(next);
+						while (_history.length > MAX_HIST) {
+							_history.shift();
+						}
+							
 					}
 					Player.controls.play(next);
 				}
