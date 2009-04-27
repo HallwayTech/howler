@@ -36,7 +36,7 @@ var Playlist = function() {
 		},
 
 		clear: function() {
-			$('#savedPlaylistsItems').attr('selectedIndex', '0');
+			$('#saved_playlists .items').attr('selectedIndex', '0');
 			Playlist._playlist = [];
 			Playlist._playingIdx = -1;
 			Playlist.refresh();
@@ -45,14 +45,14 @@ var Playlist = function() {
 		highlightPlaying: function() {
 			if (Playlist._playingIdx >= 0) {
 				// clear last played song
-				$('.nowPlaying').removeClass('nowPlaying');
+				$('.now_playing').removeClass('now_playing');
 
 				// highlight current song
-				$('#playlistItem_' + Playlist._playingIdx).addClass('nowPlaying');
+				$('#playlist_item_' + Playlist._playingIdx).addClass('now_playing');
 
 				// calculate top position and scroll to it
 				var playlistTop = $('#playlist').position()['top'];
-				var nowPlayingTop = $('.nowPlaying').position()['top'];
+				var nowPlayingTop = $('.now_playing').position()['top'];
 				var topDiff = nowPlayingTop - playlistTop;
 				var scrollTop = $('#playlist').scrollTop();
 
@@ -64,8 +64,10 @@ var Playlist = function() {
 			performRefresh = false;
 		},
 
-		load: function() {
-			var name = $('#savedPlaylistsItems').val();
+		load: function(name) {
+			if (!name) {
+				name = $('#saved_playlists .items').val();
+			}
 			if (name == '_new') {
 				Playlist.clear();
 			} else {
@@ -89,7 +91,7 @@ var Playlist = function() {
 			if (performRefresh) {
 				var output = Template.processTemplate('playlistTemplate', {'items':Playlist._playlist});
 				$('#playlist').html(output);
-				$('#playlistItems').sortable({
+				$('#playlist .items').sortable({
 					axis: 'y',
 					opacity: .75,
 					update: Playlist.updateSortable
@@ -107,7 +109,7 @@ var Playlist = function() {
 				url: PROC_PLAYLISTS,
 				success: function(json, textStatus) {
 					var output = Template.processTemplate('savedPlaylistsTemplate', json);
-					$('#savedPlaylists').html(output);
+					$('#saved_playlists').html(output);
 				},
 				error: function(data, textStatus) {
 					alert('Unable to get playlists.');
@@ -115,8 +117,10 @@ var Playlist = function() {
 			});
 		},
 
-		remove: function() {
-			var name = $('#savedPlaylistsItems').val();
+		remove: function(name) {
+			if (!name) {
+				name = $('#saved_playlists .items').val();
+			}
 			if (name != '_new') {
 				var url = PROC_PLAYLISTS + '/' + name;
 				$.ajax({
@@ -154,12 +158,14 @@ var Playlist = function() {
 		/**
 		 * Saves the current playlist.
 		 */
-		save: function() {
-			var name = $('#savedPlaylistsItems :selected').val();
+		save: function(name) {
+			if (!name) {
+				name = $('#saved_playlists .items :selected').val();
+			}
 			if (name == '_new') {
 				name = '';
 				while (name == '') {
-					name = prompt("Please provide a name for this playlist");
+					name = prompt("Please provide a name for this playlist.");
 				}
 			}
 			if (name != null) {
@@ -179,10 +185,10 @@ var Playlist = function() {
 
 		updateSortable: function(ev, ui) {
 			var newPlaylist = [];
-			var visList = $('#playlistItems').sortable('toArray');
+			var visList = $('#playlist .items').sortable('toArray');
 			for (var _i_ = 0; _i_ < visList.length; _i_++) {
 				var visItem = visList[_i_];
-				if ($('#' + visItem).hasClass('nowPlaying')) {
+				if ($('#' + visItem).hasClass('now_playing')) {
 					Playlist._playingIdx = _i_;
 				}
 				var visId = visItem.substring(visItem.indexOf('_') + 1);

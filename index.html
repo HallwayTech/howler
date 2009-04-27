@@ -32,14 +32,26 @@
                 <div id="playerSpot">This text will be replaced by the media player.</div>
             </div>
             <!-- saved playlists -->
-            <div id='savedPlaylists'></div>
+			<div id='saved_playlists_container'>
+				<div id='saved_playlists_actions'>
+					<div class='left'>
+						<input type='button' value='New' onclick='Playlist.clear()'/>
+						<input type='button' value='Save as..' onclick='Playlist.save()'/>
+					</div>
+					<div class='right'>
+						<a href='#' onclick='$("#saved_playlists").toggle("normal");return false'>^</a>
+					</div>
+				</div>
+				<div class='clear'></div>
+	            <div id='saved_playlists'></div>
+			</div>
             <!-- playlist -->
             <div id='playlist'></div>
         </div>
 
         <!-- collection -->
         <div id='collection'>
-            <div id="alphaNav"></div>
+            <div id='alphaNav'></div>
             <div id='output'></div>
         </div>
 
@@ -50,38 +62,37 @@
     <span class="artist">${artist}</span> - <span class="title">${title}</span>
     <span class="album">${album}</span>
 </div>
-<div class='clear'/>
+<div class='clear'></div>
 </textarea>
 
 <!-- saved playlists -->
 <textarea id="savedPlaylistsTemplate" class="template">
-<select id='savedPlaylistsItems'>
-    <option value="_new">New playlist</option>
+<ul class='list'>
     {for p in playlists}
-    <option value='${p}'>${p}</option>
-    {/for}
-</select>
-<!--
-<div style='height: 3em;scroll-y:true'>
-<ul id='saved' style='margin: 0; indent: 0'>
-    <li>New playlist</li>
-    {for p in playlists}
-    <li>${p}</li>
+		{if p_index % 2 != 0}
+	<li class='item'>
+		{else}
+	<li class='item light_bg'>
+		{/if}
+		<div class='desc'>
+			<span class='name'>${p}</span>
+		</div>
+		<div class='actions'>
+			<span class='load'>[<a href='#' onclick='Playlist.load("${p}");return false' title='Load' alt='Load'>L</a>]</span>
+			<span class='save'>[<a href='#' onclick='Playlist.save("${p}");return false' title='Save' alt='Save'>S</a>]</span>
+			<span class='delete'>[<a href='#' onclick='Playlist.remove("${p}");return false' title='Delete' alt='Delete'>D</a>]</span>
+		</div>
+		<div class='clear'></div>
+	</li>
     {/for}
 </ul>
-</div>
--->
-<input type='button' value='New' onclick='Playlist.clear()'/>
-<input type='button' value='Load' onclick='Playlist.load()'/>
-<input type='button' value='Save' onclick='Playlist.save()'/>
-<input type='button' value='Delete' onclick='Playlist.remove()'/>
 </textarea>
 
 <!-- playlist template -->
 <textarea id="playlistTemplate" class="template">
-<ul id='playlistItems'>
+<ul class='items'>
 {for i in items}
-<li id='playlistItem_${i_index}' class='playlistItem'>
+<li id='playlist_item_${i_index}' class='playlist_item'>
     <div onclick="Player.controls.play('${i_index}')" class='content'>
         <span class="artist">${i.artist}</span> - <span class="title">${i.title}</span>
         <span class="album">${i.album}</span>
@@ -89,7 +100,7 @@
     <div class='remove'>
         <a href='#' onclick="Playlist.removeItem('${i_index}')">X</a>
     </div>
-    <div class='clear'/>
+    <div class='clear'></div>
 </li>
 {forelse}
 <div>Click through the collection and add some songs!</div>

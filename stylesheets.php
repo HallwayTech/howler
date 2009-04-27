@@ -1,17 +1,25 @@
 <?php
+require_once 'config.php';
+
 /**
  * Stream stylesheets out as one file to cut down the number of connections on
  * initial page load of the site.
  *
  * Note: not using include or require because they both evaluate the code.
  */
-$stylesheets = array('css/playlist.min.css', 'css/collection.min.css', 'css/player.min.css');
+$stylesheet_names = array('css/playlist', 'css/collection', 'css/player', 'css/playlist');
 
-foreach ($stylesheets as $stylesheet) {
-    if (is_file($stylesheet)) {
-        readfile($stylesheet);
+foreach ($stylesheet_names as $stylesheet) {
+	if (MODE == 'dev') {
+		$sheet = "$stylesheet.css";
+	} else {
+		$sheet = "$stylesheet.min.css";
+	}
+
+    if (is_file($sheet)) {
+        readfile($sheet);
     } else {
-        echo '// unable to read $script';
+        echo "/* unable to read $sheet */";
     }
 }
 ?>
