@@ -12,6 +12,7 @@ var Playlist = function() {
 		 */
 		init: function() {
 			Playlist.reload();
+			$('#saved_playlists_container').resizable();
 		},
 
 		/**
