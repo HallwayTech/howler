@@ -1,4 +1,4 @@
-.light_bg
+.light-bg
 {
 	background-color: lightgray
 }
@@ -13,7 +13,7 @@
 	float: right
 }
 
-.now_playing
+.now-playing
 {
 	background-color: yellow;
 	border: medium double #fff;
@@ -33,21 +33,21 @@
 }
 
 /* current playlist & items */
-.playlist_item
+.playlist-item
 {
 	border: 1px solid #aaa;
 	padding: 2px;
 	margin: 3px;
 }
 
-.playlist_item .content
+.playlist-item .content
 {
 	cursor: pointer;
 	float: left;
 	width: 95%;
 }
 
-.playlist_item .remove
+.playlist-item .remove
 {
 	float: right;
 }
@@ -67,28 +67,28 @@
 }
 
 /* saved playlists & items */
-#saved_playlists_container
+#saved-playlists-container
 {
 	border: 1px solid #aaa;
 }
 
-#saved_playlists_actions .left
+#saved-playlists-actions .left
 {
 	float: left;
 }
 
-#saved_playlists_actions .right
+#saved-playlists-actions .right
 {
 	float: right;
 }
 
-#saved_playlists
+#saved-playlists
 {
 	overflow-y: auto;
 	height: 7em
 }
 	
-#saved_playlists .list
+#saved-playlists .list
 {
 	width: 100%
 	list-style-type: none;
@@ -96,18 +96,17 @@
 	margin: 1px;
 }
 
-#saved_playlists .list .item
+#saved-playlists .list .item
 {
 	width: 100%
 }
 
-#saved_playlists .list .item .desc
+#saved-playlists .list .item .desc
 {
 	float: left
 }
 
-#saved_playlists .list .item .actions
+#saved-playlists .list .item .actions
 {
 	float: right;
 	font-size: .75em
-}

@@ -7,7 +7,7 @@ require_once 'config.php';
  *
  * Note: not using include or require because they both evaluate the code.
  */
-$stylesheet_names = array('css/playlist', 'css/collection', 'css/player', 'css/playlist');
+$stylesheet_names = array('css/basic.css', 'css/collection', 'css/jquery-ui-1.7.1.custom.css', 'css/player', 'css/playlist');
 
 foreach ($stylesheet_names as $stylesheet) {
 	if (MODE == 'dev') {

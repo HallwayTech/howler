@@ -13,12 +13,12 @@
             <!-- menus -->
             <div id="menubar">
                 <!-- actions menu -->
-                <div class="player_menu"><input type="button" id="restart_player" onclick="Actions.restartPlayer()" value="Restart player" />
+                <div class="player-menu"><input type="button" id="restart-player" onclick="Actions.restartPlayer()" value="Restart player" />
                 </div>
                 <!-- random menu -->
-                <div class="player_menu"><input type="checkbox" id="random" onclick="Player.random(this.checked)"/><label for="random"> Random?</label></div>
+                <div class="player-menu"><input type="checkbox" id="random" onclick="Player.random(this.checked)"/><label for="random"> Random?</label></div>
                 <!-- repeat menu -->
-                <div class="player_menu"><select id="repeat_menu">
+                <div class="player-menu"><select id="repeat-menu">
                         <option onclick="Player.repeat('NONE')">Repeat None</option>
                         <option onclick="Player.repeat('SONG')">Repeat Song</option>
                         <option onclick="Player.repeat('LIST')">Repeat List</option>
@@ -32,18 +32,18 @@
                 <div id="playerSpot">This text will be replaced by the media player.</div>
             </div>
             <!-- saved playlists -->
-			<div id='saved_playlists_container'>
-				<div id='saved_playlists_actions'>
+			<div id='saved-playlists-container'>
+				<div id='saved-playlists-actions'>
 					<div class='left'>
 						<input type='button' value='New' onclick='Playlist.clear()'/>
 						<input type='button' value='Save as..' onclick='Playlist.save()'/>
 					</div>
 					<div class='right'>
-						<a href='#' onclick='$("#saved_playlists").toggle("normal");return false'>^</a>
+						<a href='#' onclick='$("#saved-playlists").toggle("normal");return false'>^</a>
 					</div>
 				</div>
 				<div class='clear'></div>
-	            <div id='saved_playlists'></div>
+	            <div id='saved-playlists'></div>
 			</div>
             <!-- playlist -->
             <div id='playlist'></div>
@@ -72,7 +72,7 @@
 		{if p_index % 2 != 0}
 	<li class='item'>
 		{else}
-	<li class='item light_bg'>
+	<li class='item light-bg'>
 		{/if}
 		<div class='desc'>
 			<span class='name'>${p}</span>
@@ -87,12 +87,11 @@
     {/for}
 </ul>
 </textarea>
-
 <!-- playlist template -->
 <textarea id="playlistTemplate" class="template">
 <ul class='items'>
 {for i in items}
-<li id='playlist_item_${i_index}' class='playlist_item'>
+<li id='playlist-item-${i_index}' class='playlist-item'>
     <div onclick="Player.controls.play('${i_index}')" class='content'>
         <span class="artist">${i.artist}</span> - <span class="title">${i.title}</span>
         <span class="album">${i.album}</span>

@@ -12,7 +12,7 @@ var Playlist = function() {
 		 */
 		init: function() {
 			Playlist.reload();
-			$('#saved_playlists_container').resizable();
+			$('#saved-playlists-container').resizable();
 		},
 
 		/**
@@ -37,7 +37,7 @@ var Playlist = function() {
 		},
 
 		clear: function() {
-			$('#saved_playlists .items').attr('selectedIndex', '0');
+			$('#saved-playlists .items').attr('selectedIndex', '0');
 			Playlist._playlist = [];
 			Playlist._playingIdx = -1;
 			Playlist.refresh();
@@ -46,14 +46,14 @@ var Playlist = function() {
 		highlightPlaying: function() {
 			if (Playlist._playingIdx >= 0) {
 				// clear last played song
-				$('.now_playing').removeClass('now_playing');
+				$('.now-playing').removeClass('now-playing');
 
 				// highlight current song
-				$('#playlist_item_' + Playlist._playingIdx).addClass('now_playing');
+				$('#playlist-item-' + Playlist._playingIdx).addClass('now-playing');
 
 				// calculate top position and scroll to it
 				var playlistTop = $('#playlist').position()['top'];
-				var nowPlayingTop = $('.now_playing').position()['top'];
+				var nowPlayingTop = $('.now-playing').position()['top'];
 				var topDiff = nowPlayingTop - playlistTop;
 				var scrollTop = $('#playlist').scrollTop();
 
@@ -67,7 +67,7 @@ var Playlist = function() {
 
 		load: function(name) {
 			if (!name) {
-				name = $('#saved_playlists .items').val();
+				name = $('#saved-playlists .items').val();
 			}
 			if (name == '_new') {
 				Playlist.clear();
@@ -110,7 +110,7 @@ var Playlist = function() {
 				url: PROC_PLAYLISTS,
 				success: function(json, textStatus) {
 					var output = Template.processTemplate('savedPlaylistsTemplate', json);
-					$('#saved_playlists').html(output);
+					$('#saved-playlists').html(output);
 				},
 				error: function(data, textStatus) {
 					alert('Unable to get playlists.');
@@ -120,7 +120,7 @@ var Playlist = function() {
 
 		remove: function(name) {
 			if (!name) {
-				name = $('#saved_playlists .items').val();
+				name = $('#saved-playlists .items').val();
 			}
 			if (name != '_new') {
 				var url = PROC_PLAYLISTS + '/' + name;
@@ -161,7 +161,7 @@ var Playlist = function() {
 		 */
 		save: function(name) {
 			if (!name) {
-				name = $('#saved_playlists .items :selected').val();
+				name = $('#saved-playlists .items :selected').val();
 			}
 			if (name == '_new') {
 				name = '';
@@ -189,7 +189,7 @@ var Playlist = function() {
 			var visList = $('#playlist .items').sortable('toArray');
 			for (var _i_ = 0; _i_ < visList.length; _i_++) {
 				var visItem = visList[_i_];
-				if ($('#' + visItem).hasClass('now_playing')) {
+				if ($('#' + visItem).hasClass('now-playing')) {
 					Playlist._playingIdx = _i_;
 				}
 				var visId = visItem.substring(visItem.indexOf('_') + 1);

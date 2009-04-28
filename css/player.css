@@ -9,12 +9,18 @@
 	font-weight: bold;
 }
 
+.now-playing
+{
+	background-color: yellow;
+	border: medium double #fff;
+}
+
 .clear
 {
 	clear: both;
 }
 
-.player_menu
+.player-menu
 {
 	border: 1px gray dashed;
 	float: left;
