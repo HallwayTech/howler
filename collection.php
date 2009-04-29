@@ -6,6 +6,7 @@ require_once('http_utils.php');
 /**
  * Handler method for the base page
  */
+
 // get whatever is after the name of the script
 // add 1 to skip the first slash
 $uri = http_script_uri();

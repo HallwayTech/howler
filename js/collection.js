@@ -76,24 +76,6 @@ var Collection = function() {
 		},
 
 		refresh: function() {
-<<<<<<< HEAD:js/collection.js
-			if (_curUrl) {
-				$.ajax({
-					type: 'GET',
-					dataType: 'json',
-					url: _curUrl,
-					success: function(json, textStatus) {
-						json['cp'] = _curPath;
-						_dataCache[_curUrl] = json;
-						// get template and merge with data
-						_renderCurrentCollection($('#output'));
-					},
-					error: function() {
-						alert('Unable to retrieve collection.');
-					}
-				});
-			}
-=======
 			var url = history[history.length - 1];
 			Collection.update(url);
 		},
@@ -188,7 +170,6 @@ var Collection = function() {
 			} else {
 				$('body').css('cursor', 'wait');
 			}
->>>>>>> local_trunk:js/collection.js
 		}
 	}
 }();
