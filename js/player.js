@@ -23,10 +23,17 @@ function playerReady(thePlayer) {
  * functionality.
  */
 var Player = function() {
-	var _repeat = 'NONE' // LIST, SONG;
+	// constants
+	var MAX_HIST = 5;
+
+	// default setup states
+	var _repeat = 'LIST'; // NONE, SONG, LIST
 	var _random = false;
+	var _state = null;
+	var _history = [];
 
 	return {
+
 		create: function() {
 			var swfUrl = 'lib/player-4.2.90.swf';
 			var width = '100%';
@@ -68,8 +75,15 @@ var Player = function() {
 		 * @returns true if play should be random
 		 *          false otherwise
 		 */
-		random: function() {
-			_random = $('#random').is(':checked');
+		random: function(checked) {
+			if (typeof(checked) != 'undefined') {
+				_random = checked;
+				if (_random && _state != 'PLAYING') {
+					Player.controls.next();
+				}
+			} else {
+				return _random;
+			}
 		},
 
 		/**
@@ -112,7 +126,12 @@ var Player = function() {
 							// get random playlist position
 							// then play it
 							next = Math.round(Math.random() * (Playlist._playlist.length - 1));
-						} while (next == Playlist._playingIdx);
+						} while (next == Playlist._playingIdx || _history[next]);
+						_history.push(next);
+						while (_history.length > MAX_HIST) {
+							_history.shift();
+						}
+							
 					}
 					Player.controls.play(next);
 				}
@@ -173,9 +192,10 @@ var Player = function() {
 			 * state in (IDLE, BUFFERING, PLAYING, PAUSED, COMPLETED)
 			 */
 			stateTracker: function(info) {
+				_state = info['newstate'];
 				// if playing is complete, progress the playlist forward by 1, load next
 				// song into the player, and change the highlighted playlist item.
-				if (info['newstate'] == 'COMPLETED') {
+				if (_state == 'COMPLETED') {
 					if (_repeat == 'SONG') {
 						Player.controls.play();
 					} else {

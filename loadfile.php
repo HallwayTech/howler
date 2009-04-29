@@ -1,4 +1,6 @@
 <?php
+require_once('config.php');
+
 // since the player seems to turn %26 into &, the query string has to be parsed
 // manually so that & doesn't split the requested item
 //$file = stripslashes($_GET['d']);
@@ -20,7 +22,7 @@ if (!is_readable($file)) {
     header("Expires: 0");
 
     $fp=fopen("$file","r");
-    print fread($fp,$filesize);
+    print fread($fp, $filesize);
     fclose($fp);
 }
 ?>

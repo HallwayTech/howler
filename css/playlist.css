@@ -1,4 +1,25 @@
-#playlistItems
+.light-bg
+{
+	background-color: lightgray
+}
+
+.fleft
+{
+	float: left
+}
+
+.fright
+{
+	float: right
+}
+
+.now-playing
+{
+	background-color: yellow;
+	border: medium double #fff;
+}
+
+#playlist .items
 {
 	list-style-type: none;
 	padding: 1;
@@ -11,21 +32,22 @@
 	height: 80%;
 }
 
-.playlistItem
+/* current playlist & items */
+.playlist-item
 {
 	border: 1px solid #aaa;
 	padding: 2px;
 	margin: 3px;
 }
 
-.playlistItem .content
+.playlist-item .content
 {
 	cursor: pointer;
 	float: left;
 	width: 95%;
 }
 
-.playlistItem .remove
+.playlist-item .remove
 {
 	float: right;
 }
@@ -44,7 +66,47 @@
 	display: block;
 }
 
-#savedPlaylistsItems
+/* saved playlists & items */
+#saved-playlists-container
+{
+	border: 1px solid #aaa;
+}
+
+#saved-playlists-actions .left
+{
+	float: left;
+}
+
+#saved-playlists-actions .right
+{
+	float: right;
+}
+
+#saved-playlists
+{
+	overflow-y: auto;
+	height: 7em
+}
+	
+#saved-playlists .list
+{
+	width: 100%
+	list-style-type: none;
+	padding: 1px;
+	margin: 1px;
+}
+
+#saved-playlists .list .item
 {
 	width: 100%
 }
+
+#saved-playlists .list .item .desc
+{
+	float: left
+}
+
+#saved-playlists .list .item .actions
+{
+	float: right;
+	font-size: .75em

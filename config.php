@@ -10,7 +10,7 @@
 //
 
 // set the running mode of the system.
-// Known settings: dev
+// Known settings: dev,prod
 define('MODE', 'dev');
 
 // File system location of the root of music.
