@@ -1,5 +1,5 @@
 <?php
-function marshallAtom($title, $data)
+function marshall_atom($title, $data)
 {
     $output = "<feed xmlns='http://www.w3.org/2005/Atom' xmlns:media='http://search.yahoo.com/mrss/'>\n";
     $output .= "\t<title>$title</title>\n";
@@ -16,7 +16,7 @@ function marshallAtom($title, $data)
     return $output;
 }
 
-function marshallXspf($title, $data)
+function marshall_xspf($title, $data)
 {
     $output = "<?xml version='1.0' encoding='UTF-8'?>\n";
     $output .= "<playlist version='1' xmlns='http://xspf.org/ns/0/'>\n";
