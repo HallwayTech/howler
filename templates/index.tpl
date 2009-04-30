@@ -47,7 +47,7 @@
 					</div>
 				</div>
 				<div class='clear'></div>
-				{include file='$template_dir/playlists.tpl'}
+				{include file="$TEMPLATE_DIR/playlists.tpl"}
 			</div>
 			<!-- playlist -->
 			<div id='playlist'></div>

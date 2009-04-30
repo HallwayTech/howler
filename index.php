@@ -6,12 +6,10 @@ require '/usr/share/php/smarty/Smarty.class.php';
 $smarty = new Smarty;
 $smarty->caching = TEMPLATE_CACHING;
 
-$template = TEMPLATE_DIR.'index.tpl';
+$template = TEMPLATE_DIR.'/index.tpl';
 
 if (!$smarty->is_cached('index.tpl')) {
-	//
-	// gather data to present intial page
-	//
+	$smarty->assign('TEMPLATE_DIR', TEMPLATE_DIR);
 
 	// repeat menu list
 	$smarty->assign('repeats', array('NONE' => 'Repeat None',
