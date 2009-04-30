@@ -62,8 +62,7 @@ var Player = function() {
 			if (player) {
 				player.addModelListener('STATE', 'Player.trackers.stateTracker');
 				Playlist.refresh(true);
-				var output = Template.processTemplate('marqueeTemplate', {artist:'',title:'',album:''});
-				Player.setMarquee(output);
+				Player.setMarquee({artist:'',title:'',album:''});
 			} else {
 				alert('Unable to find player.');
 			}
@@ -155,8 +154,10 @@ var Player = function() {
 			Player.create();
 		},
 
-		setMarquee: function(text) {
-			$('#marquee').html(text);
+		setMarquee: function(description) {
+			$('#marquee .artist').html(description.artist);
+			$('#marquee .title').html(description.title);
+			$('#marquee .album').html(description.album);
 		},
 
 		controls: {
@@ -193,8 +194,7 @@ var Player = function() {
 				player.sendEvent('LOAD', [next]);
 				player.sendEvent('PLAY', true);
 				Playlist.highlightPlaying();
-				var output = Template.processTemplate('marqueeTemplate', next);
-				Player.setMarquee(output);
+				Player.setMarquee(next);
 			},
 
 			prev: function() {
