@@ -1,7 +1,7 @@
 <div id='saved-playlists'>
 	<ul class='list'>
 	{section loop=$playlists name=i}
-		{cycle values="<li class='item'>, <li class='item light-bg'>"}
+		{cycle values="<li class='item light-bg'>,<li class='item'>"}
 			<div class='desc'>
 				<span class='name'>{$playlists[i]}</span>
 			</div>

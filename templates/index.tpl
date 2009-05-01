@@ -16,14 +16,9 @@
 				<div class="player-menu"><input type="button" id="restart-player" onclick="Actions.restartPlayer()" value="Restart player" />
 				</div>
 				<!-- random menu -->
-				<div class="player-menu"><input type="checkbox" id="random" onclick="Player.random(this.checked)"/><label for="random"> Random?</label></div>
+				<div class="player-menu"><input type="checkbox" id="random" {if $random == 'true'}checked='checked'{/if} onclick="Player.random(this.checked)"/><label for="random"> Random?</label></div>
 				<!-- repeat menu -->
-				<div class="player-menu"><select id="repeat-menu">
-					{foreach from=$repeats key=key value=val item=item}
-						<option onclick="Player.repeat('{$key}')">{$val}</option>
-					{/foreach}
-					</select>
-				</div>
+				<div class="player-menu"><select id="repeat-menu">{html_options values=$repeat_values output=$repeat_output selected=$repeat}</select></div>
 			</div>
 			<!-- marquee -->
 			<div id='marquee'>
@@ -47,7 +42,7 @@
 					</div>
 				</div>
 				<div class='clear'></div>
-				{include file="$TEMPLATE_DIR/playlists.tpl"}
+				{include file='playlists.tpl'}
 			</div>
 			<!-- playlist -->
 			<div id='playlist'></div>

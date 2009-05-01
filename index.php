@@ -6,14 +6,14 @@ require '/usr/share/php/smarty/Smarty.class.php';
 $smarty = new Smarty;
 $smarty->caching = TEMPLATE_CACHING;
 
-$template = TEMPLATE_DIR.'/index.tpl';
-
 if (!$smarty->is_cached('index.tpl')) {
-	$smarty->assign('TEMPLATE_DIR', TEMPLATE_DIR);
-
 	// repeat menu list
-	$smarty->assign('repeats', array('NONE' => 'Repeat None',
-		'SONG' => 'Repeat Song','LIST' => 'Repeat List'));
+	$smarty->assign('repeat_values', array('NONE', 'SONG', 'LIST'));
+	$smarty->assign('repeat_output', array('Repeat None', 'Repeat Song', 'Repeat List'));
+	$smarty->assign('repeat', DEFAULT_REPEAT);
+
+	// 'random' checkbox
+	$smarty->assign('random', DEFAULT_RANDOM);
 
 	// build alpha numeric navigation
 	$alphaNav= array('#');
@@ -23,8 +23,8 @@ if (!$smarty->is_cached('index.tpl')) {
 	$smarty->assign('alphaNav', $alphaNav);
 
 	// saved playlists
-	$smarty->assign('playlists', array());
+	$smarty->assign('playlists', array('ONE', 'TWO'));
 }
 
-$smarty->display(TEMPLATE_DIR.'/index.tpl');
+$smarty->display('index.tpl');
 ?>

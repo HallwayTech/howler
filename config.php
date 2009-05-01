@@ -23,9 +23,12 @@ define('MUSIC_URL', 'music/');
 // relative to installation directory.
 define('PLAYLISTS_DIR', 'playlists/');
 
-// Full path to where templates are located.
-define('TEMPLATE_DIR', '/home/chall/Shared/src/howler/templates');
-
 // Whether templates should be cached.
 define('TEMPLATE_CACHING', true);
+
+// The default setting for the repeat list.
+define('DEFAULT_REPEAT', 'LIST');
+
+// The default setting for 'random'
+define('DEFAULT_RANDOM', 'false');
 ?>
