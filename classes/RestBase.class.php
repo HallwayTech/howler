@@ -35,6 +35,7 @@ abstract class RestBase {
     function process()
     {
         $results = null;
+        $playlist = $_POST['playlist'];
         switch ($this->method) {
             // read
             case 'GET' :
@@ -48,12 +49,10 @@ abstract class RestBase {
 
             // update & create
             case 'POST' :
-                $playlist = $_POST['playlist'];
                 $results = $this->create($name, $playlist);
                 break;
 
             case 'PUT' :
-                $playlist = $_POST['playlist'];
                 $results = $this->update($name, $playlist);
                 break;
 
@@ -64,6 +63,9 @@ abstract class RestBase {
         }
 
         if ($results) {
+            $output = $this->transform($playlist, $results, $this->format);
+            echo $output;
+            /*
             switch(strtolower($this->format)) {
                 case 'json':
                     break;
@@ -74,6 +76,7 @@ abstract class RestBase {
                 default:
                     break;
             }
+            */
         }
     }
 
@@ -87,7 +90,7 @@ abstract class RestBase {
     /**
      * Default implementation for GET with provided ID.
      */
-    function retrieve($name) {
+    function read($name) {
         send_response_code(405);
     }
 
@@ -160,19 +163,27 @@ abstract class RestBase {
     /**
      * Factory method to transform json into a different format.
      */
-    protected function transform($title, $json, $format)
+    protected function transform($title, $results, $format)
     {
-        require_once('lib/transformers.php');
+        //require_once('lib/transformers.php');
+        require '/usr/share/php/smarty/Smarty.class.php';
+        // initialize templating
+        $smarty = new Smarty;
         // line ending
-        $data = json_decode($json, true);
+        $data = $results['output'];
+        $playlists = $data['playlists'];
 
         $output = '';
+        "$template_dir/$format.tpl";
+        
         if ($format == 'atom') {
-            $output = marshall_atom($title, $data);
+            $output = marshall_atom($title, $playlists);
         } elseif ($format == 'xspf') {
-            $output = marshall_xspf($title, $data);
+            $output = marshall_xspf($title, $playlists);
+//        } elseif ($format == 'json') {
+//        } elseif ($format == 'html') {
         } else {
-            $output = $json;
+            $output = json_encode($data);
         }
 
         return $output;
