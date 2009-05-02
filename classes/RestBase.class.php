@@ -27,10 +27,10 @@ abstract class RestBase {
         if (sizeof($elements) > 1) {
             $name = urldecode($elements[1]);
             $this->id = $this->get_id($name);
-            $this->format = $this->get_format($name);
         }
 
-        $this->method = isset($_GET['_method']) ? $_GET['method'] : $_SERVER['REQUEST_METHOD'];
+        $this->format = isset($_GET['_format']) ? $_GET['_format'] : $this->get_format($name);
+        $this->method = isset($_GET['_method']) ? $_GET['_method'] : $_SERVER['REQUEST_METHOD'];
     }
 
     function display()
