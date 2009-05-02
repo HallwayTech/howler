@@ -24,7 +24,7 @@ define('MUSIC_URL', 'music/');
 define('PLAYLISTS_DIR', 'playlists/');
 
 // Whether templates should be cached.
-define('TEMPLATE_CACHING', true);
+define('TEMPLATE_CACHING', false);
 
 // The default setting for the repeat list.
 define('DEFAULT_REPEAT', 'LIST');

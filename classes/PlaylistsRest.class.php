@@ -1,10 +1,14 @@
 <?php
 require_once 'classes/RestBase.class.php';
-require_once 'http_response.php';
 require_once 'config.php';
 
 class PlaylistsRest extends RestBase
 {
+    function __construct()
+    {
+        parent::__construct('playlists');
+    }
+
     /**
      * Delete a specific playlist in the logged in user's space.
      *
@@ -36,8 +40,6 @@ class PlaylistsRest extends RestBase
 
         error_log("Delete: $response_code - $output");
         return array('code' => $response_code, 'output' => $output);
-//        send_response_code($response_code);
-//        echo $output;
     }
 
     /**
@@ -52,49 +54,22 @@ class PlaylistsRest extends RestBase
         $output = '';
         $response_code = 0;
 
-        $playlists = array ();
         $dir = scandir(PLAYLISTS_DIR . "/${_SERVER['REMOTE_USER']}");
         if ($dir) {
+            $playlists = array();
             foreach ($dir as $file) {
                 if ($file != '.' && $file != '..') {
                     $playlists[] = $file;
                 }
             }
 
-            $output = array('playlists' => $playlists);
+            $output = $playlists;
             $response_code = 200;
         } else {
             $output = 'Unable to open playlists folder for user.';
             $response_code = 500;
         }
         return array('code' => $response_code, 'output' => $output);
-    }
-
-    /**
-     * Get all playlists available to the current logged in user.
-     */
-    function doIndexPublic()
-    {
-        $output = '';
-        $response_code = 0;
-
-        $playlists = array ();
-        $dir = scandir(PLAYLISTS_DIR);
-        if ($dir) {
-            foreach ($dir as $file) {
-                if ($file != '.' && $file != '..') {
-                    $playlists[] = $file;
-                }
-            }
-
-            $output = "{'playlists':['" . implode("','", $playlists) . "']}";
-            $response_code = 200;
-        } else {
-            $output = 'Unable to open playlists folder for user.';
-            $response_code = 500;
-        }
-        send_response_code($response_code);
-        echo $output;
     }
 
     /**
@@ -105,26 +80,23 @@ class PlaylistsRest extends RestBase
      *             http response code.  'output' is any results or message to
      *             be sent back to the user.
      */
-    function read($name, $format)
+    function read($name)
     {
         $output = '';
         $response_code = 0;
 
         $filename = $this->build_filename($name);
-        $data = '[]';
         if (is_readable($filename)) {
             $file = fopen($filename, 'r');
             $json = fread($file, filesize($filename));
+            $output = json_decode($json);
             fclose($file);
-            $output = parent::transform($name, $json, $format);
             $response_code = 200;
         } else {
             $output = "File is not readable: ${filename}";
             $response_code = 404;
         }
-        return array('code' => $response_code, 'output' => $output);
-//        send_response_code($response_code);
-//        echo $output;
+        return array('code' => $response_code, 'title' => $name, 'output' => $output);
     }
 
     /**
@@ -168,8 +140,6 @@ class PlaylistsRest extends RestBase
             $response_code = 401;
         }
         return array('code' => $response_code, 'output' => $output);
-//        send_response_code($response_code);
-//        echo $message;
     }
 
     //===================================================================
@@ -183,13 +153,13 @@ class PlaylistsRest extends RestBase
      */
     protected function build_filename($name)
     {
-        $filename = $this->playlist_dir() . "/${name}";
+        $filename = "{$this->playlist_dir()}/$name";
         return $filename;
     }
 
     protected function playlist_dir()
     {
-        $dir = PLAYLISTS_DIR . "/${_SERVER['REMOTE_USER']}";
+        $dir = PLAYLISTS_DIR . "/{$_SERVER['REMOTE_USER']}";
         return $dir;
     }
 }

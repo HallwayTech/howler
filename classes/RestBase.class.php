@@ -8,12 +8,17 @@ require_once 'http_response.php';
  * http://microformats.org/wiki/rest/urls
  */
 abstract class RestBase {
+    protected $name = null;
     protected $rest_uri = null;
     protected $method = '';
     protected $id = null;
     protected $format = null;
 
-    function __construct() {
+    /**
+     * Constructor for RESTful objects.
+     */
+    function __construct($name) {
+        $this->name = $name;
         // get everything after the name of this script
         $this->rest_uri = substr($_SERVER['REQUEST_URI'], strlen($_SERVER['SCRIPT_NAME']));
 
@@ -23,35 +28,37 @@ abstract class RestBase {
             $name = urldecode($elements[1]);
             $this->id = $this->get_id($name);
             $this->format = $this->get_format($name);
-
-            //if ($this->format) {
-            //    $this->name = substr($this->name, 0, strlen($this->name) - strlen($this->format) - 1);
-            //}
         }
 
-        $this->method = isset ($_GET['_method']) ? $_GET['method'] : $_SERVER['REQUEST_METHOD'];
+        $this->method = isset($_GET['_method']) ? $_GET['method'] : $_SERVER['REQUEST_METHOD'];
     }
 
-    function process()
+    function display()
+    {
+        echo $this->fetch();
+    }
+
+    function fetch()
     {
         $results = null;
         $playlist = $_POST['playlist'];
         switch ($this->method) {
             // read
             case 'GET' :
-                if (isset ($this->id)) {
-                    $results = $this->read($this->id, $this->format);
+                if (isset($this->id)) {
+                    $results = $this->read($this->id);
                 } else {
                     // get a list of the current user's playlists
                     $results = $this->index();
                 }
                 break;
 
-            // update & create
+            // update
             case 'POST' :
                 $results = $this->create($name, $playlist);
                 break;
 
+            // create
             case 'PUT' :
                 $results = $this->update($name, $playlist);
                 break;
@@ -63,20 +70,8 @@ abstract class RestBase {
         }
 
         if ($results) {
-            $output = $this->transform($playlist, $results, $this->format);
-            echo $output;
-            /*
-            switch(strtolower($this->format)) {
-                case 'json':
-                    break;
-
-                case 'xml':
-                    break;
-
-                default:
-                    break;
-            }
-            */
+            $output = $this->transform($results, $this->format);
+            return $output;
         }
     }
 
@@ -121,7 +116,8 @@ abstract class RestBase {
      */
     protected function get_format($name) {
         // set the default format
-        $format = 'html';
+        //$format = 'html';
+        $format = 'json';
 
         $last_slash = strrpos($name, '/');
         $last_dot = strrpos($name, '.');
@@ -163,29 +159,30 @@ abstract class RestBase {
     /**
      * Factory method to transform json into a different format.
      */
-    protected function transform($title, $results, $format)
+    function transform($results, $format)
     {
-        //require_once('lib/transformers.php');
-        require '/usr/share/php/smarty/Smarty.class.php';
         // initialize templating
+        require_once '/usr/share/php/smarty/Smarty.class.php';
         $smarty = new Smarty;
-        // line ending
-        $data = $results['output'];
-        $playlists = $data['playlists'];
+        $smarty->assign('title', $results['title']);
+
+        $playlists = $results['output'];
 
         $output = '';
-        "$template_dir/$format.tpl";
-        
-        if ($format == 'atom') {
-            $output = marshall_atom($title, $playlists);
-        } elseif ($format == 'xspf') {
-            $output = marshall_xspf($title, $playlists);
-//        } elseif ($format == 'json') {
-//        } elseif ($format == 'html') {
+		// send back the array if no format or 'raw'
+        if (!isset($format) or $format == 'raw') {
+            $output = $playlists;
+        } elseif ($format == 'json') {
+            $output = json_encode($playlists);
         } else {
-            $output = json_encode($data);
+            $template = "{$this->name}.{$format}.tpl";
+            if (is_readable("{$smarty->template_dir}/$template")) {
+                $smarty->assign('playlists', $playlists);
+                $output = $smarty->fetch($template);
+            } else {
+                $output = "Unable to read template [$template]";
+            }
         }
-
         return $output;
     }
 }

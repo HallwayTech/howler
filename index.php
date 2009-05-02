@@ -1,6 +1,6 @@
 <?php
 require_once 'config.php';
-require '/usr/share/php/smarty/Smarty.class.php';
+require_once '/usr/share/php/smarty/Smarty.class.php';
 
 // initialize templating
 $smarty = new Smarty;
@@ -25,10 +25,10 @@ if (!$smarty->is_cached('index.tpl')) {
     // saved playlists
     require_once 'classes/PlaylistsRest.class.php';
     $playlistsRest = new PlaylistsRest;
-    //ob_start();
     $playlists = $playlistsRest->index();
+	$output = $playlistsRest->transform($playlists, 'html');
     
-    $smarty->assign('playlists', $playlists['playlists']);
+    $smarty->assign('saved_playlists', $output);
 }
 
 $smarty->display('index.tpl');
