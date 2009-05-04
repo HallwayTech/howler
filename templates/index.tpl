@@ -42,7 +42,6 @@
                     </div>
                 </div>
                 <div class='clear'></div>
-                {$saved_playlists}
             </div>
             <!-- playlist -->
             <div id='playlist'></div>
@@ -69,8 +68,5 @@
                 <div id='listing'></div>
             </div>
         </div>
-
-<!-- TEMPLATES -->
-<!-- playlist template -->
     </body>
 </html>

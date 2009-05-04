@@ -23,12 +23,14 @@ if (!$smarty->is_cached('index.tpl')) {
     $smarty->assign('alphaNav', $alphaNav);
 
     // saved playlists
+	/*
     require_once 'classes/PlaylistsRest.class.php';
     $playlistsRest = new PlaylistsRest;
     $playlists = $playlistsRest->index();
 	$output = $playlistsRest->transform($playlists, 'html');
     
     $smarty->assign('saved_playlists', $output);
+	*/
 }
 
 $smarty->display('index.tpl');

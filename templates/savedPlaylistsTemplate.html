@@ -1,0 +1,19 @@
+<ul class='list'>
+    {for p in playlists}
+		{if p_index % 2 != 0}
+	<li class='item'>
+		{else}
+	<li class='item light-bg'>
+		{/if}
+		<div class='desc'>
+			<span class='name'>${p}</span>
+		</div>
+		<div class='actions'>
+			<span class='load'>[<a href='#' onclick='Playlist.load("${p}");return false' title='Load' alt='Load'>L</a>]</span>
+			<span class='save'>[<a href='#' onclick='Playlist.save("${p}");return false' title='Save' alt='Save'>S</a>]</span>
+			<span class='delete'>[<a href='#' onclick='Playlist.remove("${p}");return false' title='Delete' alt='Delete'>D</a>]</span>
+		</div>
+		<div class='clear'></div>
+	</li>
+    {/for}
+</ul>
