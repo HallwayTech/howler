@@ -139,7 +139,7 @@ class PlaylistsRest extends RestBase
             $message = 'Unable to write playlist.';
             $response_code = 401;
         }
-        return array('code' => $response_code, 'output' => $output);
+        return array('code' => $response_code, 'output' => $message);
     }
 
     //===================================================================

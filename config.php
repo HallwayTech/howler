@@ -31,4 +31,7 @@ define('DEFAULT_REPEAT', 'LIST');
 
 // The default setting for 'random'
 define('DEFAULT_RANDOM', 'false');
+
+// The installation directory of smarty
+define('SMARTY_DIR', '/usr/share/php/smarty/');
 ?>

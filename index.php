@@ -1,6 +1,6 @@
 <?php
 require_once 'config.php';
-require_once '/usr/share/php/smarty/Smarty.class.php';
+require_once SMARTY_DIR . 'Smarty.class.php';
 
 // initialize templating
 $smarty = new Smarty;

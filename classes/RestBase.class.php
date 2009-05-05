@@ -55,17 +55,17 @@ abstract class RestBase {
 
             // update
             case 'POST' :
-                $results = $this->create($name, $playlist);
+                $results = $this->create($this->name, $playlist);
                 break;
 
             // create
             case 'PUT' :
-                $results = $this->update($name, $playlist);
+                $results = $this->update($this->name, $playlist);
                 break;
 
                 // delete
             case 'DELETE' :
-                $results = $this->delete($name);
+                $results = $this->delete($this->name);
                 break;
         }
 
@@ -162,7 +162,7 @@ abstract class RestBase {
     function transform($results, $format)
     {
         // initialize templating
-        require_once '/usr/share/php/smarty/Smarty.class.php';
+        require_once SMARTY_DIR . 'Smarty.class.php';
         $smarty = new Smarty;
         $smarty->assign('title', $results['title']);
 
