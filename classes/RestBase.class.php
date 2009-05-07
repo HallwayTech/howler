@@ -41,14 +41,14 @@ abstract class RestBase {
     function fetch()
     {
         $results = null;
-        $playlist = $_POST['playlist'];
+        $data = $_POST['data'];
         switch ($this->method) {
             // read
             case 'GET' :
                 if (isset($this->id)) {
                     $results = $this->read($this->id);
                 } else {
-                    // get a list of the current user's playlists
+                    // get a list of the current user's data
                     $results = $this->index();
                 }
                 break;
@@ -166,18 +166,18 @@ abstract class RestBase {
         $smarty = new Smarty;
         $smarty->assign('title', $results['title']);
 
-        $playlists = $results['output'];
+        $data = $results['output'];
 
         $output = '';
 		// send back the array if no format or 'raw'
         if (!isset($format) or $format == 'raw') {
-            $output = $playlists;
+            $output = $data;
         } elseif ($format == 'json') {
-            $output = json_encode($playlists);
+            $output = json_encode($data);
         } else {
-            $template = "{$this->name}.{$format}.tpl";
+            $template = "{$format}.tpl";
             if (is_readable("{$smarty->template_dir}/$template")) {
-                $smarty->assign('playlists', $playlists);
+                $smarty->assign('data', $data);
                 $output = $smarty->fetch($template);
             } else {
                 $output = "Unable to read template [$template]";

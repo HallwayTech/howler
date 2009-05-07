@@ -1,12 +1,12 @@
 <?php
-require_once 'classes/RestBase.class.php';
 require_once 'config.php';
+require_once 'classes/RestBase.class.php';
 
-class PlaylistsRest extends RestBase
+class PlaylistRest extends RestBase
 {
     function __construct()
     {
-        parent::__construct('playlists');
+        parent::__construct('playlist');
     }
 
     /**

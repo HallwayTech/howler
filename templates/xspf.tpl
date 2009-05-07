@@ -3,7 +3,7 @@
 <playlist version='1' xmlns='http://xspf.org/ns/0/'>
     <title>{$title}</title>
     <trackList>
-    {foreach from=$playlists item=track}
+    {foreach from=$data item=track}
         <track>
             <title>{$track.title}</title>
             <album>{$track.album}</album>
