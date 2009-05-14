@@ -55,12 +55,12 @@ abstract class RestBase {
 
             // update
             case 'POST' :
-                $results = $this->create($this->name, $playlist);
+                $results = $this->create($this->name, $data);
                 break;
 
             // create
             case 'PUT' :
-                $results = $this->update($this->name, $playlist);
+                $results = $this->update($this->name, $data);
                 break;
 
                 // delete

@@ -63,7 +63,7 @@ class PlaylistRest extends RestBase
                 }
             }
 
-            $output = $playlists;
+            $output = array('data' => $playlists);
             $response_code = 200;
         } else {
             $output = 'Unable to open playlists folder for user.';
