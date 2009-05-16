@@ -29,8 +29,8 @@ abstract class RestBase {
             $this->id = $this->get_id($name);
         }
 
-        $this->format = isset($_GET['_format']) ? $_GET['_format'] : $this->get_format($name);
-        $this->method = isset($_GET['_method']) ? $_GET['_method'] : $_SERVER['REQUEST_METHOD'];
+        $this->format = !empty($_GET['_format']) ? $_GET['_format'] : $this->get_format($name);
+        $this->method = !empty($_GET['_method']) ? $_GET['_method'] : $_SERVER['REQUEST_METHOD'];
     }
 
     function display()
@@ -45,7 +45,7 @@ abstract class RestBase {
         switch ($this->method) {
             // read
             case 'GET' :
-                if (isset($this->id)) {
+                if (!empty($this->id)) {
                     $results = $this->read($this->id);
                 } else {
                     // get a list of the current user's data
@@ -170,7 +170,7 @@ abstract class RestBase {
 
         $output = '';
 		// send back the array if no format or 'raw'
-        if (!isset($format) or $format == 'raw') {
+        if (empty($format) or $format == 'raw') {
             $output = $data;
         } elseif ($format == 'json') {
             $output = json_encode($data);

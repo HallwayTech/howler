@@ -21,7 +21,7 @@ if (!is_readable($file)) {
     header("Pragma: no-cache");
     header("Expires: 0");
 
-    $fp=fopen("$file","r");
+    $fp=fopen("$file","rb");
     print fread($fp, $filesize);
     fclose($fp);
 }
