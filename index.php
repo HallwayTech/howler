@@ -1,10 +1,11 @@
 <?php
 require_once 'config.php';
+require_once 'bootstrap.php';
 require_once SMARTY_DIR . 'Smarty.class.php';
 
 // initialize templating
 $smarty = new Smarty;
-$smarty->caching = TEMPLATE_CACHING;
+$smarty->caching = CACHE_TEMPLATES;
 
 if (!$smarty->is_cached('index.tpl')) {
     // repeat menu list

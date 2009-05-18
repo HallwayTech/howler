@@ -31,6 +31,7 @@ function echo_script($script, $transform=true) {
 	}
 
     if (is_file($name)) {
+    	echo "/*************************\n$name\n**************************/";
         readfile($name);
     } else {
         echo "/* unable to read $name */";
