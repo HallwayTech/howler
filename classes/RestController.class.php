@@ -9,7 +9,13 @@ require_once 'http_response.php';
  */
 class RestController
 {
-    function __construct() {
+    function __construct()
+    {
+
+    }
+
+    function loadResources()
+    {
         $resources_dir = @opendir('resources') or die('Resources directory not found.');
         while ($file = readdir($resources_dir)) {
             if ($file != '.' && $file != '..') {
@@ -20,14 +26,13 @@ class RestController
 
     function display()
     {
-        echo $this->fetch();
+        echo $this->dispatch();
     }
 
-    function fetch($url)
+    function dispatch($url)
     {
     	$entity = null;
         $id = null;
-        $resource = null;
 
 //        if (empty($url)) {
 //            // get everything after the name of this script
@@ -40,6 +45,7 @@ class RestController
         // separate the uri into elements split on /
         $elements = explode('/', $url);
         $num_elements = count($elements);
+        $resource = null;
         if ($num_elements >= 1) {
             $entity = urldecode($elements[0]);
             $resource = new $entity;
@@ -65,30 +71,37 @@ class RestController
                         $resource->_new();
                     } else {
                         // match on @GET /resource/{?}, @GET /{?}
-                        $results = $resource->read($id);
+                        $resource->read($id);
                     }
                 } else {
                     // get a list of the current user's data
-                    $results = $resource->index();
+                    $resource->index();
                 }
                 break;
 
             // update
             case 'POST':
-                $results = $resource->create($data);
+                $resource->create($data);
                 break;
 
             // create
             case 'PUT':
-                $results = $resource->update($data);
+                $resource->update($data);
                 break;
 
             // delete
             case 'DELETE':
-                $results = $resource->delete($id);
+                $resource->delete($id);
                 break;
         }
 
+        $results = null;
+        if (!empty($resource->output)) {
+            $results = $this->transform($resource->output, $format);
+        }
+        send_response_code($resource->response_code, $results);
+
+/*
         if ($results === true) {
             send_response_code(204);
         } elseif ($results === false) {
@@ -99,6 +112,7 @@ class RestController
             $output = $this->transform($results, $format);
             return $output;
         }
+*/
     }
 
     /**
@@ -139,7 +153,7 @@ class RestController
         // neither dot nor slash was found
         if ($last_dot === false && $last_slash === false) {
             $id = $name;
-            // a dot was found after a slash
+        // a dot was found after a slash
         } elseif ($last_dot !== false && $last_dot > $last_slash) {
             $id = substr($name, $last_slash + 1, $last_dot);
         } else {
@@ -180,7 +194,11 @@ class RestController
     }
 
     function get_class_annotations($class) {
+        $refClass = new ReflectionClass($class);
+        $comment = $refClass->getDocComment();
 
+        $annotations = explode('@', $comment);
+        array_shift($annotations);
     }
 
     function get_methods_annotations($class) {
