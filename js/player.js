@@ -69,6 +69,29 @@ var Player = function() {
 			}
 		},
 
+		nextIndex: function(current, history, random, playlistLength) {
+			var current = current || Playlist._playlingIdx;
+			var history = _history || [];
+			var random = random || _random;
+			var playlistLength = playlistLength || Playlist._playlist.length;
+			var next = -1;
+			if (random) {
+				do {
+					// get random playlist position
+					// then play it
+					next = Math.round(Math.abs(Math.random() * (playlistLength - 1)));
+				} while (next == current || history[next]);
+				history.push(next);
+				while (history.length > MAX_HIST) {
+					// push the last one off the list
+					history.shift();
+				}
+			} else {
+				next = current + 1;
+			}
+			return next;
+		},
+
 		/**
 		 * random() -- tells where the play order should be random
 		 *
@@ -118,21 +141,9 @@ var Player = function() {
 
 		controls: {
 			next: function() {
-				var next = Playlist._playingIdx + 1;
-				var stopAtEnd = _repeat == 'NONE' && next >= Playlist._playlist.length;
-				if (!stopAtEnd) {
-					if (_random) {
-						do {
-							// get random playlist position
-							// then play it
-							next = Math.round(Math.random() * (Playlist._playlist.length - 1));
-						} while (next == Playlist._playingIdx || _history[next]);
-						_history.push(next);
-						while (_history.length > MAX_HIST) {
-							_history.shift();
-						}
-							
-					}
+				var stopPlaying = _repeat == 'NONE' && next >= Playlist._playlist.length;
+				if (!stopPlaying) {
+					var next = Playlist.nextIndex(Playlist._playingIdx, _history, _random, Playlist._playlist.length);
 					Player.controls.play(next);
 				}
 			},
