@@ -12,13 +12,10 @@ $swf_width = '100%';
 ?>
 <html>
 <head>
-<?php
-if (MODE == 'dev') {
-    require_once('inc/head_basic_dev.inc');
-} else {
-    require_once('inc/head_basic.inc');
-}
-?>
+    <!-- javascript -->
+    <script type="text/javascript" src="scripts.php"></script>
+    <!-- stylesheets -->
+    <link rel="stylesheet" type="text/css" href="stylesheets.php" />
 </head>
 
 <body>
