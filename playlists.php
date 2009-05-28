@@ -53,7 +53,7 @@ class PlaylistsRest extends RestBase
                 }
             }
 
-            $output = "{'playlists':['" . implode("','", $playlists) . "']}";
+            $output = "{'data':['" . implode("','", $playlists) . "']}";
             $response_code = 200;
         } else {
             $output = 'Unable to open playlists folder for user.';
