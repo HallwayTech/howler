@@ -12,9 +12,10 @@
         <div id="player">
             <!-- menus -->
             <div id="menubar">
-                <!-- actions menu -->
-                <div class="player-menu"><input type="button" id="restart-player" onclick="Actions.restartPlayer()" value="Restart player" />
-                </div>
+				<!-- next track -->
+                <div class="player-menu"><input type="button" id="next" onclick="Actions.next()" value="Next" /></div>
+                <!-- restart player -->
+                <div class="player-menu"><input type="button" id="restart-player" onclick="Actions.restartPlayer()" value="Restart player" /></div>
                 <!-- random menu -->
                 <div class="player-menu"><input type="checkbox" id="random" onclick="Player.random(this.checked)"/><label for="random"> Random?</label></div>
                 <!-- repeat menu -->
