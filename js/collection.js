@@ -148,7 +148,7 @@ var Collection = function() {
 					path = cache[url].d[dirIdx].d;
 
 					// build the new url
-					url = 'collection.php/' + encodeURIComponent(path);
+					url = 'collection.php/' + encodeURI(path);
 
 					// add the new url to the history
 					history.push(url);
