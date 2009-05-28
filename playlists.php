@@ -45,7 +45,7 @@ class PlaylistsRest extends RestBase
         $response_code = 0;
 
         $playlists = array ();
-        $dir = scandir(PLAYLISTS_DIR . "/${_SERVER['REMOTE_USER']}");
+        $dir = scandir(PLAYLISTS_DIR . $_SERVER['REMOTE_USER']);
         if ($dir) {
             foreach ($dir as $file) {
                 if ($file != '.' && $file != '..') {
