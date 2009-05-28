@@ -12,8 +12,6 @@
         <div id="player">
             <!-- menus -->
             <div id="menubar">
-				<!-- next track -->
-                <div class="player-menu"><input type="button" id="next" onclick="Actions.next()" value="Next" /></div>
                 <!-- restart player -->
                 <div class="player-menu"><input type="button" id="restart-player" onclick="Actions.restartPlayer()" value="Restart player" /></div>
                 <!-- random menu -->
@@ -25,6 +23,8 @@
                         <option onclick="Player.repeat('LIST')">Repeat List</option>
                     </select>
                 </div>
+				<!-- next track -->
+                <div class="player-menu"><input type="button" id="next" onclick="Actions.next()" value="Next" /></div>
             </div>
             <!-- marquee -->
             <div id='marquee'></div>

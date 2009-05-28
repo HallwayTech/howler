@@ -21,5 +21,5 @@ define('MUSIC_URL', 'music/');
 
 // File system location to where playlists are stored.  Reference can be
 // relative to installation directory.
-define('PLAYLISTS_DIR', 'playlists/');
+define('PLAYLISTS_DIR', 'files/playlists/');
 ?>

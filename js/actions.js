@@ -1,7 +1,7 @@
 var Actions = function() {
 	return {
 		next: function() {
-			Playlist.controls.next();
+			alert(Player.nextIndex());
 		},
 
 		restartPlayer: function() {

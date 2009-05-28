@@ -24,7 +24,7 @@ function playerReady(thePlayer) {
  */
 var Player = function() {
 	// constants
-	var MAX_HIST = 5;
+	var MAX_HIST = .75;
 
 	// default setup states
 	var _repeat = 'LIST'; // NONE, SONG, LIST
@@ -69,26 +69,46 @@ var Player = function() {
 			}
 		},
 
-		nextIndex: function(current, history, random, playlistLength) {
-			var current = current || Playlist._playlingIdx;
-			var history = _history || [];
-			var random = random || _random;
-			var playlistLength = playlistLength || Playlist._playlist.length;
-			var next = -1;
-			if (random) {
-				do {
-					// get random playlist position
-					// then play it
-					next = Math.round(Math.abs(Math.random() * (playlistLength - 1)));
-				} while (next == current || history[next]);
-				history.push(next);
-				while (history.length > MAX_HIST) {
-					// push the last one off the list
-					history.shift();
+		/**
+		 * Get the next index to play.  Considers if the next index should be
+		 * chosen randomly.
+		 *
+		 * @param options Expected options include:
+		 *  -current
+		 *      The current index [int].
+		 *  -history
+		 *      The history of played indices [int array].
+		 *  -random
+		 *      Whether to choose randomly or not [boolean].
+		 *  -playlistLength
+		 *      Length of the current playlist [int].
+		 * @return The next index to play.
+		 */
+		nextIndex: function(options) {
+			options = options || {};
+			var current = options.current || Playlist._playingIdx;
+			var history = options.history || _history || [];
+			var random = options.random || _random;
+			var playlistLength = options.playlistLength || Playlist._playlist.length;
+			var next = 0;
+
+			if (playlistLength > 0) {
+				if (random) {
+					do {
+						// get random playlist position until no collision
+						next = Math.round(Math.abs(Math.random() * (playlistLength - 1)));
+					} while (next == current || history.indexOf(next) > -1);
+
+					history.push(next);
+					while (history.length > history.length * MAX_HIST) {
+						// push the last one off the list
+						history.shift();
+					}
+				} else {
+					next = current + 1;
 				}
-			} else {
-				next = current + 1;
 			}
+
 			return next;
 		},
 
@@ -143,7 +163,7 @@ var Player = function() {
 			next: function() {
 				var stopPlaying = _repeat == 'NONE' && next >= Playlist._playlist.length;
 				if (!stopPlaying) {
-					var next = Playlist.nextIndex(Playlist._playingIdx, _history, _random, Playlist._playlist.length);
+					var next = Player.nextIndex();
 					Player.controls.play(next);
 				}
 			},
