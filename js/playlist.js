@@ -184,6 +184,9 @@ var Playlist = function() {
 			}
 		},
 
+		/**
+		 * Processing function when the playlist is rearranged.
+		 */
 		updateSortable: function(ev, ui) {
 			var newPlaylist = [];
 			var visList = $('#playlist .items').sortable('toArray');
@@ -192,7 +195,7 @@ var Playlist = function() {
 				if ($('#' + visItem).hasClass('now-playing')) {
 					Playlist._playingIdx = _i_;
 				}
-				var visId = visItem.substring(visItem.indexOf('_') + 1);
+				var visId = visItem.substring(visItem.lastIndexOf('-') + 1);
 				newPlaylist[_i_] = Playlist._playlist[visId];
 			}
 			Playlist._playlist = newPlaylist;
