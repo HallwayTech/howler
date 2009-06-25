@@ -9,11 +9,27 @@ require_once 'http_response.php';
  */
 class ResourceController
 {
+    protected $methodFunctionMap = array('POST' => 'create', 'GET' => 'read',
+        'PUT' => 'update', 'DELETE' => 'delete', 'INDEX' => 'index',
+        'NEW' => 'createForm');
+
+    /**
+     * Echos the output of the dispatch.
+     *
+     * @return void
+     */
     function display()
     {
         echo $this->dispatch();
     }
 
+    /**
+     * Dispatch the given URL to the proper resource handler.
+     *
+     * @param string $url The URL to process for resource handling.
+     *
+     * @return The output of resource processing.
+     */
     function dispatch($url)
     {
         $entity = null;
@@ -57,31 +73,25 @@ class ResourceController
         case 'GET':
             if (!empty($id)) {
                 if ($id == 'new') {
-                    call_user_func("{$entity}_createForm");
+                    $this->_callUserFunc($entity, 'NEW');
                 } else {
-                    call_user_func("{$entity}_read", $id);
+                    $this->_callUserFunc($entity, $id);
                 }
             } else {
                 // get a list of the current user's data
-                call_user_func("{$entity}_index");
+                $this->_callUserFunc($entity, 'INDEX');
             }
             break;
 
-        // update
-        case 'POST':
+        case 'POST': // update
+        case 'PUT': // create
             $data = $_POST['data'];
-            call_user_func("{$entity}_create", $data);
-            break;
-
-        // create
-        case 'PUT':
-            $data = $_POST['data'];
-            call_user_func("{$entity}_update", $data);
+            $this->_callUserFunc($entity, $method, $data);
             break;
 
         // delete
         case 'DELETE':
-            call_user_func("{$entity}_delete", $id);
+            $this->_callUserFunc($entity, $method, $id);
             break;
         }
 
@@ -108,6 +118,10 @@ class ResourceController
     /**
      * Get the requested response format based on the name of the requested
      * playlist.
+     *
+     * @param string $name The entity name to search for a specified format.
+     *
+     * @return The format found on the entity.  'json' if none found.
      */
     protected function getFormat($name)
     {
@@ -168,8 +182,13 @@ class ResourceController
 
     /**
      * Factory method to transform json into a different format.
+     *
+     * @param array  $results The output from a resource to be transformed.
+     * @param string $format  The format to transform to.
+     *
+     * @return The results transformed to the requested format.
      */
-    function transform($results, $format)
+    protected function transform($results, $format)
     {
         // initialize templating
         include_once SMARTY_DIR . 'Smarty.class.php';
@@ -194,6 +213,24 @@ class ResourceController
             }
         }
         return $output;
+    }
+
+    /**
+     * Calls a user function based on the entity and key provided.  If data is not
+     * null, it is passed to the function.
+     *
+     * @param string $entity The entity to limit call interest to.
+     * @param string $key    The key to filter the function name down to.
+     * @param mixed  $data   The data to pass to the function.
+     *
+     * @return void
+     */
+    private function _callUserFunc($entity, $key, $data = null)
+    {
+        $functionName = "{$entity}_{$this->methodFunctionMap[$key]}";
+        if (function_exists($functionName)) {
+            call_user_func($functionName, $data);
+        }
     }
 }
 ?>
