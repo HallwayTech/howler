@@ -16,21 +16,28 @@ class ResourceController
     /**
      * Echos the output of the dispatch.
      *
+     * @param string $url    The URL to process for resource handling.
+     * @param string $method The method on which to base processing. Allows
+     *                       overriding of actual request method for embedded use.
+     *                       If null, the actual request method is used.
+     *
      * @return void
      */
-    function display()
+    function display($url = null, $method = null)
     {
-        echo $this->dispatch();
+        echo $this->dispatch($url, $method);
     }
 
     /**
      * Dispatch the given URL to the proper resource handler.
      *
-     * @param string $url The URL to process for resource handling.
+     * @param string $url    The URL to process for resource handling.
+     * @param string $method The method on which to base processing. Allows
+     *                       overriding of actual request method for embedded use.
      *
      * @return The output of resource processing.
      */
-    function dispatch($url)
+    function dispatch($url = null, $method = null)
     {
         $entity = null;
         $id = null;
@@ -63,8 +70,10 @@ class ResourceController
         // get the output format
         $format = $this->getFormat($url);
 
-        // get the request method
-        $method = $this->getMethod();
+        // get the request method if not provided
+        if (empty($method)) {
+            $method = $this->getMethod();
+        }
 
         $results = null;
 
@@ -145,6 +154,13 @@ class ResourceController
         return $format;
     }
 
+    /**
+     * Get the method used on the current request.
+     *
+     * @return string The method used to perform the current request.  If GET or
+     *                POST, a request parameter of '_method' is checked to override
+     *                the method.
+     */
     protected function getMethod()
     {
         // only check for _method when REQUEST_METHOD = (GET|POST)
@@ -157,6 +173,14 @@ class ResourceController
         return $method;
     }
 
+    /**
+     * Get the ID from a given element.
+     *
+     * @param string $name The element to search for an ID.
+     *
+     * @return The ID found in the element.  The ID is considered to be the last
+     *         element after the last forward slash (/) but before the last dot (.).
+     */
     protected function getId($name)
     {
         $id = '';
