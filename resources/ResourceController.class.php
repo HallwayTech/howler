@@ -48,18 +48,20 @@ class ResourceController
         }
 
         // separate the uri into elements split on /
-        $elements = explode('/', $url);
+        if (substr($url, 0, 1) == '/') {
+            $url = substr($url, 1);
+        }
 
         // separate the uri into elements split on /
         $elements = explode('/', $url);
         $num_elements = count($elements);
-        $resource = null;
         if ($num_elements >= 1) {
             $entity = urldecode($elements[0]);
-            if (file_exists(RESOURCES_DIR.$entity)) {
-                include RESOURCES_DIR.$entity;
+            $resource = RESOURCES_DIR.$entity.".php";
+            if (file_exists($resource)) {
+                include $resource;
             } else {
-                die("Unable to load requested resource [$entity]");
+                die("Unable to load requested resource [$resource]");
             }
         }
 
@@ -108,15 +110,15 @@ class ResourceController
         if (!empty($resource->output)) {
             $results = $this->transform($resource->output, $format);
         }
-        send_response_code($resource->response_code, $results);
+        sendResponseCode($resource->response_code, $results);
 
         /*
         if ($results === true) {
-            send_response_code(204);
+            sendResponseCode(204);
         } elseif ($results === false) {
-            send_response_code(400);
+            sendResponseCode(400);
         } elseif (is_numeric($results)) {
-            send_response_code($results);
+            sendResponseCode($results);
         } elseif ($results != null) {
             $output = $this->transform($results, $format);
             return $output;

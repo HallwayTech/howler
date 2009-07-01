@@ -9,6 +9,12 @@
 // the server and do not end with a slash.
 //
 
+// set the error reporting to be strict
+error_reporting(E_ALL ^ E_NOTICE ^ E_USER_NOTICE);
+
+// the absolute path to the root of things
+define('ABSPATH', dirname(__FILE__).'/');
+
 // set the running mode of the system.
 // Known settings: dev,prod
 define('MODE', 'dev');
@@ -34,4 +40,7 @@ define('DEFAULT_RANDOM', 'false');
 
 // The installation directory of smarty
 define('SMARTY_DIR', '/usr/share/php/smarty/');
+
+// Where the resources are kept
+define('RESOURCES_DIR', 'resources/');
 ?>

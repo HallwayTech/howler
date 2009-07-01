@@ -23,6 +23,7 @@ if (!empty($query)) {
  */
 function handleQuery($query)
 {
+    global $resources;
     $resources->display($query);
 }
 
@@ -34,6 +35,7 @@ function handleQuery($query)
  */
 function index()
 {
+    global $resources;
     include SMARTY_DIR . 'Smarty.class.php';
 
     // initialize templating
@@ -59,7 +61,7 @@ function index()
         $smarty->assign('alphaNav', $alphaNav);
 
         // saved playlists
-        $playlists = $resources->dispatch('/playlist');
+        $playlists = array(); //$resources->dispatch('playlists');
 
         $smarty->assign('saved_playlists', $playlists);
     }

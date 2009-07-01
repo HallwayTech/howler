@@ -5,7 +5,7 @@ require_once 'http_utils.php';
 /**
  * Handler method for the base page
  */
-function collection_index()
+function collections_index()
 {
     // get whatever is after the name of the script
     // add 1 to skip the first slash

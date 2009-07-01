@@ -1,5 +1,5 @@
 <?php
-require_once 'config.php';
+require 'config.php';
 
 /**
  * Stream stylesheets out as one file to cut down the number of connections on
@@ -7,7 +7,8 @@ require_once 'config.php';
  *
  * Note: not using include or require because they both evaluate the code.
  */
-$stylesheet_names = array('css/basic.css', 'css/collection', 'css/jquery-ui-1.7.1.custom.css', 'css/player', 'css/playlist');
+//'css/basic',
+$stylesheet_names = array('css/collection', 'css/jquery-ui-1.7.1.custom', 'css/player', 'css/playlist');
 
 foreach ($stylesheet_names as $stylesheet) {
 	if (MODE == 'dev') {
@@ -19,7 +20,7 @@ foreach ($stylesheet_names as $stylesheet) {
     if (is_file($sheet)) {
         readfile($sheet);
     } else {
-        echo "/* unable to read $sheet */";
+        echo "/* ---------- unable to read $sheet ---------- */";
     }
 }
 ?>

@@ -1,3 +1,4 @@
+/* global $ */
 var Playlist = function() {
 	var performRefresh = true;
 	var PROC_PLAYLISTS = 'playlists.php';
@@ -11,7 +12,7 @@ var Playlist = function() {
 		 * Initialization of the playlist
 		 */
 		init: function() {
-			Playlist.reload();
+			//Playlist.reload();
 			$('#saved-playlists-container').resizable();
 		},
 

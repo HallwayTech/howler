@@ -44,14 +44,20 @@ define('HTTP_505', 'HTTP Version Not Supported');
 /**
  * Sets the response header based on the given code.
  *
- * @param code The status code to set in the header.
+ * @param string $code   The status code to set in the header.
+ * @param string $output Output to send to the response.
+ *
+ * @return void
  */
-function send_response_code($code, $output) {
-    $status = constant("HTTP_$code");
-    header("HTTP/1.1 $code $status", true, $code);
+function sendResponseCode($code, $output = null)
+{
+    if (!empty($code)) {
+        $status = constant("HTTP_$code");
+        header("HTTP/1.1 $code $status", true, $code);
 
-	if ($output) {
-		echo $output;
-	}
+        if ($output) {
+            echo $output;
+        }
+    }
 }
 ?>

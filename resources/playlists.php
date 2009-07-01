@@ -8,7 +8,7 @@
  *             http response code.  'output' is any results or message to
  *             be sent back to the user.
  */
-function playlist_delete($name)
+function playlists_delete($name)
 {
     $output = '';
     $response_code = 0;
@@ -39,12 +39,12 @@ function playlist_delete($name)
  *             http response code.  'output' is any results or message to
  *             be sent back to the user.
  */
-function playlist_index()
+function playlists_index()
 {
     $output = '';
     $response_code = 0;
 
-    $dir = scandir(PLAYLISTS_DIR . "/${_SERVER['REMOTE_USER']}");
+    $dir = scandir(PLAYLISTS_DIR."${_SERVER['REMOTE_USER']}");
     if ($dir) {
         $playlists = array();
         foreach ($dir as $file) {
@@ -71,7 +71,7 @@ function playlist_index()
  *             http response code.  'output' is any results or message to
  *             be sent back to the user.
  */
-function playlist_read($name)
+function playlists_read($name)
 {
     $output = '';
     $response_code = 0;
@@ -103,7 +103,7 @@ function playlist_read($name)
  *             http response code.  'output' is any results or message to
  *             be sent back to the user.
  */
-function playlist_create($name, $playlist)
+function playlists_create($name, $playlist)
 {
     return update($name, $playlist);
 }
@@ -119,7 +119,7 @@ function playlist_create($name, $playlist)
  *             http response code.  'output' is any results or message to
  *             be sent back to the user.
  */
-function playlist_update($name, $playlist)
+function playlists_update($name, $playlist)
 {
     $message = '';
     $response_code = 0;
