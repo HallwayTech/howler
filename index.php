@@ -3,7 +3,7 @@ require 'config.php';
 require 'bootstrap.php';
 require 'resources/ResourceController.class.php';
 
-$query = $_GET['q'];
+$query = $_GET['r'];
 
 $resources = new ResourceController;
 
