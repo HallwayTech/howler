@@ -19,9 +19,7 @@ function search_read($id)
 
                 // build the output for a dir
                 if (is_dir($abs_dir)) {
-                    $output['d'][] = array(
-                        'd' => $rel_dir,
-                        'l' => $f);
+                    $output['d'][] = array('d' => $rel_dir, 'l' => $f);
                 }
             }
         }
@@ -30,7 +28,13 @@ function search_read($id)
 }
 
 /**
- * Matches the search term to the beginning of the provided filename.  This is done instead of regex for performance (this is faster).
+ * Matches the search term to the beginning of the provided filename.  This is done
+ * instead of regex for performance (this is faster).
+ *
+ * @param string $search What to search for.
+ * @param string $f      What to search in.
+ *
+ * @return true if $search starts with $f.  false otherwise.
  */
 function matches($search, $f)
 {
