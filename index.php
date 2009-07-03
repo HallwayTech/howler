@@ -8,23 +8,9 @@ $query = $_GET['r'];
 $resources = new ResourceController;
 
 if (!empty($query)) {
-    handleQuery($query);
+    $resources->display($query);
 } else {
     index();
-}
-
-/**
- * Handles a query for a specific resource on the server.
- *
- * @param string $query The query for the resource. Is usually the querystring after
- *                      the script name. URL rewriting can handle this easily.
- *
- * @return void
- */
-function handleQuery($query)
-{
-    global $resources;
-    $resources->display($query);
 }
 
 /**

@@ -11,9 +11,12 @@ function http_script_uri() {
     $uri = '';
 
     if ($len_request_uri != $len_script_name) {
-        $uri = substr($request_uri, $len_script_name + 1);
+        $uri = substr($request_uri, $len_script_name);
         $uri = str_replace("\\'", "'", $uri);
         $uri = urldecode($uri);
+        if (substr($uri, 0, 1) == '/') {
+            $uri = substr($uri, 1);
+        }
     }
 
     return $uri;

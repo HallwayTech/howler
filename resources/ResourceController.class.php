@@ -84,33 +84,35 @@ class ResourceController
         case 'GET':
             if (!empty($id)) {
                 if ($id == 'new') {
-                    $this->_callUserFunc($entity, 'NEW');
+                    $results = $this->_callUserFunc($entity, 'NEW');
                 } else {
-                    $this->_callUserFunc($entity, $id);
+                    $results = $this->_callUserFunc($entity, $method, $id);
                 }
             } else {
                 // get a list of the current user's data
-                $this->_callUserFunc($entity, 'INDEX');
+                $results = $this->_callUserFunc($entity, 'INDEX');
             }
             break;
 
         case 'POST': // update
         case 'PUT': // create
             $data = $_POST['data'];
-            $this->_callUserFunc($entity, $method, $data);
+            $results = $this->_callUserFunc($entity, $method, $data);
             break;
 
         // delete
         case 'DELETE':
-            $this->_callUserFunc($entity, $method, $id);
+            $results = $this->_callUserFunc($entity, $method, $id);
             break;
         }
 
-        $results = null;
-        if (!empty($resource->output)) {
-            $results = $this->transform($resource->output, $format);
+        //var_dump($results);
+        //echo "<br/><br/>";
+        if (!empty($results)) {
+            $results[1] = $this->transform($results[1], $format);
         }
-        sendResponseCode($resource->response_code, $results);
+        //var_dump($results);
+        sendResponseCode($results[0], $results[1]);
 
         /*
         if ($results === true) {
@@ -214,15 +216,8 @@ class ResourceController
      *
      * @return The results transformed to the requested format.
      */
-    protected function transform($results, $format)
+    protected function transform($data, $format)
     {
-        // initialize templating
-        include_once SMARTY_DIR . 'Smarty.class.php';
-        $smarty = new Smarty;
-        $smarty->assign('title', $results['title']);
-
-        $data = $results['output'];
-
         $output = '';
         // send back the array if no format or 'raw'
         if (empty($format) or $format == 'raw') {
@@ -230,6 +225,10 @@ class ResourceController
         } elseif ($format == 'json') {
             $output = json_encode($data);
         } else {
+            include_once SMARTY_DIR . 'Smarty.class.php';
+            $smarty = new Smarty;
+            $smarty->assign('title', $data['title']);
+
             $template = "{$format}.tpl";
             if (is_readable("{$smarty->template_dir}/$template")) {
                 $smarty->assign('data', $data);
@@ -255,7 +254,9 @@ class ResourceController
     {
         $functionName = "{$entity}_{$this->methodFunctionMap[$key]}";
         if (function_exists($functionName)) {
-            call_user_func($functionName, $data);
+            return call_user_func($functionName, $data);
+        } else {
+            die("The requested function doesn't exist [$functionName]");
         }
     }
 }

@@ -20,7 +20,8 @@ define('ABSPATH', dirname(__FILE__).'/');
 define('MODE', 'dev');
 
 // File system location of the root of music.
-define('MUSIC_DIR', '/var/media/music');
+//define('MUSIC_DIR', '/var/media/music');
+define('MUSIC_DIR', '/home/chall/music');
 
 // URL of root to where mp3s can be found.
 define('MUSIC_URL', 'music/');

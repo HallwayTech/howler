@@ -5,7 +5,7 @@ require_once 'http_utils.php';
 /**
  * Handler method for the base page
  */
-function collections_index()
+function collections_read($id)
 {
     // get whatever is after the name of the script
     // add 1 to skip the first slash
@@ -16,7 +16,7 @@ function collections_index()
     $output['f'] = array ();
     if ($uri) {
         // get a list of dirs and show them
-        $path = MUSIC_DIR."/$uri";
+        $path = MUSIC_DIR."/$id";
         $dir_list = scandir($path);
         foreach ($dir_list as $f) {
             // continue if $f is current directory '.' or parent directory '..'

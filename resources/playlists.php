@@ -29,7 +29,7 @@ function playlists_delete($name)
     }
 
     error_log("Delete: $response_code - $output");
-    return array('code' => $response_code, 'output' => $output);
+    return array($response_code, $output);
 }
 
 /**
@@ -59,7 +59,7 @@ function playlists_index()
         $output = 'Unable to open playlists folder for user.';
         $response_code = 500;
     }
-    return array('code' => $response_code, 'output' => $output);
+    return array($response_code, $output);
 }
 
 /**
@@ -87,7 +87,7 @@ function playlists_read($name)
         $output = "File is not readable: ${filename}";
         $response_code = 404;
     }
-    return array('code' => $response_code, 'title' => $name, 'output' => $output);
+    return array($response_code, $name, $output);
 }
 
 /**
@@ -136,7 +136,7 @@ function playlists_update($name, $playlist)
         $message = 'Unable to write playlist.';
         $response_code = 401;
     }
-    return array('code' => $response_code, 'output' => $message);
+    return array($response_code, $message);
 }
 
 //===================================================================
