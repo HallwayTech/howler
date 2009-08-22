@@ -59,6 +59,29 @@ var Collection = function() {
 		},
 
 		/**
+         * Fetch and store the data found at a URL
+         *
+         * @param url the url to get information from.
+         */
+        fetch: function(url) {
+            if (url) {
+                $.ajax({
+                    type: 'GET',
+                    dataType: 'json',
+                    url: url,
+                    success: function(json, textStatus) {
+                        json['cp'] = path;
+                        cache[url] = json;
+                        Collection.renderUrl(url);
+                    },
+                    error: function(request, textStatus, errorThrown) {
+                        alert('Unable to retrieve collection [' + textStatus + ': ' + errorThrown + ']');
+                    }
+                });
+            }
+        },
+
+        /**
 		 * Render the data found at a url.  Cached data is used if found.
 		 *
 		 * @param url the url to check for data.
@@ -71,13 +94,13 @@ var Collection = function() {
 				$('#output').html(markup);
 				Collection.wait(true);
 			} else if (url) {
-				Collection.update(url);
+				Collection.fetch(url);
 			}
 		},
 
 		refresh: function() {
 			var url = history[history.length - 1];
-			Collection.update(url);
+			Collection.fetch(url);
 		},
 
 		/**
@@ -90,33 +113,10 @@ var Collection = function() {
 			$('#output').html('Loading...');
 
 			path = search;
-			url = 'search.php/' + encodeURIComponent(search);
+			url = 'resource/search/' + encodeURIComponent(search);
 			history = [url];
 
 			Collection.renderUrl(url);
-		},
-
-		/**
-		 * Update the data found at a URL
-		 *
-		 * @param url the url to get information from.
-		 */
-		update: function(url) {
-			if (url) {
-				$.ajax({
-					type: 'GET',
-					dataType: 'json',
-					url: url,
-					success: function(json, textStatus) {
-						json['cp'] = path;
-						cache[url] = json;
-						Collection.renderUrl(url);
-					},
-					error: function(request, textStatus, errorThrown) {
-						alert('Unable to retrieve collection [' + textStatus + ': ' + errorThrown + ']');
-					}
-				});
-			}
 		},
 
 		/**

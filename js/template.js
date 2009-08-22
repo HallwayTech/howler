@@ -13,11 +13,16 @@ var Template = function()
 		 * index.
 		 */
 		processTemplate: function(templateId, json, cacheIdx) {
+		alert($(templateId).html());
 			if (!Template.templateCache[templateId]) {
-				Template.templateCache[templateId] = TrimPath.parseDOMTemplate(templateId);
+			     alert('template1');
+			     template = TrimPath.parseDOMTemplate(templateId);
+			     alert('template2');
+				Template.templateCache[templateId] = template;
 			}
 
 			var output = Template.templateCache[templateId].process(json);
+			alert(output);
 			if (cacheIdx) {
 				Template.outputCache[cacheIdx] = output;
 			}
