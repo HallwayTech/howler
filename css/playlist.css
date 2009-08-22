@@ -29,7 +29,7 @@
 #playlist
 {
 	overflow-y: auto;
-	height: 80%;
+	height: 75%;
 }
 
 /* current playlist & items */
@@ -85,7 +85,7 @@
 #saved-playlists
 {
 	overflow-y: auto;
-	height: 7em
+	height: 10%; 
 }
 	
 #saved-playlists .list
@@ -99,6 +99,7 @@
 #saved-playlists .list .item
 {
 	width: 100%
+	height: 1em;
 }
 
 #saved-playlists .list .item .desc
