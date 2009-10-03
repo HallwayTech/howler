@@ -53,9 +53,6 @@ var Collection = function() {
 		 * Initialization
 		 */
 		init: function() {
-			// add the alphabetical navigation
-			var menu = Template.processTemplate('alphaNavTemplate', alphaMenu);
-			$('#alphaNav').html(menu);
 		},
 
 		/**
@@ -148,7 +145,7 @@ var Collection = function() {
 					path = cache[url].d[dirIdx].d;
 
 					// build the new url
-					url = 'collection.php/' + encodeURI(path);
+					url = 'resource/collection/' + encodeURI(path);
 
 					// add the new url to the history
 					history.push(url);

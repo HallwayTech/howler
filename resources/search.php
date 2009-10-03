@@ -1,6 +1,8 @@
 <?php
 function search_read($id)
 {
+    $retval = false;
+
     // build the lists of files and dirs
     $output['d'] = array();
     $output['f'] = array();
@@ -23,8 +25,9 @@ function search_read($id)
                 }
             }
         }
+        $retval = array(200, $output);
     }
-    echo json_encode($output);
+    return $retval;
 }
 
 /**

@@ -4,7 +4,6 @@ require 'bootstrap.php';
 require 'resources/ResourceController.class.php';
 
 $query = $_GET['r'];
-
 $resources = new ResourceController;
 
 if (!empty($query)) {

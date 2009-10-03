@@ -49,11 +49,17 @@ define('HTTP_505', 'HTTP Version Not Supported');
  *
  * @return void
  */
-function sendResponseCode($code, $output = null)
+function sendResponseCode($code, $output = null, $headers = null)
 {
     if (!empty($code)) {
         $status = constant("HTTP_$code");
         header("HTTP/1.1 $code $status", true, $code);
+
+        if ($headers != null) {
+            foreach ($headers as $key => $value) {
+                header("$key: $value", true);
+            }
+        }
 
         if ($output) {
             echo $output;

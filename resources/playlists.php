@@ -76,7 +76,7 @@ function playlists_read($name)
     $output = '';
     $response_code = 0;
 
-    $filename = $this->build_filename($name);
+    $filename = build_filename($name);
     if (is_readable($filename)) {
         $file = fopen($filename, 'r');
         $json = fread($file, filesize($filename));

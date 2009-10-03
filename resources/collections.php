@@ -23,11 +23,13 @@ function collections_read($id)
             if ($f == '.' || $f == '..') {
                 continue;
             }
+
             // create directory reference by concatenating path and the current
             // directory listing item
             $abs_dir = "$path/$f";
             // create a short name. be sure it doesn't start with a slash
-            $rel_dir = "$uri/$f";
+//            $rel_dir = "$uri/$f";
+            $rel_dir = $id;
             // determine the file extension
             $path_info = pathinfo($rel_dir);
             $dirname = $path_info['dirname']; // /var/www
@@ -38,7 +40,7 @@ function collections_read($id)
             if (is_dir($abs_dir)) {
                 // build the output for a dir
                 $output['d'][] = array (
-                    'd' => $rel_dir,
+                    'dr' => $rel_dir,
                     'l' => $f
                 );
             } elseif ($extension == 'mp3') {

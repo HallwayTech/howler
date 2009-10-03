@@ -78,19 +78,22 @@ class ResourceController
         }
 
         $results = null;
+        $actualMethod = $method;
 
         switch ($method) {
         // read
         case 'GET':
             if (!empty($id)) {
                 if ($id == 'new') {
-                    $results = $this->_callUserFunc($entity, 'NEW');
+                    $actualMethod = 'NEW';
+                    $results = $this->_callUserFunc($entity, $actualMethod);
                 } else {
                     $results = $this->_callUserFunc($entity, $method, $id);
                 }
             } else {
                 // get a list of the current user's data
-                $results = $this->_callUserFunc($entity, 'INDEX');
+                $actualMethod = 'INDEX';
+                $results = $this->_callUserFunc($entity, $actualMethod);
             }
             break;
 
@@ -108,24 +111,29 @@ class ResourceController
 
         //var_dump($results);
         //echo "<br/><br/>";
-        if (!empty($results)) {
-            $results[1] = $this->transform($results[1], $format);
-        }
+        //if (!empty($results)) {
+        //    $results[1] = $this->transform($results[1], $format, $entity, $method);
+        //}
         //var_dump($results);
-        sendResponseCode($results[0], $results[1]);
+        //sendResponseCode($results[0], $results[1]);
 
-        /*
+        $functionName = $this->_functionName($actualMethod);
         if ($results === true) {
             sendResponseCode(204);
         } elseif ($results === false) {
             sendResponseCode(400);
         } elseif (is_numeric($results)) {
             sendResponseCode($results);
+        } elseif (is_array($results)) {
+            $response_code = $results[0];
+            $content = $results[1];
+            $headers = $results[2];
+            $output = $this->transform($content, $format, $entity, $functionName);
+            sendResponseCode($response_code, $output, $headers);
         } elseif ($results != null) {
-            $output = $this->transform($results, $format);
-            return $output;
+            $output = $this->transform($results, $format, $entity, $functionName);
+            sendResponsecode($response_code, $output);
         }
-        */
     }
 
     /**
@@ -216,9 +224,10 @@ class ResourceController
      *
      * @return The results transformed to the requested format.
      */
-    protected function transform($data, $format)
+    protected function transform($data, $format, $entity = null, $function = null)
     {
-        $output = '';
+        $output = false;
+
         // send back the array if no format or 'raw'
         if (empty($format) or $format == 'raw') {
             $output = $data;
@@ -229,13 +238,20 @@ class ResourceController
             $smarty = new Smarty;
             $smarty->assign('title', $data['title']);
 
-            $template = "{$format}.tpl";
-            if (is_readable("{$smarty->template_dir}/$template")) {
-                $smarty->assign('data', $data);
-                $output = $smarty->fetch($template);
-            } else {
-                $output = "Unable to read template [$template]";
+            $templates = array();
+            $templates[] = "$entity/$function.$format.tpl";
+            $templates[] = "$entity/$format.tpl";
+            $templates[] = "$format.tpl";
+            foreach ($templates as $template) {
+                if ($smarty->template_exists($template)) {
+                    $smarty->assign('data', $data);
+                    $output = $smarty->fetch($template);
+                    break;
+                }
             }
+            //if (!$output) {
+            //    $output = "Unable to read template [$template]";
+            //}
         }
         return $output;
     }
@@ -252,12 +268,28 @@ class ResourceController
      */
     private function _callUserFunc($entity, $key, $data = null)
     {
-        $functionName = "{$entity}_{$this->methodFunctionMap[$key]}";
+        $functionName = $entity . '_' . $this->_functionName($key);
         if (function_exists($functionName)) {
             return call_user_func($functionName, $data);
         } else {
             die("The requested function doesn't exist [$functionName]");
         }
+    }
+
+    /**
+     * Returns the funcation name associated to a given key.
+     *
+     * @param $key The key to use for looking up the function name.
+     *
+     * @return The function name mapped to the key.  false, otherwise.
+     */
+    private function _functionName($key)
+    {
+        $functionName = false;
+        if (array_key_exists($key, $this->methodFunctionMap)) {
+            $functionName = $this->methodFunctionMap[$key];
+        }
+        return $functionName;
     }
 }
 ?>
