@@ -9,9 +9,14 @@ require_once 'http_response.php';
  */
 class ResourceController
 {
-    protected $methodFunctionMap = array('POST' => 'create', 'GET' => 'read',
-        'PUT' => 'update', 'DELETE' => 'delete', 'INDEX' => 'index',
-        'NEW' => 'createForm');
+    protected $methodFunctionMap = array(
+        'GET' => 'read',
+        'POST' => 'create',
+        'PUT' => 'update',
+        'DELETE' => 'delete',
+        'INDEX' => 'index',
+        'NEW' => 'createForm'
+    );
 
     /**
      * Echos the output of the dispatch.
@@ -42,31 +47,25 @@ class ResourceController
         $entity = null;
         $id = null;
 
-        if (empty($url)) {
-            // get everything after the name of this script
-            $url = substr($_SERVER['REQUEST_URI'], strlen($_SERVER['SCRIPT_NAME']));
+        $url = $this->_cleanUrl($url);
+
+        // check for a / which denotes something after the entity
+        $slash_pos = strpos($url, '/');
+        if ($slash_pos === false) {
+            // if no slash then only an entity is named
+            $entity = urldecode($url);
+        } else {
+            // slash was found so split into entity and other
+            $entity = urldecode(substr($url, 0, $slash_pos));
+            $id = $this->getId(urldecode($url));
         }
 
-        // separate the uri into elements split on /
-        if (substr($url, 0, 1) == '/') {
-            $url = substr($url, 1);
-        }
-
-        // separate the uri into elements split on /
-        $elements = explode('/', $url);
-        $num_elements = count($elements);
-        if ($num_elements >= 1) {
-            $entity = urldecode($elements[0]);
-            $resource = RESOURCES_DIR.$entity.".php";
-            if (file_exists($resource)) {
-                include $resource;
-            } else {
-                die("Unable to load requested resource [$resource]");
-            }
-        }
-
-        if ($num_elements >= 2) {
-            $id = $this->getId(urldecode($elements[1]));
+        // load the resource
+        $resource = RESOURCES_DIR.$entity.".php";
+        if (file_exists($resource)) {
+            include $resource;
+        } else {
+            die("Unable to load requested resource [$resource]");
         }
 
         // get the output format
@@ -76,6 +75,8 @@ class ResourceController
         if (empty($method)) {
             $method = $this->getMethod();
         }
+
+//        echo "$entity, $id, $format, $method<br/>";
 
         $results = null;
         $actualMethod = $method;
@@ -109,8 +110,8 @@ class ResourceController
             break;
         }
 
-        //var_dump($results);
-        //echo "<br/><br/>";
+//        var_dump($results);
+//        echo '<br/><br/>';
         //if (!empty($results)) {
         //    $results[1] = $this->transform($results[1], $format, $entity, $method);
         //}
@@ -124,7 +125,7 @@ class ResourceController
             sendResponseCode(400);
         } elseif (is_numeric($results)) {
             sendResponseCode($results);
-        } elseif (is_array($results)) {
+        } elseif (is_array($results) && count($results) == 3) {
             $response_code = $results[0];
             $content = $results[1];
             $headers = $results[2];
@@ -188,29 +189,36 @@ class ResourceController
     /**
      * Get the ID from a given element.
      *
-     * @param string $name The element to search for an ID.
+     * @param string $rest_url The rest URL. Should start with the entity being
+     *                         requested.
      *
      * @return The ID found in the element.  The ID is considered to be the last
-     *         element after the last forward slash (/) but before the last dot (.).
+     *         element after the first forward slash (/) but before the last dot (.).
      */
-    protected function getId($name)
+    protected function getId($rest_url)
     {
         $id = '';
-        $last_slash = strrpos($name, '/');
-        $last_dot = strrpos($name, '.');
+        $first_slash = strpos($rest_url, '/');
 
-        if ($last_slash === false) {
-            $last_slash = -1;
-        }
+        if ($first_slash !== false) {
+            $other = substr($rest_url, $first_slash + 1);
+            $last_slash = strrpos($rest_url, '/');
+            $last_dot = strrpos($other, '.');
 
-        if ($last_dot === false && $last_slash === false) {
-            // neither dot nor slash was found
-            $id = $name;
-        } elseif ($last_dot !== false && $last_dot > $last_slash) {
-            // a dot was found after a slash
-            $id = substr($name, $last_slash + 1, $last_dot);
-        } else {
-            $id = substr($name, $last_slash + 1);
+            // set to -1 if no last slash found
+            if ($last_slash === false) {
+                $last_slash = -1;
+            }
+
+            if ($last_dot === false) {
+                // no dot found, slash was found
+                $id = $other;
+            } elseif ($last_dot !== false && $last_dot > $last_slash) {
+                // a dot was found after a slash
+                $id = substr($other, 0, $last_dot);
+            } else {
+                $id = substr($other, 0);
+            }
         }
 
         return $id;
@@ -249,9 +257,9 @@ class ResourceController
                     break;
                 }
             }
-            //if (!$output) {
-            //    $output = "Unable to read template [$template]";
-            //}
+            if (!$output) {
+                $output = "Unable to read template [$template]";
+            }
         }
         return $output;
     }
@@ -266,9 +274,9 @@ class ResourceController
      *
      * @return void
      */
-    private function _callUserFunc($entity, $key, $data = null)
+    private function _callUserFunc($entity, $method, $data = null)
     {
-        $functionName = $entity . '_' . $this->_functionName($key);
+        $functionName = $entity . '_' . $this->_functionName($method);
         if (function_exists($functionName)) {
             return call_user_func($functionName, $data);
         } else {
@@ -290,6 +298,33 @@ class ResourceController
             $functionName = $this->methodFunctionMap[$key];
         }
         return $functionName;
+    }
+
+    /**
+     * Cleans a URL for consumption in REST calls.  If no URL is provided, the
+     * REQUEST_URI and SCRIPT_NAME are used to construct the URL.
+     *
+     * @param <string> $url
+     * @return <string> The URL without beginning or trailing slashes.
+     */
+    private function _cleanUrl($url)
+    {
+        if (empty($url)) {
+            // get everything after the name of this script
+            $url = substr($_SERVER['REQUEST_URI'], strlen($_SERVER['SCRIPT_NAME']));
+        }
+
+        // remove any starting /'s
+        while (substr($url, 0, 1) == '/') {
+            $url = substr($url, 1);
+        }
+
+        // remove any trailing /'s
+        while (substr($url, strlen($url) - 1) == '/') {
+            $url = substr($url, 0, strlen($url) - 1);
+        }
+
+        return $url;
     }
 }
 ?>

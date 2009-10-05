@@ -1,23 +1,23 @@
 <ul class='dirs'>
-{section loop =$dirs name=i}
-	<li class='dir'><a href='#' onclick="Collection.view('{$i}');return false">{$dirs[$i]['album']}</a></li>
+{section loop=$data.dirs name=i}
+	<li class='dir'><a href='#' onclick="Collection.view('{$smarty.section.i.index}');return false">{$data.dirs[i]}</a></li>
 {/section}
 </ul>
 
 <ul class='files'>
-{section loop=$files name=i}
-	{$title = $files[i].title;}
-	{$artist = $files[i].artist;}
-	{$file = $files[i].file;}
-	{strip}
-	<li class='file'>
-		<a href="#" onclick="Collection.addSong({$i});return false" class="fileAdd">[add]</a>
-		{if $title && $artist}
-			{$artist} - {$title}
-		{else}
-			{$file}
-		{/if}
-	</li>
-	{/strip}
+{section loop=$data.files name=i}
+    {strip}
+    {$title = $data.files[i].t}
+    {$artist = $data.files[i].a}
+    {$file = $data.files[i].f}
+    <li class='file'>
+            <a href="#" onclick="Collection.addSong({$smarty.section.i.index});return false" class="fileAdd">[add]</a>
+            {if $data.files[i].a && $data.files[i].t}
+                    {$data.files[i].a} - {$data.files[i].t}
+            {else}
+                    {$data.files[i].f}
+            {/if}
+    </li>
+    {/strip}
 {/section}
 </ul>

@@ -8,13 +8,14 @@ require_once 'http_utils.php';
 function collections_read($id)
 {
     // get whatever is after the name of the script
-    // add 1 to skip the first slash
     $uri = http_script_uri();
+
     // build the lists of files and dirs
-    $output = array ();
-    $output['d'] = array ();
-    $output['f'] = array ();
-    if ($uri) {
+    $output = array();
+    $dirs = array();
+    $files = array();
+
+    if (!empty($uri)) {
         // get a list of dirs and show them
         $path = MUSIC_DIR."/$id";
         $dir_list = scandir($path);
@@ -31,7 +32,7 @@ function collections_read($id)
 //            $rel_dir = "$uri/$f";
             $rel_dir = $id;
             // determine the file extension
-            $path_info = pathinfo($rel_dir);
+            $path_info = pathinfo($f);
             $dirname = $path_info['dirname']; // /var/www
             $basename = $path_info['basename']; //  index.html
             $filename = $path_info['filename']; //  index
@@ -39,27 +40,40 @@ function collections_read($id)
 
             if (is_dir($abs_dir)) {
                 // build the output for a dir
+                /*
                 $output['d'][] = array (
                     'dr' => $rel_dir,
                     'l' => $f
+                    'l' => $f
                 );
+                */
+                $dirs[] = $f;
             } elseif ($extension == 'mp3') {
                 // build the output for a file
                 $f = utf8_encode($f);
                 $rel_dir = utf8_encode($rel_dir);
                 // get any artist, title, album information found
                 list ($artist, $title, $album) = id3Info(MUSIC_DIR . "/$rel_dir");
-                $output['f'][] = array (
-                    'p' => MUSIC_URL . $rel_dir,
-                    //'p' => MUSIC_URL.$dirname,
-                    'f' => $f,
-                    'a' => $artist,
-                    't' => $title,
-                    'l' => $album
-                );
+                $info = array ('p' => MUSIC_URL . $rel_dir, 'f' => $f);
+                if (!empty($artist)) {
+                    $info['a'] = $artist;
+                }
+                if (!empty($title)) {
+                    $info['t'] = $title;
+                }
+                if (!empty($album)) {
+                    $info['l'] = $album;
+                }
+                $files[] = $info;
             }
         }
     }
-    echo json_encode($output);
+    if (sizeof($dirs) > 0) {
+        $output['dirs'] = $dirs;
+    }
+    if (sizeof($files) > 0) {
+        $output['files'] = $files;
+    }
+    return $output;
 }
 ?>
