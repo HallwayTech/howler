@@ -1,5 +1,5 @@
 <?php
-class AppController
+class AppController extends Controller
 {
 
 }
