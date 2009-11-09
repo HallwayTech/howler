@@ -1,62 +1,118 @@
 <?php
-/* SVN FILE: $Id$ */
-/**
- * Requests collector.
- *
- *  This file collects requests if:
- *	- no mod_rewrite is avilable or .htaccess files are not supported
- *	-/public is not set as a web root.
- *
- * PHP versions 4 and 5
- *
- * CakePHP(tm) : Rapid Development Framework (http://www.cakephp.org)
- * Copyright 2005-2008, Cake Software Foundation, Inc. (http://www.cakefoundation.org)
- *
- * Licensed under The MIT License
- * Redistributions of files must retain the above copyright notice.
- *
- * @filesource
- * @copyright     Copyright 2005-2008, Cake Software Foundation, Inc. (http://www.cakefoundation.org)
- * @link          http://www.cakefoundation.org/projects/info/cakephp CakePHP(tm) Project
- * @package       cake
- * @since         CakePHP(tm) v 0.2.9
- * @version       $Revision$
- * @modifiedby    $LastChangedBy$
- * @lastmodified  $Date$
- * @license       http://www.opensource.org/licenses/mit-license.php The MIT License
- */
-/**
- *  Get Cake's root directory
- */
-	define('APP_DIR', 'app');
-	define('DS', DIRECTORY_SEPARATOR);
-	define('ROOT', dirname(__FILE__));
-	define('WEBROOT_DIR', 'webroot');
-	define('WWW_ROOT', ROOT . DS . APP_DIR . DS . WEBROOT_DIR . DS);
-/**
- * This only needs to be changed if the cake installed libs are located
- * outside of the distributed directory structure.
- */
-	if (!defined('CAKE_CORE_INCLUDE_PATH')) {
-		//define ('CAKE_CORE_INCLUDE_PATH', FULL PATH TO DIRECTORY WHERE CAKE CORE IS INSTALLED DO NOT ADD A TRAILING DIRECTORY SEPARATOR';
-		define('CAKE_CORE_INCLUDE_PATH', ROOT);
-	}
-	if (function_exists('ini_set')) {
-		ini_set('include_path', ini_get('include_path') . PATH_SEPARATOR . CAKE_CORE_INCLUDE_PATH . PATH_SEPARATOR . ROOT . DS . APP_DIR . DS);
-		define('APP_PATH', null);
-		define('CORE_PATH', null);
-	} else {
-		define('APP_PATH', ROOT . DS . APP_DIR . DS);
-		define('CORE_PATH', CAKE_CORE_INCLUDE_PATH . DS);
-	}
-	require CORE_PATH . 'cake' . DS . 'basics.php';
-	$TIME_START = getMicrotime();
-	require CORE_PATH . 'cake' . DS . 'config' . DS . 'paths.php';
-	require LIBS . 'object.php';
-	require LIBS . 'inflector.php';
-	require LIBS . 'configure.php';
+/*
+|---------------------------------------------------------------
+| PHP ERROR REPORTING LEVEL
+|---------------------------------------------------------------
+|
+| By default CI runs with error reporting set to ALL.  For security
+| reasons you are encouraged to change this when your site goes live.
+| For more info visit:  http://www.php.net/error_reporting
+|
+*/
+	error_reporting(E_ALL);
 
-	$bootstrap = true;
-	$url = null;
-	require APP_DIR . DS . WEBROOT_DIR . DS . 'index.php';
-?>
+/*
+|---------------------------------------------------------------
+| SYSTEM FOLDER NAME
+|---------------------------------------------------------------
+|
+| This variable must contain the name of your "system" folder.
+| Include the path if the folder is not in the same  directory
+| as this file.
+|
+| NO TRAILING SLASH!
+|
+*/
+	$system_folder = "system";
+
+/*
+|---------------------------------------------------------------
+| APPLICATION FOLDER NAME
+|---------------------------------------------------------------
+|
+| If you want this front controller to use a different "application"
+| folder then the default one you can set its name here. The folder 
+| can also be renamed or relocated anywhere on your server.
+| For more info please see the user guide:
+| http://codeigniter.com/user_guide/general/managing_apps.html
+|
+|
+| NO TRAILING SLASH!
+|
+*/
+	$application_folder = "application";
+
+/*
+|===============================================================
+| END OF USER CONFIGURABLE SETTINGS
+|===============================================================
+*/
+
+
+/*
+|---------------------------------------------------------------
+| SET THE SERVER PATH
+|---------------------------------------------------------------
+|
+| Let's attempt to determine the full-server path to the "system"
+| folder in order to reduce the possibility of path problems.
+| Note: We only attempt this if the user hasn't specified a 
+| full server path.
+|
+*/
+if (strpos($system_folder, '/') === FALSE)
+{
+	if (function_exists('realpath') AND @realpath(dirname(__FILE__)) !== FALSE)
+	{
+		$system_folder = realpath(dirname(__FILE__)).'/'.$system_folder;
+	}
+}
+else
+{
+	// Swap directory separators to Unix style for consistency
+	$system_folder = str_replace("\\", "/", $system_folder); 
+}
+
+/*
+|---------------------------------------------------------------
+| DEFINE APPLICATION CONSTANTS
+|---------------------------------------------------------------
+|
+| EXT		- The file extension.  Typically ".php"
+| SELF		- The name of THIS file (typically "index.php")
+| FCPATH	- The full server path to THIS file
+| BASEPATH	- The full server path to the "system" folder
+| APPPATH	- The full server path to the "application" folder
+|
+*/
+define('EXT', '.php');
+define('SELF', pathinfo(__FILE__, PATHINFO_BASENAME));
+define('FCPATH', str_replace(SELF, '', __FILE__));
+define('BASEPATH', $system_folder.'/');
+
+if (is_dir($application_folder))
+{
+	define('APPPATH', $application_folder.'/');
+}
+else
+{
+	if ($application_folder == '')
+	{
+		$application_folder = 'application';
+	}
+
+	define('APPPATH', BASEPATH.$application_folder.'/');
+}
+
+/*
+|---------------------------------------------------------------
+| LOAD THE FRONT CONTROLLER
+|---------------------------------------------------------------
+|
+| And away we go...
+|
+*/
+require_once BASEPATH.'codeigniter/CodeIgniter'.EXT;
+
+/* End of file index.php */
+/* Location: ./index.php */
