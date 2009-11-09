@@ -1,5 +1,6 @@
 <?php
-class Welcome extends Controller {
+class Welcome extends Controller
+{
 
 	function Welcome()
 	{
@@ -14,14 +15,17 @@ class Welcome extends Controller {
             $alpha_nav[] = chr($i);
         }
         $data['alpha_nav'] = $alpha_nav;
-		$data['random'] = DEFAULT_RANDOM;
 
-		$repeats = array();
-		$repeats['NONE'] = 'Repeat None';
-		$repeats['SONG'] = 'Repeat Song';
-		$repeats['LIST'] = 'Repeat List';
+        $data['random'] = DEFAULT_RANDOM;
+
+		$repeats = array(
+			'NONE' => 'Repeat None',
+			'SONG' => 'Repeat Song',
+			'LIST' => 'Repeat List'
+		);
 		$data['repeats'] = $repeats;
-        $data['repeat_selected'] = DEFAULT_REPEAT;
+        $data['repeat'] = DEFAULT_REPEAT;
+
 		$this->load->view('welcome_message', $data);
 	}
 }
