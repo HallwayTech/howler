@@ -49,13 +49,14 @@
                 <div id='saved-playlists-actions'>
                     <div class='left'>
                         <input type='button' value='New' onclick='Playlist.clear()'/>
-                        <input type='button' value='Save as..' onclick='Playlist.save()'/>
+                        <input type='button' value='Save as...' onclick='Playlist.save()'/>
                     </div>
                     <div class='right'>
                         <a href='#' onclick='$("#saved-playlists").toggle("normal");return false'>--</a>
                     </div>
                 </div>
                 <div class='clear'></div>
+                <div id='saved-playlists'></div>
             </div>
             <!-- playlist -->
             <div id='playlist'></div>
@@ -70,17 +71,7 @@
 <?php endforeach ?>
                 </ul>
             </div>
-            <div id='listingContainer'>
-                <span id='listingHeader'>Listing for <span id='listingName'></span></span>
-                <div id='collectionNav'>
-                    <ul>
-                        <li id='refreshLink'><a href='#' onclick='Collection.refresh();return false'>Refresh</a></li>
-                        <li id='backLink'><a href='#' onclick='Collection.back();return false'>Go back</a></li>
-                        <li id='addAllLink'><a href='#' onclick='Collection.addAll();return false'>Add All Songs</a></li>
-                    </ul>
-                </div>
-                <div id='listing'></div>
-            </div>
+            <div id='listingContainer'></div>
         </div>
     </body>
 </html>

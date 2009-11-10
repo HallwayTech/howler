@@ -123,4 +123,3 @@ class Collection extends Model
 
 /* End of file collection.php */
 /* Location: ./system/application/models/collection.php */
-?>

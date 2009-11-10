@@ -10,4 +10,3 @@ class Entry extends Model
 
 /* End of file entry.php */
 /* Location: ./system/application/models/collection/entry.php */
-?>
