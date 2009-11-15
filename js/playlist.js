@@ -74,6 +74,8 @@ var Playlist = function() {
 				Playlist.clear();
 			} else {
 				var url = PROC_PLAYLISTS + '/' + encodeURIComponent(name);
+				$('#playlist').load(url);
+				/*
 				$.ajax({
 					type: 'GET',
 					dataType: 'json',
@@ -86,6 +88,7 @@ var Playlist = function() {
 						alert('Unable to load playlist [' + name + ']');
 					}
 				});
+				*/
 			}
 		},
 
