@@ -8,6 +8,8 @@ class Playlists extends Controller
 
 	function index()
 	{
+		$username = $_SERVER['REMOTE_USER'];
+
 		
 	}
 }

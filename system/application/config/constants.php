@@ -40,6 +40,13 @@ define('FOPEN_READ_WRITE_CREATE_STRICT',		'x+b');
 //define('MUSIC_DIR', '/var/media/music');
 define('MUSIC_DIR', '/home/chall/Music');
 
+// File system location to where playlists are stored.  Reference can be
+// relative to installation directory.
+define('PLAYLISTS_DIR', 'playlists/');
+
+// URL of root to where media can be found.
+define('MUSIC_URL', 'music/');
+
 // The default setting for the repeat list.
 define('DEFAULT_REPEAT', 'LIST');
 
