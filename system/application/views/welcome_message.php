@@ -8,7 +8,6 @@
         <script type="text/javascript" src="lib/trimpath-template-1.0.38.min.js"></script>
         <script type="text/javascript" src="lib/querystring-1.3.min.js"></script>
         <script type="text/javascript" src="lib/json2.min.js"></script>
-        <script type="text/javascript" src="js/template.js"></script>
         <script type="text/javascript" src="js/playlist.js"></script>
         <script type="text/javascript" src="js/player.js"></script>
         <script type="text/javascript" src="js/collection.js"></script>

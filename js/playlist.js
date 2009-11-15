@@ -1,7 +1,7 @@
 /* global $ */
 var Playlist = function() {
 	var performRefresh = true;
-	var PROC_PLAYLISTS = 'playlists.php';
+	var PROC_PLAYLISTS = 'index.php/playlists';
 	var PROC_LOAD_FILE = 'loadfile.php';
 
 	return {
@@ -12,7 +12,7 @@ var Playlist = function() {
 		 * Initialization of the playlist
 		 */
 		init: function() {
-			//Playlist.reload();
+			Playlist.reload();
 			$('#saved-playlists-container').resizable();
 		},
 
@@ -105,18 +105,7 @@ var Playlist = function() {
 		},
 
 		reload: function() {
-			$.ajax({
-				type: 'GET',
-				dataType: 'json',
-				url: PROC_PLAYLISTS,
-				success: function(json, textStatus) {
-					var output = Template.processTemplate('savedPlaylistsTemplate', json);
-					$('#saved-playlists').html(output);
-				},
-				error: function(data, textStatus) {
-					alert('Unable to get playlists.');
-				}
-			});
+			$('#saved-playlists').load(PROC_PLAYLISTS);
 		},
 
 		remove: function(name) {

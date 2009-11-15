@@ -1,15 +1,20 @@
-<ul class='items'>
+<ul class='list'>
 <?php foreach($playlists as $index => $playlist): ?>
-<li id='playlist-item-<?= $index ?>' class='playlist-item'>
-    <div onclick="Player.controls.play('<?= $index ?>')" class='content'>
-        <span class="artist"><?= $playlist['artist'] ?></span> - <span class="title"><?= $playlist['title'] ?></span>
-        <span class="album"><?= $playlist['album'] ?></span>
-    </div>
-    <div class='remove'>
-        <a href='#' onclick="Playlist.removeItem('<?= $index ?>')">X</a>
-    </div>
-    <div class='clear'></div>
-</li>
+	<?php if ($index % 2 != 0): ?>
+	<li class='item'>
+	<?php else: ?>
+	<li class='item light-bg'>
+	<?php endif ?>
+		<div class='desc'>
+			<span class='name'><?= $playlist ?></span>
+		</div>
+		<div class='actions'>
+			<span class='load'>[<a href='#' onclick='Playlist.load("${p}");return false' title='Load' alt='Load'>L</a>]</span>
+			<span class='save'>[<a href='#' onclick='Playlist.save("${p}");return false' title='Save' alt='Save'>S</a>]</span>
+			<span class='delete'>[<a href='#' onclick='Playlist.remove("${p}");return false' title='Delete' alt='Delete'>D</a>]</span>
+		</div>
+		<div class='clear'></div>
+	</li>
 <?php endforeach ?>
 </ul>
 <?php

@@ -11,7 +11,7 @@ class Playlists extends Controller
 	 */
 	function index()
 	{
-		$output = '';
+		$data = array();
 
 		$playlists = array();
 		$dir = scandir($this->playlists_dir());
@@ -22,10 +22,11 @@ class Playlists extends Controller
 				}
 			}
 
-			$output = "{'playlists':['" . implode("','", $playlists) . "']}";
+			$data['playlists'] = $playlists;
 		} else {
-			$output = 'Unable to open playlists folder for user.';
+			$data = 'Unable to open playlists folder for user.';
 		}
+		$output = $this->load->view('playlists', $data);
 		echo $output;
 	}
 
@@ -44,7 +45,7 @@ class Playlists extends Controller
 			$file = fopen($filename, 'r');
 			$data = fread($file, filesize($filename));
 			fclose($file);
-			$output = $this->load->view('playlists/xspf', array('title' => $name, 'playlist' => json_decode($data, TRUE)));
+			$output = $this->load->view('playlists/html', array('title' => $name, 'playlist' => json_decode($data, TRUE)));
 		} else {
 			$output = "File is not readable: ${filename}";
 		}
