@@ -9,9 +9,9 @@
 			<span class='name'><?= $playlist ?></span>
 		</div>
 		<div class='actions'>
-			<span class='load'>[<a href='#' onclick='Playlist.load("${p}");return false' title='Load' alt='Load'>L</a>]</span>
-			<span class='save'>[<a href='#' onclick='Playlist.save("${p}");return false' title='Save' alt='Save'>S</a>]</span>
-			<span class='delete'>[<a href='#' onclick='Playlist.remove("${p}");return false' title='Delete' alt='Delete'>D</a>]</span>
+			<span class='load'>[<a href='#' onclick='Playlist.load("<?= $index ?>");return false' title='Load' alt='Load'>L</a>]</span>
+			<span class='save'>[<a href='#' onclick='Playlist.save("<?= $index ?>");return false' title='Save' alt='Save'>S</a>]</span>
+			<span class='delete'>[<a href='#' onclick='Playlist.remove("<?= $index ?>");return false' title='Delete' alt='Delete'>D</a>]</span>
 		</div>
 		<div class='clear'></div>
 	</li>
