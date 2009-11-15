@@ -16,7 +16,7 @@ class Collection extends Model
 		$files = array();
 
 		// get a list of dirs and show them
-		$path = MUSIC_DIR."/$id";
+		$path = $this->config->item('music_dir')."/$id";
 		$dir_list = scandir($path);
 
 		$this->label = $id;

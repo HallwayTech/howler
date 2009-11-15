@@ -324,6 +324,23 @@ $config['rewrite_short_tags'] = FALSE;
 */
 $config['proxy_ips'] = '';
 
+// File system location of the root of music.
+//define('MUSIC_DIR', '/var/media/music');
+$config['music_dir'] = '/home/chall/Music';
+
+// File system location to where playlists are stored.  Reference can be
+// relative to installation directory.
+$config['playlists_dir'] = 'playlists/';
+
+// URL of root to where media can be found.
+$config['music_url'] = 'music/';
+
+// The default setting for the repeat list.
+$config['default_repeat'] = 'LIST';
+
+// The default setting for 'random'
+$config['default_random'] = 'false';
+
 
 /* End of file config.php */
 /* Location: ./system/application/config/config.php */

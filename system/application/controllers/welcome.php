@@ -1,12 +1,11 @@
 <?php
 class Welcome extends Controller
 {
-
 	function Welcome()
 	{
 		parent::Controller();	
 	}
-	
+
 	function index()
 	{
 		// build alpha numeric navigation
@@ -16,7 +15,7 @@ class Welcome extends Controller
         }
         $data['alpha_nav'] = $alpha_nav;
 
-        $data['random'] = DEFAULT_RANDOM;
+        $data['random'] = $this->config->item('default_random');
 
 		$repeats = array(
 			'NONE' => 'Repeat None',
@@ -24,11 +23,12 @@ class Welcome extends Controller
 			'LIST' => 'Repeat List'
 		);
 		$data['repeats'] = $repeats;
-        $data['repeat'] = DEFAULT_REPEAT;
+        $data['repeat'] = $this->config->item('default_repeat');
 
 		$this->load->view('welcome_message', $data);
 	}
 }
+
 
 /* End of file welcome.php */
 /* Location: ./system/application/controllers/welcome.php */

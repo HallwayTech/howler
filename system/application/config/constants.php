@@ -36,22 +36,6 @@ define('FOPEN_READ_WRITE_CREATE', 				'a+b');
 define('FOPEN_WRITE_CREATE_STRICT', 			'xb');
 define('FOPEN_READ_WRITE_CREATE_STRICT',		'x+b');
 
-// File system location of the root of music.
-//define('MUSIC_DIR', '/var/media/music');
-define('MUSIC_DIR', '/home/chall/Music');
-
-// File system location to where playlists are stored.  Reference can be
-// relative to installation directory.
-define('PLAYLISTS_DIR', 'playlists/');
-
-// URL of root to where media can be found.
-define('MUSIC_URL', 'music/');
-
-// The default setting for the repeat list.
-define('DEFAULT_REPEAT', 'LIST');
-
-// The default setting for 'random'
-define('DEFAULT_RANDOM', 'false');
 
 /* End of file constants.php */
 /* Location: ./system/application/config/constants.php */
