@@ -1,6 +1,4 @@
-<span id="listHeader">
-	Listing for <?= $label ?>
-</span>
+<span id="listHeader">Listing for <?= $label ?></span>
 <div id="collectionNav">
 	<ul>
 		<li id="refreshLink"><a href='#' onclick='Collection.refresh();return false'>Refresh</a></li>
