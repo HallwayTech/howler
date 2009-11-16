@@ -16,7 +16,7 @@ class Collection extends Model
 		$files = array();
 
 		// get a list of dirs and show them
-		$path = $this->config->item('music_dir')."/$id";
+		$path = "{$this->config->item('music_dir')}/$id";
 		$dir_list = scandir($path);
 
 		$this->label = $id;
@@ -37,7 +37,7 @@ class Collection extends Model
 			}
 			elseif (array_key_exists('extension') && $path_info['extension'] == 'mp3') {
 				// get any artist, title, album information found
-				list($artist, $title, $album) = id3Info(MUSIC_DIR . "/$id/$f");
+				list($artist, $title, $album) = id3Info("{$this->config->item('music_dir')}/$id/$f");
 				$info = array (
 					'f' => utf8_encode($f)
 				);
@@ -66,33 +66,33 @@ class Collection extends Model
 
 	function findByStartsWith($query) {
 	    // build the lists of files and dirs
-	    $output['dirs'] = array();
-	    $output['files'] = array();
+	    $data['dirs'] = array();
+	    $data['files'] = array();
 
 	    if (!empty($query)) {
 	        $search = strtolower($query);
 
 	        // get a list of dirs and show them
-	        $dir_list = scandir(MUSIC_DIR);
+	        $dir_list = scandir($this->config->item('music_dir'));
 	        foreach ($dir_list as $f) {
 	            if ($this->_matches($search, $f)) {
 	                // create directory reference by concatenating path and the current
 	                // directory listing item
-	                $abs_dir = MUSIC_DIR."/$f";
+	                $abs_dir = "{$this->config->item('music_dir')}/$f";
 	                $rel_dir = $f;
 
 	                // build the output for a dir
 	                if (is_dir($abs_dir)) {
-	                    $output['dirs'][] = $f;
+	                    $data['dirs'][] = $f;
 	                }
 	                else {
-	                	$output['files'][] = array('f' => $rel_dir, 'l' => $f);
+	                	$data['files'][] = array('f' => $rel_dir, 'l' => $f);
 	                }
 	            }
 	        }
 	    }
-	    $output['label'] = $query;
-	    return $output;
+	    $data['label'] = $query;
+	    return $data;
 	}
 
 	/**

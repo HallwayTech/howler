@@ -330,10 +330,10 @@ $config['music_dir'] = '/home/chall/Music';
 
 // File system location to where playlists are stored.  Reference can be
 // relative to installation directory.
-$config['playlists_dir'] = 'playlists/';
+$config['playlists_dir'] = 'playlists';
 
 // URL of root to where media can be found.
-$config['music_url'] = 'music/';
+$config['music_url'] = 'music';
 
 // The default setting for the repeat list.
 $config['default_repeat'] = 'LIST';

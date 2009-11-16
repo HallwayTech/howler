@@ -10,8 +10,8 @@ class Collections extends Controller
 	 */
 	function read($id) {
 		$this->load->model('Collection');
-		$output = $this->Collection->read($id);
-		$this->load->view('collections', $output);
+		$data = $this->Collection->read($id);
+		$this->load->view('collections', $data);
 	}
 
 	function find($query = null) {
@@ -19,8 +19,8 @@ class Collections extends Controller
 			$query = '#';
 		}
 		$this->load->model('Collection');
-		$output = $this->Collection->findByStartsWith($query);
-		$this->load->view('collections', $output);
+		$data = $this->Collection->findByStartsWith($query);
+		$this->load->view('collections', $data);
 	}
 }
 

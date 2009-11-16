@@ -61,8 +61,7 @@ var Player = function() {
 		init: function() {
 			if (player) {
 				player.addModelListener('STATE', 'Player.trackers.stateTracker');
-				Playlist.refresh(true);
-				Player.setMarquee({artist:'',title:'',album:''});
+				Player.setMarquee('0');
 			} else {
 				alert('Unable to find player.');
 			}
@@ -154,10 +153,10 @@ var Player = function() {
 			Player.create();
 		},
 
-		setMarquee: function(description) {
-			$('#marquee .artist').html(description.artist);
-			$('#marquee .title').html(description.title);
-			$('#marquee .album').html(description.album);
+		setMarquee: function(idx) {
+//			$('#marquee .artist').html(description.artist);
+//			$('#marquee .title').html(description.title);
+//			$('#marquee .album').html(description.album);
 		},
 
 		controls: {
@@ -170,31 +169,12 @@ var Player = function() {
 			},
 
 			play: function(idx) {
-				// set Playlist._playingIdx if an index is requested
-				if (!isNaN(idx)) {
-					if (idx < 0) {
-						Playlist._playingIdx = Playlist._playlist.length - (Math.abs(idx) % Playlist._playlist.length);
-					} else if(idx > 0) {
-						Playlist._playingIdx = idx % Playlist._playlist.length;
-					} else {
-						Playlist._playingIdx = idx;
-					}
-				}
-
-				// make sure Playlist._playingIdx is within legal bounds
-				Playlist._playingIdx = Math.max(0, Playlist._playingIdx);
-				Playlist._playingIdx = Math.min(Playlist._playingIdx, Playlist._playlist.length - 1);
-
-				// pick the correct item
-				var next = Playlist._playlist[Playlist._playingIdx];
-
-//				alert('play:' + next.file);
-
 				// load, play and highlight the item
-				player.sendEvent('LOAD', [next]);
+				var url = "index.php/files/read/" + idx;
+				player.sendEvent('LOAD', [url]);
 				player.sendEvent('PLAY', true);
 				Playlist.highlightPlaying();
-				Player.setMarquee(next);
+				Player.setMarquee('0');
 			},
 
 			prev: function() {

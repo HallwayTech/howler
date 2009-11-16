@@ -61,6 +61,13 @@ class Playlists extends Controller
 	function save($name)
 	{
 		$message = '';
+		/* TODO process playlist using dom
+		 * $doc = new DOMDocument();
+		 * $doc->loadHTML("<html><body>Test<br></body></html>");
+		 * echo $doc->saveHTML();
+		 * extract id, artist, title, album
+		 * persist to database.
+		 */
 		$playlist = $_POST['playlist'];
 		// create the filename by prepending the user name to the playlist name
 

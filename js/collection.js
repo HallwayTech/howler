@@ -2,7 +2,6 @@ var Collection = function() {
 	var history = [];
 	var path = '';
 	var cache = {};
-	var alphaMenu = {items: ['#', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']};
 
 	return {
 		/**
@@ -110,10 +109,10 @@ var Collection = function() {
 			$('#output').html('Loading...');
 
 			path = search;
-			url = 'resource/search/' + encodeURIComponent(search);
+			url = 'index.php/collections/find/' + encodeURIComponent(search);
+			$('#listingContainer').load(url);
+			Collection.wait(true);
 			history = [url];
-
-			Collection.renderUrl(url);
 		},
 
 		/**
@@ -122,6 +121,7 @@ var Collection = function() {
 		 * @param dirIdx the index to show relative to the current url.
 		 */
 		view: function(dirIdx) {
+			$('#listingContainer').load('index.php/collections/read/' + dirIdx);
 			var url = '';
 
 			// only work if there is a provided index

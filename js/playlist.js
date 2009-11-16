@@ -2,7 +2,7 @@
 var Playlist = function() {
 	var performRefresh = true;
 	var PROC_PLAYLISTS = 'index.php/playlists';
-	var PROC_LOAD_FILE = 'loadfile.php';
+	var PROC_LOAD_FILE = 'index.php/files/read/';
 
 	return {
 		_playlist: [],
@@ -12,8 +12,8 @@ var Playlist = function() {
 		 * Initialization of the playlist
 		 */
 		init: function() {
-			Playlist.reload();
-			$('#saved-playlists-container').resizable();
+			Playlist.loadPlaylists();
+			$('#saved-playlists').resizable();
 		},
 
 		/**
@@ -25,15 +25,15 @@ var Playlist = function() {
 		addItem: function(item) {
 			item.type = 'sound';
 			item.start = '0';
-			item.file = PROC_LOAD_FILE + '?d=' + encodeURIComponent(item.file);
+			item.file = PROC_LOAD_FILE + encodeURIComponent(item.id);
 			Playlist._playlist.push(item);
-			Playlist.refresh(true);
+//			Playlist.refresh(true);
 		},
 
 		allowRefresh: function(refreshNow) {
 			performRefresh = true;
 			if (refreshNow) {
-				Playlist.refresh(true);
+//				Playlist.refresh(true);
 			}
 		},
 
@@ -41,7 +41,7 @@ var Playlist = function() {
 			$('#saved-playlists .items').attr('selectedIndex', '0');
 			Playlist._playlist = [];
 			Playlist._playingIdx = -1;
-			Playlist.refresh();
+//			Playlist.refresh();
 		},
 
 		highlightPlaying: function() {
@@ -66,35 +66,21 @@ var Playlist = function() {
 			performRefresh = false;
 		},
 
-		load: function(name) {
+		loadPlaylist: function(name) {
 			if (!name) {
 				name = $('#saved-playlists .items').val();
 			}
 			if (name == '_new') {
 				Playlist.clear();
 			} else {
-				var url = PROC_PLAYLISTS + '/' + encodeURIComponent(name);
+				var url = PROC_PLAYLISTS + '/read/' + encodeURIComponent(name);
 				$('#playlist').load(url);
-				/*
-				$.ajax({
-					type: 'GET',
-					dataType: 'json',
-					url: url,
-					success: function(json, textStatus) {
-						Playlist._playlist = json;
-						Playlist.refresh();
-					},
-					error: function(data, textStatus) {
-						alert('Unable to load playlist [' + name + ']');
-					}
-				});
-				*/
 			}
 		},
 
 		refresh: function(highlightPlaying) {
 			if (performRefresh) {
-				var output = Template.processTemplate('playlistTemplate', {'items':Playlist._playlist});
+//				var output = Template.processTemplate('playlistTemplate', {'items':Playlist._playlist});
 				$('#playlist').html(output);
 				$('#playlist .items').sortable({
 					axis: 'y',
@@ -107,11 +93,11 @@ var Playlist = function() {
 			}
 		},
 
-		reload: function() {
+		loadPlaylists: function() {
 			$('#saved-playlists').load(PROC_PLAYLISTS);
 		},
 
-		remove: function(name) {
+		removePlaylist: function(name) {
 			if (!name) {
 				name = $('#saved-playlists .items').val();
 			}
@@ -121,7 +107,7 @@ var Playlist = function() {
 					type: 'DELETE',
 					url: url,
 					success: function() {
-						Playlist.reload();
+						Playlist.loadPlaylists();
 					},
 					error: function () {
 						alert('Unable to delete playlist [' + name + ']');
@@ -169,7 +155,7 @@ var Playlist = function() {
 					url: PROC_PLAYLISTS + '/' + name,
 					data: {'playlist': playlist},
 					success: function() {
-						Playlist.reload();
+						Playlist.loadPlaylists();
 					},
 					error: function() {
 					}
