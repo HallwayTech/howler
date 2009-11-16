@@ -8,13 +8,17 @@ class Collections extends Controller
 	/**
 	 * Handler method for the base page
 	 */
-	function read($id) {
+	function read()
+	{
+		$args = func_get_args();
+		$id = implode('/', $args);
 		$this->load->model('Collection');
 		$data = $this->Collection->read($id);
 		$this->load->view('collections', $data);
 	}
 
-	function find($query = null) {
+	function find($query = null)
+	{
 		if ($query == null) {
 			$query = '#';
 		}
