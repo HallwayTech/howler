@@ -9,7 +9,8 @@ class Welcome extends Controller
 	function index()
 	{
 		// build alpha numeric navigation
-        $alpha_nav= array('#');
+        $alpha_nav = array();
+        $alpha_nav[] = array('#', '0-9');
         for ($i = ord('a'), $size = ord('z'); $i <= $size; $i++) {
             $alpha_nav[] = chr($i);
         }

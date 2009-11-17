@@ -1,4 +1,5 @@
 <span id="listHeader">Listing for <?= $label ?></span>
+<!--
 <div id="collectionNav">
 	<ul>
 		<li id="refreshLink"><a href='#' onclick='Collection.refresh();return false'>Refresh</a></li>
@@ -6,6 +7,7 @@
 		<li id="addAllLink"><a href='#' onclick='Collection.addAll();return false'>Add All Songs</a></li>
 	</ul>
 </div>
+-->
 
 <div id='listing'>
 <?php if (isset($dirs)): ?>

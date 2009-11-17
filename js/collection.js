@@ -55,51 +55,6 @@ var Collection = function() {
 		},
 
 		/**
-         * Fetch and store the data found at a URL
-         *
-         * @param url the url to get information from.
-         */
-        fetch: function(url) {
-            if (url) {
-                $.ajax({
-                    type: 'GET',
-                    dataType: 'json',
-                    url: url,
-                    success: function(json, textStatus) {
-                        json['cp'] = path;
-                        cache[url] = json;
-                        Collection.renderUrl(url);
-                    },
-                    error: function(request, textStatus, errorThrown) {
-                        alert('Unable to retrieve collection [' + textStatus + ': ' + errorThrown + ']');
-                    }
-                });
-            }
-        },
-
-        /**
-		 * Render the data found at a url.  Cached data is used if found.
-		 *
-		 * @param url the url to check for data.
-		 */
-		renderUrl: function(url) {
-			// if the output isn't available in cache, retrieve it from the server
-			if (!url || cache[url]) {
-				var data = cache[url];
-				var markup = Template.processTemplate('collectionTemplate', data);
-				$('#output').html(markup);
-				Collection._done();
-			} else if (url) {
-				Collection.fetch(url);
-			}
-		},
-
-		refresh: function() {
-			var url = history[history.length - 1];
-			Collection.fetch(url);
-		},
-
-		/**
 		 * Search for entries
 		 *
 		 * @param search the search term to use.  entries starting with this term are returned.

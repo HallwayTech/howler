@@ -22,14 +22,14 @@ class Collection extends Model
 
 			$entry = "$path/$f";
 			if (is_dir($entry)) {
-				$dirs[] = array('id' => "$id/$f", 'label' => $f);
+				$dirs[] = array('id' => sha1("$id/$f"), 'label' => $f);
 			}
 			elseif (preg_match('/\.mp3$/', $f)) {
 				// get any artist, title, album information found
 				$tag = @id3_get_tag($entry);
 
 				$info = array();
-				$info['id'] = utf8_encode("$id/$f");
+				$info['id'] = sha1("$id/$f");
 				$info['artist'] = ($tag['artist']) ? $tag['artist'] : '';
 				$info['title'] = ($tag['title']) ? $tag['title'] : '';
 				$info['album'] = ($tag['album']) ? $tag['album'] : '';
@@ -47,6 +47,7 @@ class Collection extends Model
 		}
 
 		$output['label'] = $id;
+		$output['back'] = '';
 	    return $output;
 	}
 
@@ -93,7 +94,7 @@ class Collection extends Model
 	    $retval = false;
 	    if (!$search) {
 	        $retval = true;
-	    } elseif ($search == '#' && is_numeric(substr($f, 0, 1))) {
+	    } elseif ($search == '0-9' && is_numeric(substr($f, 0, 1))) {
 	        $retval = true;
 	    } elseif (stripos($f, $search) === 0) {
 	        $retval = true;

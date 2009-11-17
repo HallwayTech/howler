@@ -64,9 +64,13 @@
         <div id='collection'>
             <div id='alphaNav'>
                 <ul>
-<?php foreach($alpha_nav as $alpha): ?>
+				<?php foreach($alpha_nav as $alpha): ?>
+					<?php if (is_array($alpha)): ?>
+					<li onclick="Collection.search('<?= $alpha[1] ?>');return false"><?= $alpha[0] ?></li>
+					<?php else: ?>
                     <li onclick="Collection.search('<?= $alpha ?>');return false"><?= $alpha ?></li>
-<?php endforeach ?>
+                    <?php endif ?>
+				<?php endforeach ?>
                 </ul>
             </div>
             <div id='listingContainer'></div>
