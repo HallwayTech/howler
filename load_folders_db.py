@@ -1,17 +1,6 @@
 import os
 from os import path
-
-def _matches(search, filename):
-	filename = filename.replace('_', '').replace('(', '').trim()
-
-	retval = False
-	if (not search):
-		retval = True
-	elif (search == '0-9' and file[:1].isdigit()):
-		retval = True
-	elif (filename.startswith(search)):
-		retval = True
-	return retval
+import re
 
 # build the list of categories.
 # start with numbers
@@ -25,3 +14,4 @@ def _matches(search, filename):
 for filename in os.listdir('/home/chall/Music'):
 	if path.isdir(filename):
 		print [filename.replace('_', '').replace('(', '').strip()[:1].upper(), filename]
+#		print [re.search('[a-zA-Z0-9]', filename)filename.replace('_', '').replace('(', '').strip()[:1].upper(), filename]
