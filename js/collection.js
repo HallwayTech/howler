@@ -88,7 +88,7 @@ var Collection = function() {
 				var data = cache[url];
 				var markup = Template.processTemplate('collectionTemplate', data);
 				$('#output').html(markup);
-				Collection.wait(true);
+				Collection._done();
 			} else if (url) {
 				Collection.fetch(url);
 			}
@@ -105,13 +105,13 @@ var Collection = function() {
 		 * @param search the search term to use.  entries starting with this term are returned.
 		 */
 		search: function(search) {
-			Collection.wait();
+			Collection._wait();
 			$('#output').html('Loading...');
 
 			path = search;
 			url = 'index.php/collections/find/' + encodeURIComponent(search);
 			$('#listingContainer').load(url);
-			Collection.wait(true);
+			Collection._done();
 			history = [url];
 		},
 
@@ -121,52 +121,23 @@ var Collection = function() {
 		 * @param dirIdx the index to show relative to the current url.
 		 */
 		view: function(dirIdx) {
-			$('#listingContainer').load('index.php/collections/read/' + dirIdx);
-			var url = '';
-
-			// only work if there is a provided index
-			if (dirIdx) {
-				// put out the wait sign
-				Collection.wait();
-
-				// determine directory to look up
-				// track the last directory looked up
-				if (dirIdx == -1) {
-					// pop off the current url
-					history.pop();
-
-					// use the previous url as the current url
-					url = history[history.length - 1];
-				} else {
-					// get the current url
-					url = history[history.length - 1];
-
-					// get the requested dir that's nested at the current url
-					path = cache[url].d[dirIdx].d;
-
-					// build the new url
-					url = 'resource/collection/' + encodeURI(path);
-
-					// add the new url to the history
-					history.push(url);
-				}
-			}
-
-			// render the url
-			Collection.renderUrl(url);
+			Collection._wait();
+			$('#listingContainer').load('index.php/collections/read/' + encodeURI(dirIdx));
+			Collection._done();
 		},
 
 		/**
-		 * Show/hide the wait icon.
-		 *
-		 * @param hide true to hide the wait icon, false to show
+		 * Hide the wait icon.
 		 */
-		wait: function(hide) {
-			if (hide) {
-				$('body').css('cursor', 'auto');
-			} else {
-				$('body').css('cursor', 'wait');
-			}
+		_done: function() {
+			$('body').css('cursor', 'auto');
+		},
+
+		/**
+		 * Show the wait icon.
+		 */
+		_wait: function() {
+			$('body').css('cursor', 'wait');
 		}
 	}
 }();

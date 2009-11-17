@@ -1,17 +1,12 @@
 <?php
 class Collection extends Model
 {
-	var $label = null;
-	var $collections = null;
-	var $entries = null;
-
-	function Collection_entry() {
+	function Collection() {
 		parent::Model();
 	}
 
 	function read($id) {
 		// build the lists of files and dirs
-		$output = array();
 		$dirs = array();
 		$files = array();
 
@@ -19,40 +14,31 @@ class Collection extends Model
 		$path = "{$this->config->item('music_dir')}/$id";
 		$dir_list = scandir($path);
 
-		$this->label = $id;
 		foreach ($dir_list as $f) {
 			// continue if $f is current directory '.' or parent directory '..'
 			if ($f == '.' || $f == '..') {
 				continue;
 			}
 
-			// determine the file extension
-			$path_info = pathinfo($f);
-			$dirname = $path_info['dirname']; // /var/www
-			$basename = $path_info['basename']; //  index.html
-			$filename = $path_info['filename']; //  index
-
-			if (is_dir("$path/$f")) {
-				$dirs[] = $f;
+			$entry = "$path/$f";
+			if (is_dir($entry)) {
+				$dirs[] = array('id' => "$id/$f", 'label' => $f);
 			}
-			elseif (array_key_exists('extension') && $path_info['extension'] == 'mp3') {
+			elseif (preg_match('/\.mp3$/', $f)) {
 				// get any artist, title, album information found
-				list($artist, $title, $album) = id3Info("{$this->config->item('music_dir')}/$id/$f");
-				$info = array (
-					'f' => utf8_encode($f)
-				);
-				if (!empty ($artist)) {
-					$info['a'] = $artist;
-				}
-				if (!empty ($title)) {
-					$info['t'] = $title;
-				}
-				if (!empty ($album)) {
-					$info['l'] = $album;
-				}
+				$tag = @id3_get_tag($entry);
+
+				$info = array();
+				$info['id'] = utf8_encode("$id/$f");
+				$info['artist'] = ($tag['artist']) ? $tag['artist'] : '';
+				$info['title'] = ($tag['title']) ? $tag['title'] : '';
+				$info['album'] = ($tag['album']) ? $tag['album'] : '';
 				$files[] = $info;
 			}
 		}
+
+		// construct the output
+		$output = array();
 		if (sizeof($dirs) > 0) {
 			$output['dirs'] = $dirs;
 		}
@@ -73,20 +59,15 @@ class Collection extends Model
 	        $search = strtolower($query);
 
 	        // get a list of dirs and show them
-	        $dir_list = scandir($this->config->item('music_dir'));
+	        $path = $this->config->item('music_dir');
+	        $dir_list = scandir($path);
 	        foreach ($dir_list as $f) {
 	            if ($this->_matches($search, $f)) {
-	                // create directory reference by concatenating path and the current
-	                // directory listing item
-	                $abs_dir = "{$this->config->item('music_dir')}/$f";
-	                $rel_dir = $f;
-
-	                // build the output for a dir
-	                if (is_dir($abs_dir)) {
-	                    $data['dirs'][] = $f;
+	                if (is_dir("$path/$f")) {
+	                    $data['dirs'][] = array('id' => $f, 'label' => $f);
 	                }
 	                else {
-	                	$data['files'][] = array('f' => $rel_dir, 'l' => $f);
+	                	$data['files'][] = array('id' => $f, 'title' => $f, 'artist' => '');
 	                }
 	            }
 	        }

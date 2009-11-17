@@ -8,33 +8,29 @@
 </div>
 
 <div id='listing'>
-<?php if (isset($dirs)):
-	$dirs_length = count($dirs); ?>
+<?php if (isset($dirs)): ?>
 	<ul class='dirs'>
-	<?php for ($i = 0; $i < $dirs_length; $i++): ?>
-		<?php $dir = $dirs[$i]; ?>
-		<li class='dir'><a href='#' onclick="Collection.view('<?= $i ?>');return false"><?= $dir ?></a></li>
-	<?php endfor ?>
+	<?php foreach ($dirs as $dir): ?>
+		<li class='dir'><a href='#' onclick="Collection.view('<?= $dir['id'] ?>');return false"><?= $dir['label'] ?></a></li>
+	<?php endforeach ?>
 	</ul>
 <?php endif ?>
 
-<?php if (isset($files)):
-	$files_length = count($files); ?>
+<?php if (isset($files)):?>
 	<ul class='files'>
-	<?php for ($i = 0; $i < $files_length; $i++):
-			$f = $files[$i];
-			$title = $f['t'];
-			$artist = $f['a'];
-			$file = $f['f']; ?>
+	<?php foreach ($files as $file): ?>
+		<?php $title = $file['title']; ?>
+		<?php $artist = $file['artist']; ?>
+		<?php $id = $file['id']; ?>
 		<li class='file'>
-			<a href="#" onclick="Collection.addSong(<?= $i ?>);return false" class="fileAdd">[add]</a>
+			<a href="#" onclick="Collection.addSong('<?= $id ?>');return false" class="fileAdd">[add]</a>
 		<?php if ($artist && $title): ?>
-			<?= $artist - $title ?>
+			<?= $artist ?> - <?= $title ?>
 		<?php else: ?>
-			<?= $file ?>
+			<?= $id ?>
 		<?php endif ?>
 		</li>
-	<?php endfor ?>
+	<?php endforeach ?>
 	</ul>
 <?php endif ?>
 </div>
