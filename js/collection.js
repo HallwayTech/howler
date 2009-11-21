@@ -49,12 +49,6 @@ var Collection = function() {
 		},
 
 		/**
-		 * Initialization
-		 */
-		init: function() {
-		},
-
-		/**
 		 * Search for entries
 		 *
 		 * @param search the search term to use.  entries starting with this term are returned.
@@ -96,7 +90,3 @@ var Collection = function() {
 		}
 	}
 }();
-
-$(document).ready(function() {
-	Collection.init();
-});
