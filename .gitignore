@@ -1,4 +1,4 @@
 app/tmp/*
-*.min.*
+js/*.min.*
 .project
 %%*

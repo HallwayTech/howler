@@ -1,11 +1,9 @@
 /* global $ */
 var Playlist = function() {
-	var performRefresh = true;
 	var PROC_PLAYLISTS = 'index.php/playlists';
 	var PROC_LOAD_FILE = 'index.php/files/read/';
 
 	return {
-		_playlist: [],
 		_playingIdx: -1,
 
 		/**
@@ -13,7 +11,7 @@ var Playlist = function() {
 		 */
 		init: function() {
 			Playlist.loadPlaylists();
-			$('#saved-playlists').resizable();
+//			$('#saved-playlists').resizable();
 		},
 
 		/**
@@ -26,22 +24,11 @@ var Playlist = function() {
 			item.type = 'sound';
 			item.start = '0';
 			item.file = PROC_LOAD_FILE + encodeURIComponent(item.id);
-			Playlist._playlist.push(item);
-//			Playlist.refresh(true);
-		},
-
-		allowRefresh: function(refreshNow) {
-			performRefresh = true;
-			if (refreshNow) {
-//				Playlist.refresh(true);
-			}
+			// TODO add entry to html list
 		},
 
 		clear: function() {
-			$('#saved-playlists .items').attr('selectedIndex', '0');
-			Playlist._playlist = [];
-			Playlist._playingIdx = -1;
-//			Playlist.refresh();
+			$('#playlist').empty();
 		},
 
 		highlightPlaying: function() {
@@ -62,39 +49,22 @@ var Playlist = function() {
 			}
 		},
 
-		holdRefresh: function() {
-			performRefresh = false;
-		},
-
 		loadPlaylist: function(name) {
-			if (!name) {
-				name = $('#saved-playlists .items').val();
-			}
-			if (name == '_new') {
-				Playlist.clear();
-			} else {
+			if (name) {
 				var url = PROC_PLAYLISTS + '/read/' + encodeURIComponent(name);
-				$('#playlist').load(url);
-			}
-		},
-
-		refresh: function(highlightPlaying) {
-			if (performRefresh) {
-//				var output = Template.processTemplate('playlistTemplate', {'items':Playlist._playlist});
-				$('#playlist').html(output);
-				$('#playlist .items').sortable({
-					axis: 'y',
-					opacity: .75,
-					update: Playlist.updateSortable
+				$('#playlist').load(url, function() {
+					$('.items', this).sortable({
+						axis: 'y',
+						opacity: .75
+					});
 				});
-				if (highlightPlaying) {
-					Playlist.highlightPlaying();
-				}
+			} else {
+				alert('No playlist to load.');
 			}
 		},
 
 		loadPlaylists: function() {
-			$('#saved-playlists').load(PROC_PLAYLISTS);
+			$('#saved-playlists').load(PROC_PLAYLISTS).resizable();
 		},
 
 		removePlaylist: function(name) {
@@ -117,22 +87,7 @@ var Playlist = function() {
 		},
 
 		removeItem: function(idx) {
-			if (idx >= 0 && idx < Playlist._playlist.length) {
-				var highlight = true;
-				// don't highlight on refresh if removing current playing
-				// item.
-				if (idx == Playlist._playingIdx) {
-					highlight = false;
-				}
-
-				// adjust Playlist._playingIdx if the removed index <= to it.
-				if (idx <= Playlist._playingIdx) {
-					Playlist._playingIdx--;
-				}
-
-				Playlist._playlist.splice(idx, 1);
-				Playlist.refresh(highlight);
-			}
+			$('[id="playlist-item-' + idx + '"]').remove();
 		},
 
 		/**
@@ -161,26 +116,8 @@ var Playlist = function() {
 					}
 				});
 			}
-		},
-
-		/**
-		 * Processing function when the playlist is rearranged.
-		 */
-		updateSortable: function(ev, ui) {
-			var newPlaylist = [];
-			var visList = $('#playlist .items').sortable('toArray');
-			for (var _i_ = 0; _i_ < visList.length; _i_++) {
-				var visItem = visList[_i_];
-				if ($('#' + visItem).hasClass('now-playing')) {
-					Playlist._playingIdx = _i_;
-				}
-				var visId = visItem.substring(visItem.lastIndexOf('-') + 1);
-				newPlaylist[_i_] = Playlist._playlist[visId];
-			}
-			Playlist._playlist = newPlaylist;
-			Playlist.refresh(true);
 		}
-	}
+	};
 }();
 
 $(document).ready(function() {
