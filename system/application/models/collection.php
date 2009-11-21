@@ -1,6 +1,16 @@
 <?php
+/**
+ * Data access object for collection information.
+ * 
+ * @author Carl Hall <carl.hall@gmail.com>
+ */
 class Collection extends Model
 {
+	/**
+	 * Default constructor.
+	 *
+	 * @return void
+	 */
 	function Collection() {
 		parent::Model();
 	}
@@ -51,6 +61,16 @@ class Collection extends Model
 	    return $output;
 	}
 
+	/**
+	 * Finds collections by comparing the beginning of a collection name to a
+	 * query.
+	 *
+	 * @param $query What to look for at the start of a collection's name.
+	 *
+	 * @return An associative array containing 'dirs' and 'files'. If the first
+	 * found alphanumeric character does not match the requested query, these
+	 * entries will contain empty arrays.
+	 */
 	function findByStartsWith($query) {
 	    // build the lists of files and dirs
 	    $data['dirs'] = array();
@@ -78,8 +98,7 @@ class Collection extends Model
 	}
 
 	/**
-	 * Matches the search term to the beginning of the provided filename.  This is done
-	 * instead of regex for performance (this is faster).
+	 * Matches the search term to the beginning of the provided filename.
 	 *
 	 * @param string $search What to search for.
 	 * @param string $f      What to search in.
@@ -88,17 +107,21 @@ class Collection extends Model
 	 */
 	function _matches($search, $f)
 	{
-	    $f = str_replace('_', '', $f);
-	    $f = str_replace('(', '', $f);
-	    $f = trim($f);
-	    $retval = false;
-	    if (!$search) {
-	        $retval = true;
-	    } elseif ($search == '0-9' && is_numeric(substr($f, 0, 1))) {
-	        $retval = true;
-	    } elseif (stripos($f, $search) === 0) {
-	        $retval = true;
-	    }
+		$retval = false;
+		if ($search && $f) {
+//	    $f = str_replace('_', '', $f);
+//	    $f = str_replace('(', '', $f);
+//	    $f = trim($f);
+//	    if (!$search) {
+//	        $retval = true;
+//	    } elseif ($search == '0-9' && is_numeric(substr($f, 0, 1))) {
+//	        $retval = true;
+//	    } else
+			preg_match("/[a-zA-Z0-9]/", $f, $matches);
+	    	if (!empty($matches) && strtoupper($matches[0]) == strtoupper($search)) {
+		        $retval = true;
+		    }
+		}
 	    return $retval;
 	}
 }
