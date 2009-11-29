@@ -1,54 +1,51 @@
 <?php
 #!/usr/bin/php
-$root = '/home/chall/Music';
+ini_set('memory_limit', '64M');
 
-function walkdir($dir) {
-	$root = '/home/chall/Music';
-	$dirs = array();
-	$files = array();
+define('ROOT', '/home/chall/Music');
 
-	$nodes = scandir("$root/$dir");
-	foreach ($nodes as $node) {
-		if (substr($node, 0, 1) == '.') {
-			continue;
-		}
+function walkdir($dir, &$entries) {
+    $dir_key = sha1($dir);
 
-		$key = sha1("$dir/$node");
-		if (is_dir("$root/$dir/$node")) {
-			$dirs[$key] = walkdir("$dir/$node");
-		} elseif (is_file($node)) {
-			$files[$key] = $node;
-		}
-	}
+    $nodes = @scandir(ROOT."/$dir");
+    if ($nodes !== false) {
+        foreach ($nodes as $node) {
+            if (substr($node, 0, 1) == '.') {
+                continue;
+            }
 
-	$retval['dirs'] = $dirs;
-	$retval['files'] = $files;
-	return $retval;
+            $entry = "$dir/$node";
+            $full_entry = ROOT."/$entry";
+            $entry_key = sha1($entry);
+
+            if (is_dir($full_entry)) {
+                $dir_entry = array(
+                    'id' => $entry_key, 'type' => 'directory', 'label' => $entry
+                );
+                if (!empty($dir)) {
+                    $dir_entry['parent'] = $dir_key; 
+                }
+                $entries[] = $dir_entry;
+                walkdir($entry, $entries);
+            } elseif (is_file($full_entry)) {
+                $file_entry = array(
+                    'id' => $entry_key, 'type' => 'file', 'file' => $entry
+                );
+                if (!empty($dir)) {
+                    $file_entry['parent'] = $dir_key; 
+                }
+//                $id3 = id3_get_tag($full_entry);
+                $entries[] = $file_entry;
+            }
+        }
+    }
+
+//    print_r($entries);
 }
 
-$cats = array();
-$dirs = array();
-$files = array();
-
-// loop over the filesystem
-$nodes = scandir($root);
-foreach ($nodes as $node) {
-	if (substr($node, 0, 1) == '.') {
-		continue;
-	}
-
-	preg_match('/[a-zA-Z0-9]/', $node, $matches);
-	$alphanum = strtoupper($matches[0]);
-
-	$tcats = ($cats[$alphanum]) ? $cats[$alphanum] : array();
-	$tcats[] = sha1($node);
-	$cats[$alphanum] = $tcats;
-
-	$key = sha1($node);
-	if (is_dir("$root/$node")) {
-		$dirs[$key] = walkdir($node);
-	} elseif (is_file("$root/$node")) {
-		$files[$key] = $node;
-	}
-}
-echo json_encode($dirs);
+$entries = array();
+walkdir('', $entries);
+$json = json_encode($entries);
+$file = fopen('music.json', 'w');
+fwrite($file, $json);
+fclose($file);
