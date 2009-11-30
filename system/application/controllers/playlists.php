@@ -37,19 +37,22 @@ class Playlists extends Controller
 	 */
 	function read($name)
 	{
-		$output = '';
-
-		$filename = $this->build_filename($name);
-		$data = '[]';
-		if (is_readable($filename)) {
-			$file = fopen($filename, 'r');
-			$data = fread($file, filesize($filename));
-			fclose($file);
-			$output = $this->load->view('playlists/html', array('title' => $name, 'playlist' => json_decode($data, TRUE)));
-		} else {
-			$output = "File is not readable: ${filename}";
-		}
-		echo $output;
+//		$output = '';
+//
+//		$filename = $this->build_filename($name);
+//		$data = '[]';
+//		if (is_readable($filename)) {
+//			$file = fopen($filename, 'r');
+//			$data = fread($file, filesize($filename));
+//			fclose($file);
+//			$output = $this->load->view('playlists/html', array('title' => $name, 'playlist' => json_decode($data, TRUE)));
+//		} else {
+//			$output = "File is not readable: ${filename}";
+//		}
+//		echo $output;
+        $playlist_dao = $this->load->model('playlist');
+        $playlist = $playlist_dao->read($name);
+        $output = $this->load->view('playlists/html', array('title' => $playlist['title'], 'playlist' => json_decode($playlist, TRUE)));
 	}
 
 	/**
@@ -120,13 +123,13 @@ class Playlists extends Controller
 	 *
 	 * @param name The name of the playlist to work with.
 	 */
-	function build_filename($name)
+	function _build_filename($name)
 	{
 		$filename = $this->playlists_dir(). "/${name}";
 		return $filename;
 	}
 
-	function playlists_dir()
+	function _playlists_dir()
 	{
 		$dir = $this->config->item('playlists_dir');
 		$user = array_key_exists('PHP_AUTH_USER', $_SERVER) ? $_SERVER['PHP_AUTH_USER'] : false;
