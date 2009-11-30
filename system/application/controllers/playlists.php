@@ -63,27 +63,11 @@ class Playlists extends Controller
 	 */
 	function save($name)
 	{
-		$message = '';
-		/* TODO process playlist using dom
-		 * $doc = new DOMDocument();
-		 * $doc->loadHTML("<html><body>Test<br></body></html>");
-		 * echo $doc->saveHTML();
-		 * extract id, artist, title, album
-		 * persist to database.
-		 */
-		$playlist = $_POST['playlist'];
-		// create the filename by prepending the user name to the playlist name
-
-		if (!empty($playlist) && is_writeable($this->playlists_dir())) {
-			$filename = $this->build_filename($name);
-			// persist the playlist to file
-			$file = fopen($filename, 'w');
-			fwrite($file, stripslashes($playlist));
-			fclose($file);
-		} else {
-			$message = 'Unable to write playlist.';
-		}
-		echo $message;
+	    $playlist_dao = $this->load->model('playlist');
+        $response = $playlist_dao->save($name);
+        if (!array_key_exists($response, 'ok')) {
+            echo $response;
+        }
 	}
 
 	/**

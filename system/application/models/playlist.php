@@ -15,25 +15,19 @@ class Playlist extends Model
 
 	function save($name)
 	{
-        $message = '';
-        $playlist = $_POST['playlist'];
+        $playlist_json = $_POST['playlist'];
         // create the filename by prepending the user name to the playlist name
 
-        if (!empty($playlist) && is_writeable($this->playlists_dir())) {
-            $doc_id = $this->_generate_id($name);
-            // persist the playlist to the doc store
-            $this->load->library('rest', array(
-                'server' => 'http://localhost:5984/'
-            ));
-            $playlist_json = $this->rest->put(
-                "/howler/$doc_id", array(
-                    '_id' => $doc_id, 'title' => $name, 'playlist' => $playlist
-                )
-            );
-        } else {
-            $message = 'Unable to write playlist.';
-        }
-        echo $message;
+        $doc_id = $this->_generate_id($name);
+        // persist the playlist to the doc store
+        $this->load->library('rest', array(
+            'server' => 'http://localhost:5984/'
+        ));
+        $message_json = $this->rest->put("/howler/$doc_id", array(
+            '_id' => $doc_id, 'title' => $name, 'playlist' => $playlist_json
+        ));
+        $message = json_decode($message_json, TRUE);
+        return $message;
     }
 
     //===================================================================
