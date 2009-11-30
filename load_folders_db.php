@@ -15,12 +15,15 @@ function walkdir($dir, &$entries) {
             }
 
             $entry = "$dir/$node";
+            while (substr($entry, 0, 1) == '/') {
+                $entry = substr($entry, 1);
+            }
             $full_entry = ROOT."/$entry";
             $entry_key = sha1($entry);
 
             if (is_dir($full_entry)) {
                 $dir_entry = array(
-                    'id' => $entry_key, 'type' => 'directory', 'label' => $entry
+                    '_id' => $entry_key, 'type' => 'directory', 'label' => $entry
                 );
                 if (!empty($dir)) {
                     $dir_entry['parent'] = $dir_key; 
@@ -29,7 +32,7 @@ function walkdir($dir, &$entries) {
                 walkdir($entry, $entries);
             } elseif (is_file($full_entry)) {
                 $file_entry = array(
-                    'id' => $entry_key, 'type' => 'file', 'file' => $entry
+                    '_id' => $entry_key, 'type' => 'file', 'file' => $entry
                 );
                 if (!empty($dir)) {
                     $file_entry['parent'] = $dir_key; 
