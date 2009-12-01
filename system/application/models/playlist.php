@@ -1,16 +1,35 @@
 <?php
 class Playlist extends Model
 {
+    /**
+     * Read a playlist by the ID.
+     *
+     * @param $id string The ID to lookup.
+     * @return Object
+     */
     function read($id)
     {
-        $user = '// figure this out';
-        $doc_id = sha1("$user/$id");
+//        $user = '// figure this out';
+//        $doc_id = sha1("$user/$id");
         $this->load->library('rest', array(
-            'server' => 'http://localhost:5984/'
+            'server' => 'http://127.0.0.1:5984/'
         ));
-        $playlist_json = $this->rest->get("/howler/$doc_id");
+        $playlist_json = $this->rest->get("/howler/$id");
         $playlist = json_decode($playlist_json, TRUE);
         return $playlist;
+	}
+
+	function read_list($user)
+	{
+	    $this->load->library('rest', array(
+	       'server' => 'http://127.0.0.1:5984/'
+	    ));
+	    $playlists_rest_json = $this->rest->get(
+	       '/howler/_design/playlists/_view/by_user?key="'.$user.'"'
+	    );
+	    $playlists_rest = json_decode($playlists_rest_json, TRUE);
+	    $playlists = $playlists_rest['rows'];
+	    return $playlists;
 	}
 
 	function save($name)

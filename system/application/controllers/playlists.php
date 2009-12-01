@@ -11,22 +11,28 @@ class Playlists extends Controller
 	 */
 	function index()
 	{
-		$data = array();
+//		$data = array();
+//
+//		$playlists = array();
+//		$dir = scandir($this->_playlists_dir());
+//		if (!empty($dir)) {
+//			foreach ($dir as $file) {
+//				if ($file != '.' && $file != '..') {
+//					$playlists[] = $file;
+//				}
+//			}
+//
+//			$data['playlists'] = $playlists;
+//		} else {
+//			$data = 'Unable to open playlists folder for user.';
+//		}
 
-		$playlists = array();
-		$dir = scandir($this->playlists_dir());
-		if ($dir) {
-			foreach ($dir as $file) {
-				if ($file != '.' && $file != '..') {
-					$playlists[] = $file;
-				}
-			}
+	    $user = $this->_current_user();
 
-			$data['playlists'] = $playlists;
-		} else {
-			$data = 'Unable to open playlists folder for user.';
-		}
-		$output = $this->load->view('playlists', $data);
+	    $playlist_dao = $this->load->model('playlist');
+	    $playlists = $playlist_dao->read_list($user);
+
+		$output = $this->load->view('playlists', $playlists);
 		echo $output;
 	}
 
@@ -37,22 +43,12 @@ class Playlists extends Controller
 	 */
 	function read($name)
 	{
-//		$output = '';
-//
-//		$filename = $this->build_filename($name);
-//		$data = '[]';
-//		if (is_readable($filename)) {
-//			$file = fopen($filename, 'r');
-//			$data = fread($file, filesize($filename));
-//			fclose($file);
-//			$output = $this->load->view('playlists/html', array('title' => $name, 'playlist' => json_decode($data, TRUE)));
-//		} else {
-//			$output = "File is not readable: ${filename}";
-//		}
-//		echo $output;
         $playlist_dao = $this->load->model('playlist');
         $playlist = $playlist_dao->read($name);
-        $output = $this->load->view('playlists/html', array('title' => $playlist['title'], 'playlist' => json_decode($playlist, TRUE)));
+        $output = $this->load->view('playlists/html', array(
+            'title' => $playlist['title'],
+            'playlist' => json_decode($playlist['playlist'], TRUE)
+        ));
 	}
 
 	/**
@@ -109,17 +105,23 @@ class Playlists extends Controller
 	 */
 	function _build_filename($name)
 	{
-		$filename = $this->playlists_dir(). "/${name}";
+		$filename = $this->_playlists_dir(). "/${name}";
 		return $filename;
 	}
 
 	function _playlists_dir()
 	{
 		$dir = $this->config->item('playlists_dir');
-		$user = array_key_exists('PHP_AUTH_USER', $_SERVER) ? $_SERVER['PHP_AUTH_USER'] : false;
-		if ($user) {
+		$user = $this->_current_user();
+		if (!empty($user)) {
 			$dir .= "/$user";
 		}
 		return $dir;
+	}
+
+	function _current_user()
+	{
+	    $user = array_key_exists('PHP_AUTH_USER', $_SERVER) ? $_SERVER['PHP_AUTH_USER'] : false;
+	    return $user;
 	}
 }
