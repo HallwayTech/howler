@@ -1,6 +1,14 @@
 <?php
 class Playlist extends Model
 {
+    const SERVER = 'http://127.0.0.1:5984/howler';
+    const PLAYLISTS_BY_USER = '_design/playlists/_view/by_user';
+
+    function Playlist()
+    {
+        parent::Model();
+    }
+
     /**
      * Read a playlist by the ID.
      *
@@ -9,41 +17,29 @@ class Playlist extends Model
      */
     function read($id)
     {
-//        $user = '// figure this out';
-//        $doc_id = sha1("$user/$id");
-        $this->load->library('rest', array(
-            'server' => 'http://127.0.0.1:5984/'
-        ));
-        $playlist_json = $this->rest->get("/howler/$id");
+        $this->load->library('rest', array('server' => Playlist::SERVER));
+        $playlist_json = $this->rest->get($id);
         $playlist = json_decode($playlist_json, TRUE);
         return $playlist;
 	}
 
-	function read_list($user)
+	function lists($user)
 	{
-	    $this->load->library('rest', array(
-	       'server' => 'http://127.0.0.1:5984/'
-	    ));
-	    $playlists_rest_json = $this->rest->get(
-	       '/howler/_design/playlists/_view/by_user?key="'.$user.'"'
-	    );
-	    $playlists_rest = json_decode($playlists_rest_json, TRUE);
-	    $playlists = $playlists_rest['rows'];
+	    $this->load->library('rest', array('server' => Playlist::SERVER));
+	    $playlists_json = $this->rest->get(Playlist::PLAYLISTS_BY_USER.'?key="'.$user.'"');
+	    $playlists = json_decode($playlists_json, TRUE);
 	    return $playlists;
 	}
 
-	function save($name)
+	function save($name, $data)
 	{
-        $playlist_json = $_POST['playlist'];
         // create the filename by prepending the user name to the playlist name
 
         $doc_id = $this->_generate_id($name);
         // persist the playlist to the doc store
-        $this->load->library('rest', array(
-            'server' => 'http://localhost:5984/'
-        ));
-        $message_json = $this->rest->put("/howler/$doc_id", array(
-            '_id' => $doc_id, 'title' => $name, 'playlist' => $playlist_json
+        $this->load->library('rest', array('server' => Playlist::SERVER));
+        $message_json = $this->rest->put($doc_id, array(
+            '_id' => $doc_id, 'title' => $name, 'playlist' => $data
         ));
         $message = json_decode($message_json, TRUE);
         return $message;

@@ -1,9 +1,9 @@
 <ul class='items'>
-<?php foreach($playlist as $index => $track): ?>
-	<?php $id = $track['id'] ?>
-	<?php $artist = isset($track['artist']) ? $track['artist'] : "" ?>
-	<?php $album = isset($track['album']) ? $track['album'] : "" ?>
-	<?php $title = isset($track['title']) ? $track['title'] : "" ?>
+<?php foreach($playlist as $index => $entry): ?>
+	<?php $id = $entry['file'] ?>
+	<?php $artist = isset($entry['artist']) ? $entry['artist'] : "" ?>
+	<?php $album = isset($entry['album']) ? $entry['album'] : "" ?>
+	<?php $title = isset($entry['title']) ? $entry['title'] : "" ?>
 	<li id='playlist-item-<?= $id ?>' class='playlist-item'>
 	    <div onclick="Player.controls.play('<?= $id ?>')" class='content'>
 	        <span class="artist"><?= $artist ?></span> - <span class="title"><?= $title ?></span>

@@ -11,29 +11,10 @@ class Playlists extends Controller
 	 */
 	function index()
 	{
-//		$data = array();
-//
-//		$playlists = array();
-//		$dir = scandir($this->_playlists_dir());
-//		if (!empty($dir)) {
-//			foreach ($dir as $file) {
-//				if ($file != '.' && $file != '..') {
-//					$playlists[] = $file;
-//				}
-//			}
-//
-//			$data['playlists'] = $playlists;
-//		} else {
-//			$data = 'Unable to open playlists folder for user.';
-//		}
-
 	    $user = $this->_current_user();
-
-	    $playlist_dao = $this->load->model('playlist');
-	    $playlists = $playlist_dao->read_list($user);
-
+	    $this->load->model('playlist');
+	    $playlists = $this->playlist->lists($user);
 		$output = $this->load->view('playlists', $playlists);
-		echo $output;
 	}
 
 	/**
@@ -43,12 +24,9 @@ class Playlists extends Controller
 	 */
 	function read($name)
 	{
-        $playlist_dao = $this->load->model('playlist');
-        $playlist = $playlist_dao->read($name);
-        $output = $this->load->view('playlists/html', array(
-            'title' => $playlist['title'],
-            'playlist' => json_decode($playlist['playlist'], TRUE)
-        ));
+        $this->load->model('playlist');
+        $playlist = $this->playlist->read($name);
+        $output = $this->load->view('playlist/html', $playlist);
 	}
 
 	/**
@@ -59,8 +37,9 @@ class Playlists extends Controller
 	 */
 	function save($name)
 	{
-	    $playlist_dao = $this->load->model('playlist');
-        $response = $playlist_dao->save($name);
+	    $data = $this->input->post('data');
+	    $this->load->model('playlist');
+        $response = $this->playlist->save($name, $data);
         if (!array_key_exists($response, 'ok')) {
             echo $response;
         }
