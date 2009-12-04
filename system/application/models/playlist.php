@@ -34,12 +34,12 @@ class Playlist extends Model
 	function save($name, $data)
 	{
         // create the filename by prepending the user name to the playlist name
-
         $doc_id = $this->_generate_id($name);
         // persist the playlist to the doc store
         $this->load->library('rest', array('server' => Playlist::SERVER));
         $message_json = $this->rest->put($doc_id, array(
-            '_id' => $doc_id, 'title' => $name, 'playlist' => $data
+            '_id' => $doc_id, 'user_id' => $this->_user(), 'type' => 'playlist',
+            'title' => $name, 'playlist' => $data
         ));
         $message = json_decode($message_json, TRUE);
         return $message;
@@ -57,7 +57,7 @@ class Playlist extends Model
      */
     function _generate_id($name)
     {
-        $fullname = $this->playlists_dir(). "/$name";
+        $fullname = $this->_user(). "/$name";
         $sha1 = sha1($fullname);
         return $sha1;
     }
@@ -65,10 +65,19 @@ class Playlist extends Model
     function _playlists_dir()
     {
         $dir = $this->config->item('playlists_dir');
-        $user = array_key_exists('PHP_AUTH_USER', $_SERVER) ? $_SERVER['PHP_AUTH_USER'] : false;
+        $user = $this->_user();
         if ($user) {
             $dir .= "/$user";
         }
         return $dir;
+    }
+
+    function _user()
+    {
+        $user = false;
+        if (array_key_exists('PHP_AUTH_USER', $_SERVER)) {
+            $user =  $_SERVER['PHP_AUTH_USER'];
+        }
+        return $user;
     }
 }
