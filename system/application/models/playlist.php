@@ -26,7 +26,7 @@ class Playlist extends Model
 	function lists($user)
 	{
 	    $this->load->library('rest', array('server' => Playlist::SERVER));
-	    $playlists_json = $this->rest->get(Playlist::PLAYLISTS_BY_USER.'?key="'.$user.'"');
+	    $playlists_json = $this->rest->get(Playlist::PLAYLISTS_BY_USER.'?startkey="'.$user.'"');
 	    $playlists = json_decode($playlists_json, TRUE);
 	    return $playlists;
 	}
