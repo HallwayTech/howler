@@ -1,17 +1,17 @@
 <?php
-require 'lib/id3.php';
+require_once 'lib/id3.php';
 
 error_reporting(E_ALL);
 
 ini_set('memory_limit', '64M');
 
-define('ROOT', '/home/chall/Music');
+define('MUSIC_DIR', '/home/chall/Music');
 
 function walkdir($dir)
 {
     $dir_key = sha1($dir);
 
-    $nodes = @scandir(ROOT."/$dir");
+    $nodes = @scandir(MUSIC_DIR."/$dir");
     if ($nodes !== false) {
         foreach ($nodes as $node) {
             if (substr($node, 0, 1) == '.') {
@@ -22,13 +22,13 @@ function walkdir($dir)
             while (substr($entry, 0, 1) == '/') {
                 $entry = substr($entry, 1);
             }
-            $full_entry = ROOT."/$entry";
+            $full_entry = MUSIC_DIR."/$entry";
             $entry_key = sha1($entry);
 
             if (is_dir($full_entry)) {
                 $dir_entry = array(
                     '_id' => $entry_key, 'type' => 'directory', 'label' => $entry,
-                    'added' => date('yyyy-mm-dd')
+                    'added' => date('Y-m-d')
                 );
                 if (!empty($dir)) {
                     $dir_entry['parent'] = $dir_key; 
@@ -38,11 +38,17 @@ function walkdir($dir)
             } elseif (is_file($full_entry)) {
                 $file_entry = array(
                     '_id' => $entry_key, 'type' => 'file', 'file' => $entry,
-                    'added' => date('yyyy-mm-dd')
+                    'added' => date('Y-m-d')
                 );
                 if (!empty($dir)) {
                     $file_entry['parent'] = $dir_key; 
                 }
+
+                // get any artist, title, album information found
+                list($artist, $title, $album) = id3Info($full_entry);
+                $file_entry['artist'] = $artist;
+                $file_entry['title'] = $title;
+                $file_entry['album'] = $album;
 //                $id3 = @id3_get_tag($full_entry);
 //                $file_entry = array_merge($file_entry, $id3);
                 store($file_entry);

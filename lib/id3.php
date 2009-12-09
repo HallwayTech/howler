@@ -1,4 +1,10 @@
 <?php
+
+        define (UNSYNC, 128);
+        define (EXT, 64);
+        define (EXPER, 32);
+        define (FOOT, 16);
+        define (UNKNOWN, 15);
 /**
  * Gets the ID3 information found on a file.
  *
@@ -9,17 +15,19 @@ function id3Info($file)
 	$id3 = new id3($file);
 
 	$artist = $id3->artist();
+	$title = $id3->title();
+	$album = $id3->album();
+/*
 	if (empty($artist)) {
 		$artist = $dirname;
 	}
-	$title = $id3->title();
 	if (empty($title)) {
 		$title = $filename;
 	}
-	$album = $id3->album();
 	if (empty($album)) {
 		$album = '';
 	}
+*/
 	return array($artist, $title, $album);
 }
 
@@ -33,22 +41,16 @@ function id3Info($file)
  */
 class id3 {
 
-	function __construct($file) {
-		$this->id3($file);
-		$this->readtags();
-	}
+    function __construct($file) {
+        $this->id3($file);
+        $this->readtags();
+    }
 
     function id3($file) {
         $this->filename = $file;
         $this->print_errors = false;
         $this->error = false;
         $this->error_texts = array();
-
-        define (UNSYNC, 128);
-        define (EXT, 64);
-        define (EXPER, 32);
-        define (FOOT, 16);
-        define (UNKNOWN, 15);
     }
 
     function adderror($text) {
@@ -238,7 +240,7 @@ class id3 {
         switch($name) {
             case "WXXX":
                 $temp = explode("\0", substr($frame, 1));
-                if (!$temp[2]) { // winamp only sets the url, not the description
+                if (!isset($temp[2])) { // winamp only sets the url, not the description
                     $this->v2['WXXX']['url'] = trim($temp[1]);
                 }
                 else {
@@ -250,14 +252,18 @@ class id3 {
                 $encoding = $frame[0];
                 $temp = explode("\0", substr($frame, 1));
                 $this->v2['COMM']['language'] = $temp[0];
-                $this->v2['COMM']['content-description'] = $temp[1];
-                $this->v2['COMM']['content'] = $temp[2];
+                if (isset($temp[1])) {
+                    $this->v2['COMM']['content-description'] = $temp[1];
+                }
+                if (isset($temp[2])) {
+                    $this->v2['COMM']['content'] = $temp[2];
+                }
                 break;
             case "APIC": // xxx: not at all working, needs a proper decode_synchsafe()
                 $encoding = $frame[0];
                 $temp = explode("\0", substr($frame, 1));
                 $this->v2['APIC']['mime-type'] = $temp[0];
-                if ($this->v2['unsync']) {
+                if (isset($this->v2['unsync'])) {
                     $this->v2['APIC']['content'] = $this->decode_synchsafe($temp[1]);
                 }
                 break;
@@ -277,7 +283,9 @@ class id3 {
                 break;
 
             default:
-                $encoding = $frame[0];
+                if (isset($frame[0])) {
+                    $encoding = $frame[0];
+                }
                 $this->v2[$name] = substr($frame, 1);
             break;
         }
@@ -324,7 +332,7 @@ class id3 {
 
         // xxx: what should be done about unsynconisation?
 
-        if ($this->v2['extended'] == true) {
+        if (isset($this->v2['extended']) && $this->v2['extended'] == true) {
             // Figure out the size of the extended header
             $extendedsize = fread($fp, 4);
             $temp = @unpack("H8size", $extendedsize);
@@ -354,7 +362,7 @@ class id3 {
 
             $read += 10;
             $size = $this->framesize($frameheader['size']);
-            $flags = $frameheader['flags'];
+//            $flags = $frameheader['flags'];
 
             $this->loadframe($frameheader['name'], substr($rawframes, $read, $size));
             //$this->v2[$frameheader['name'].'-size'] = $size;
