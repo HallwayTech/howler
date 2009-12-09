@@ -1,11 +1,12 @@
 <?php
+require 'lib/id3.php';
+
 error_reporting(E_ALL);
 
 ini_set('memory_limit', '64M');
 
 define('ROOT', '/home/chall/Music');
 
-//function walkdir($dir, &$entries) {
 function walkdir($dir)
 {
     $dir_key = sha1($dir);
@@ -26,31 +27,28 @@ function walkdir($dir)
 
             if (is_dir($full_entry)) {
                 $dir_entry = array(
-                    'id' => $entry_key, 'type' => 'directory', 'label' => $entry
+                    '_id' => $entry_key, 'type' => 'directory', 'label' => $entry,
+                    'added' => date('yyyy-mm-dd')
                 );
                 if (!empty($dir)) {
                     $dir_entry['parent'] = $dir_key; 
                 }
-//                $entries[] = $dir_entry;
                 store($dir_entry);
-//                walkdir($entry, $entries);
                 walkdir($entry);
             } elseif (is_file($full_entry)) {
                 $file_entry = array(
-                    'id' => $entry_key, 'type' => 'file', 'file' => $entry
+                    '_id' => $entry_key, 'type' => 'file', 'file' => $entry,
+                    'added' => date('yyyy-mm-dd')
                 );
                 if (!empty($dir)) {
                     $file_entry['parent'] = $dir_key; 
                 }
-                $id3 = id3_get_tag($full_entry);
-                $file_entry = array_merge($file_entry, $id3);
+//                $id3 = @id3_get_tag($full_entry);
+//                $file_entry = array_merge($file_entry, $id3);
                 store($file_entry);
-//                $entries[] = $file_entry;
             }
         }
     }
-
-//    print_r($entries);
 }
 
 function store($doc)
@@ -64,7 +62,7 @@ function store($doc)
     fseek($tmp, 0);
 
     // create curl resource
-    $ch = curl_init('http://localhost:5984/howler-test/'.$doc['id']);
+    $ch = curl_init('http://localhost:5984/howler-test/'.$doc['_id']);
 
     // return the transfer as a string
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -82,12 +80,11 @@ function store($doc)
 
     // close tmp file handle
     fclose($tmp);
+
+    $response = json_decode($output, true);
+    if (!isset($response['ok'])) {
+      print_r(array_merge($response, $doc));
+    }
 }
 
 walkdir('');
-//$entries = array();
-//walkdir('', $entries);
-//$json = json_encode($entries);
-//$file = fopen('music.json', 'w');
-//fwrite($file, $json);
-//fclose($file);
