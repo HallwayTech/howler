@@ -1,10 +1,13 @@
 <?php
-#!/usr/bin/php
+error_reporting(E_ALL);
+
 ini_set('memory_limit', '64M');
 
 define('ROOT', '/home/chall/Music');
 
-function walkdir($dir, &$entries) {
+//function walkdir($dir, &$entries) {
+function walkdir($dir)
+{
     $dir_key = sha1($dir);
 
     $nodes = @scandir(ROOT."/$dir");
@@ -23,22 +26,26 @@ function walkdir($dir, &$entries) {
 
             if (is_dir($full_entry)) {
                 $dir_entry = array(
-                    '_id' => $entry_key, 'type' => 'directory', 'label' => $entry
+                    'id' => $entry_key, 'type' => 'directory', 'label' => $entry
                 );
                 if (!empty($dir)) {
                     $dir_entry['parent'] = $dir_key; 
                 }
-                $entries[] = $dir_entry;
-                walkdir($entry, $entries);
+//                $entries[] = $dir_entry;
+                store($dir_entry);
+//                walkdir($entry, $entries);
+                walkdir($entry);
             } elseif (is_file($full_entry)) {
                 $file_entry = array(
-                    '_id' => $entry_key, 'type' => 'file', 'file' => $entry
+                    'id' => $entry_key, 'type' => 'file', 'file' => $entry
                 );
                 if (!empty($dir)) {
                     $file_entry['parent'] = $dir_key; 
                 }
-//                $id3 = id3_get_tag($full_entry);
-                $entries[] = $file_entry;
+                $id3 = id3_get_tag($full_entry);
+                $file_entry = array_merge($file_entry, $id3);
+                store($file_entry);
+//                $entries[] = $file_entry;
             }
         }
     }
@@ -46,9 +53,41 @@ function walkdir($dir, &$entries) {
 //    print_r($entries);
 }
 
-$entries = array();
-walkdir('', $entries);
-$json = json_encode($entries);
-$file = fopen('music.json', 'w');
-fwrite($file, $json);
-fclose($file);
+function store($doc)
+{
+    // convert doc to json for storage
+    $doc_json = json_encode($doc);
+
+    // store doc in tempfile for put call
+    $tmp = tmpfile();
+    fwrite($tmp, $doc_json);
+    fseek($tmp, 0);
+
+    // create curl resource
+    $ch = curl_init('http://localhost:5984/howler-test/'.$doc['id']);
+
+    // return the transfer as a string
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+    // set the method to PUT
+    curl_setopt($ch, CURLOPT_PUT, true);
+    curl_setopt($ch, CURLOPT_INFILE, $tmp);
+    curl_setopt($ch, CURLOPT_INFILESIZE, strlen($doc_json));
+
+    // $output contains the output string
+    $output = curl_exec($ch);
+
+    // close curl resource to free up system resources
+    curl_close($ch);
+
+    // close tmp file handle
+    fclose($tmp);
+}
+
+walkdir('');
+//$entries = array();
+//walkdir('', $entries);
+//$json = json_encode($entries);
+//$file = fopen('music.json', 'w');
+//fwrite($file, $json);
+//fclose($file);
