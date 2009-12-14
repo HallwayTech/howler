@@ -341,6 +341,8 @@ $config['default_repeat'] = 'LIST';
 // The default setting for 'random'
 $config['default_random'] = 'false';
 
+$config['couchdb_server'] = 'http://127.0.0.1:5984/howler';
+
 
 /* End of file config.php */
 /* Location: ./system/application/config/config.php */

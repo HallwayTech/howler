@@ -27,7 +27,7 @@ function walkdir($dir)
 
             if (is_dir($full_entry)) {
                 $dir_entry = array(
-                    '_id' => $entry_key, 'type' => 'directory', 'label' => $entry,
+                    '_id' => $entry_key, 'type' => 'folder', 'label' => $entry,
                     'added' => date('Y-m-d')
                 );
                 if (!empty($dir)) {

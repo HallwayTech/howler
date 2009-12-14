@@ -22,6 +22,8 @@
  */
 class Collection extends Model
 {
+    const FOLDERS_BY_PREFIX = '_design/folders/_view/by_prefix?startkey="0"&endkey="9"';
+
     /**
      * Default constructor.
      *
@@ -41,6 +43,8 @@ class Collection extends Model
      */
     function read($id)
     {
+        $this->load->library('rest', array('server' => $this->config->item('couchdb_server')));
+        $playlists_json = $this->rest->get('_design/folders/_view/by_prefix?startkey="0"&endkey="9"');
         // build the lists of files and dirs
         $dirs = array();
         $files = array();
@@ -103,6 +107,9 @@ class Collection extends Model
 
         if (!empty($query)) {
             $search = strtolower($query);
+
+            $this->load->library('rest', array('server' => $this->config->item('couchdb_server')));
+            $collections_json = $this->rest->get(Collection::FOLDERS_BY_PREFIX.'"'.$query.'"');
 
             // get a list of dirs and show them
             $path = $this->config->item('music_dir');

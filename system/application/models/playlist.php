@@ -1,8 +1,7 @@
 <?php
 class Playlist extends Model
 {
-    const SERVER = 'http://127.0.0.1:5984/howler';
-    const PLAYLISTS_BY_USER = '_design/playlists/_view/by_user';
+    const PLAYLISTS_BY_USER = '_design/playlists/_view/by_user?startkey=';
 
     function Playlist()
     {
@@ -17,7 +16,7 @@ class Playlist extends Model
      */
     function read($id)
     {
-        $this->load->library('rest', array('server' => Playlist::SERVER));
+        $this->load->library('rest', array('server' => $this->config->item('couchdb_server')));
         $playlist_json = $this->rest->get($id);
         $playlist = json_decode($playlist_json, TRUE);
         return $playlist;
@@ -25,8 +24,8 @@ class Playlist extends Model
 
 	function lists($user)
 	{
-	    $this->load->library('rest', array('server' => Playlist::SERVER));
-	    $playlists_json = $this->rest->get(Playlist::PLAYLISTS_BY_USER.'?startkey="'.$user.'"');
+	    $this->load->library('rest', array('server' => $this->config->item('couchdb_server')));
+	    $playlists_json = $this->rest->get(Playlist::PLAYLISTS_BY_USER.'"'.$user.'"');
 	    $playlists = json_decode($playlists_json, TRUE);
 	    return $playlists;
 	}
@@ -36,7 +35,7 @@ class Playlist extends Model
         // create the filename by prepending the user name to the playlist name
         $doc_id = $this->_generate_id($name);
         // persist the playlist to the doc store
-        $this->load->library('rest', array('server' => Playlist::SERVER));
+        $this->load->library('rest', array('server' => $this->config->item('couchdb_server')));
         $message_json = $this->rest->put($doc_id, array(
             '_id' => $doc_id, 'user_id' => $this->_user(), 'type' => 'playlist',
             'title' => $name, 'playlist' => $data
