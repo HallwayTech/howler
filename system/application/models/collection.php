@@ -22,8 +22,6 @@
  */
 class Collection extends Model
 {
-    const FOLDERS_BY_PREFIX = '_design/folders/_view/by_prefix?startkey="0"&endkey="9"';
-
     /**
      * Default constructor.
      *
@@ -34,6 +32,13 @@ class Collection extends Model
         parent::Model();
     }
 
+    function read($id)
+    {
+        $this->load->library('rest', array('server' => $this->config->item('couchdb_server')));
+        $collection = $this->rest->get($id, null, 'json');
+        return $collection;
+    }
+
     /**
      * Read a collection and return the names of the content entries.
      *
@@ -41,51 +46,47 @@ class Collection extends Model
      *
      * @return array Directories and files associated to a collection.
      */
-    function read($id)
+    function byParent($id)
     {
         $this->load->library('rest', array('server' => $this->config->item('couchdb_server')));
-        $playlists_json = $this->rest->get('_design/folders/_view/by_prefix?startkey="0"&endkey="9"');
+
+        // get the title
+        $title_doc = $this->rest->get($id, null, 'json');
+        $title = $title_doc->label;
+
+        // get the listing information
+        $prefixes = $this->rest->get(
+            "_design/collections/_view/by_parent?startkey=[\"$id\"]&endkey=[\"$id\",\"Z\"]",
+            null, 'json'
+        );
+
         // build the lists of files and dirs
         $dirs = array();
         $files = array();
 
-        // get a list of dirs and show them
-        $path = "{$this->config->item('music_dir')}/$id";
-        $dir_list = scandir($path);
-
-        foreach ($dir_list as $f) {
-            // continue if $f is current directory '.' or parent directory '..'
-            if ($f == '.' || $f == '..') {
-                continue;
-            }
-
-            $entry = "$path/$f";
-            if (is_dir($entry)) {
-                $dirs[] = array('id' => sha1("$id/$f"), 'label' => $f);
-            } elseif (preg_match('/\.mp3$/', $f)) {
-                // get any artist, title, album information found
-                $tag = @id3_get_tag($entry);
-
-                $info = array();
-                $info['id'] = sha1("$id/$f");
-                $info['artist'] = ($tag['artist']) ? $tag['artist'] : '';
-                $info['title'] = ($tag['title']) ? $tag['title'] : '';
-                $info['album'] = ($tag['album']) ? $tag['album'] : '';
+        foreach($prefixes->rows as $row) {
+            $info = array('id' => $row->id);
+            $key = $row->key;
+            if ($key[1] == 'd') {
+                $info['label'] = $key[2];
+                $dirs[] = $info;
+            } elseif ($key[1] == 'f') {
+                $value = $row->value;
+                $artist = $value->artist;
+                $title = $value->title;
+                if ($artist && $title) {
+                    $info['label'] = "$artist - $title";
+                } else {
+                    $info['label'] = $value->file;
+                }
                 $files[] = $info;
             }
         }
 
         // construct the output
-        $output = array();
-        if (sizeof($dirs) > 0) {
-            $output['dirs'] = $dirs;
-        }
-        if (sizeof($files) > 0) {
-            $output['files'] = $files;
-        }
-
-        $output['label'] = $id;
-        $output['back'] = '';
+        $output = array(
+            'parent' => $id, 'label' => $title, 'dirs' => $dirs, 'files' => $files
+        );
         return $output;
     }
 
@@ -99,65 +100,46 @@ class Collection extends Model
      * found alphanumeric character does not match the requested query, these
      * entries will contain empty arrays.
      */
-    function findByStartsWith($query)
+    function startsWith($query)
     {
         // build the lists of files and dirs
-        $data['dirs'] = array();
-        $data['files'] = array();
+        $dirs = array();
+        $files = array();
 
         if (!empty($query)) {
             $search = strtolower($query);
+            $startkey = $search;
+            $endkey = $search;
+            if ($query == '0-9') {
+                $startkey = '0';
+                $endkey = '9';
+            }
 
-            $this->load->library('rest', array('server' => $this->config->item('couchdb_server')));
-            $collections_json = $this->rest->get(Collection::FOLDERS_BY_PREFIX.'"'.$query.'"');
+            $this->load->library('rest', array(
+                'server' => $this->config->item('couchdb_server'))
+            );
+            $collections = $this->rest->get(
+                "_design/collections/_view/by_prefix?startkey=[\"$startkey\",\"d\"]&endkey=[\"$endkey\",\"f\"]",
+                null, 'json'
+            );
 
-            // get a list of dirs and show them
-            $path = $this->config->item('music_dir');
-            $dir_list = scandir($path);
-            foreach ($dir_list as $f) {
-                if ($this->_matches($search, $f)) {
-                    if (is_dir("$path/$f")) {
-                        $data['dirs'][] = array('id' => $f, 'label' => $f);
-                    } else {
-                        $data['files'][] = array(
-                            'id' => $f, 'title' => $f, 'artist' => ''
-                        );
-                    }
+            foreach($collections->rows as $row) {
+                $key = $row->key;
+                if ($key[1] == 'd') {
+                    $dirs[] = array('id' => $row->id, 'label' => $key[2]);
+                } else {
+                    $value = $row->value;
+                    $files[] = array(
+                        'id' => $row->id, 'title' => $value->title,
+                        'artist' => $value->artist, 'album' => $value->album
+                    );
                 }
             }
         }
         $data['label'] = $query;
+        $data['dirs'] = $dirs;
+        $data['files'] = $files;
         return $data;
-    }
-
-    /**
-     * Matches the search term to the beginning of the provided filename.
-     *
-     * @param string $search What to search for.
-     * @param string $f      What to search in.
-     *
-     * @return true if $search starts with $f.  false otherwise.
-     */
-    function _matches($search, $f)
-    {
-        $retval = false;
-        if ($search && $f) {
-            //	    $f = str_replace('_', '', $f);
-            //	    $f = str_replace('(', '', $f);
-            //	    $f = trim($f);
-            //	    if (!$search) {
-            //	        $retval = true;
-            //	    } elseif ($search == '0-9' && is_numeric(substr($f, 0, 1))) {
-            //	        $retval = true;
-            //	    } else
-            preg_match("/[a-zA-Z0-9]/", $f, $matches);
-            if (!empty($matches)
-                && strtoupper($matches[0]) == strtoupper($search)
-            ) {
-                $retval = true;
-            }
-        }
-        return $retval;
     }
 }
 

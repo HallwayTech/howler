@@ -42,7 +42,7 @@
 
 .playlist-item .content
 {
-	cursor: pointer;
+	/*cursor: pointer;*/
 	float: left;
 	width: 95%;
 }

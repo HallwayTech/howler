@@ -42,6 +42,10 @@
             <div id="playerWrapper">
                 <div id="playerSpot">This text will be replaced by the media player.</div>
             </div>
+            <div id='controls-container'>
+                <input type='button' onclick='Player.controls.prev()' value='&#60; Prev' />
+                <input type='button' onclick='Player.controls.next()' value='Next &#62;' />
+            </div>
             <!-- saved playlists -->
             <div id='saved-playlists-container'>
                 <div id='saved-playlists-actions'>
@@ -50,14 +54,14 @@
                         <input type='button' value='Save as...' onclick='Playlist.save()'/>
                     </div>
                     <div class='right'>
-                        <a href='#' onclick='$("#saved-playlists").toggle("normal");return false'>--</a>
+                        <a href='#' onclick='Playlist.toggleSavedView();return false'>--</a>
                     </div>
                 </div>
                 <div class='clear'></div>
                 <div id='saved-playlists'></div>
             </div>
             <!-- playlist -->
-            <div id='playlist'></div>
+            <div id='playlist'><ul class='items'></ul></div>
         </div>
 
         <!-- collection -->

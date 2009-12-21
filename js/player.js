@@ -42,7 +42,8 @@ var Player = function() {
 			var expressInstallSwfUrl = false;
 			var flashVars = {
 				'file': '',
-				'bufferlength': '5'
+				'bufferlength': '5',
+				'volume': 100
 			};
 
 			var params = {
@@ -82,12 +83,28 @@ var Player = function() {
 		 *      Length of the current playlist [int].
 		 * @return The next index to play.
 		 */
-		nextIndex: function(options) {
+		nextId: function(options) {
+			var currentPlayingId = Playlist.currentPlayingId();
+			var nextId = false;
+			if (currentPlayingId) {
+				var id = $('#' + currentPlayingId + ' + li').attr('id');
+				if (id) {
+					nextId = id.substring(id.lastIndexOf('-') + 1);
+				}
+			} else {
+				var id = $('#playlist .items li:first').attr('id');
+				if (id) {
+					nextId = id.substring(id.lastIndexOf('-') + 1);
+				}
+			}
+			return nextId;
+			
+			/*
 			options = options || {};
 			var current = options.current || Playlist._playingIdx;
 			var history = options.history || _history || [];
 			var random = options.random || _random;
-			var playlistLength = options.playlistLength || Playlist._playlist.length;
+			var playlistLength = options.playlistLength || ;
 			var next = 0;
 
 			if (playlistLength > 0) {
@@ -108,6 +125,7 @@ var Player = function() {
 			}
 
 			return next;
+			*/
 		},
 
 		/**
@@ -163,17 +181,18 @@ var Player = function() {
 			next: function() {
 				var stopPlaying = _repeat == 'NONE' && next >= Playlist._playlist.length;
 				if (!stopPlaying) {
-					var next = Player.nextIndex();
+					var next = Player.nextId();
 					Player.controls.play(next);
 				}
 			},
 
-			play: function(idx) {
+			play: function(id) {
 				// load, play and highlight the item
-				var url = "index.php/files/read/" + idx;
-				player.sendEvent('LOAD', [url]);
+				var url = 'index.php/files/read/' + id;
+				var item = {file: url, type: 'sound', start: '0'};
+				player.sendEvent('LOAD', [item]);
 				player.sendEvent('PLAY', true);
-				Playlist.highlightPlaying();
+				Playlist.highlight(id);
 				Player.setMarquee('0');
 			},
 

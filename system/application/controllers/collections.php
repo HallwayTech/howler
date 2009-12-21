@@ -8,26 +8,20 @@ class Collections extends Controller
 	/**
 	 * Handler method for the base page
 	 */
-	function read()
+	function byParent($id)
 	{
-		$args = func_get_args();
-		$id = implode('/', $args);
 		$this->load->model('Collection');
-		$data = $this->Collection->read($id);
+		$data = $this->Collection->byParent($id);
 		$this->load->view('collections', $data);
 	}
 
 	function find($query = null)
 	{
-		if ($query == null) {
-			$query = '#';
-		}
-		$this->load->model('Collection');
-		$data = $this->Collection->findByStartsWith($query);
+		$this->load->model('collection');
+		$data = $this->collection->startsWith($query);
 		$this->load->view('collections', $data);
 	}
 }
 
 /* End of file collections.php */
 /* Location: ./system/application/controllers/collections.php */
-?>

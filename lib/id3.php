@@ -1,16 +1,16 @@
 <?php
+define (UNSYNC, 128);
+define (EXT, 64);
+define (EXPER, 32);
+define (FOOT, 16);
+define (UNKNOWN, 15);
 
-        define (UNSYNC, 128);
-        define (EXT, 64);
-        define (EXPER, 32);
-        define (FOOT, 16);
-        define (UNKNOWN, 15);
 /**
  * Gets the ID3 information found on a file.
  *
  * @return list(artist, title, album)
  */
-function id3Info($file)
+function id3_info($file)
 {
 	$id3 = new id3($file);
 

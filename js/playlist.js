@@ -1,8 +1,5 @@
 /* global $ */
 var Playlist = function() {
-	var PROC_PLAYLISTS = 'index.php/playlists';
-	var PROC_LOAD_FILE = 'index.php/files/read/';
-
 	return {
 		_playingIdx: -1,
 
@@ -15,29 +12,47 @@ var Playlist = function() {
 		},
 
 		/**
-		 * add(item) -- add an item to the current loaded playlist
+		 * Add an item to the current loaded playlist
 		 *
-		 * @param item The item to add to the playlist.  Should be compatible
-		 *             with any item params expected by your player.
+		 * @param item The ID of the item to add to the playlist.
 		 */
-		addItem: function(item) {
-			item.type = 'sound';
-			item.start = '0';
-			item.file = PROC_LOAD_FILE + encodeURIComponent(item.id);
-			// TODO add entry to html list
+		addItem: function(id) {
+			var url = 'index.php/playlists/addEntry/' + id;
+			$.get(url, function(data) {
+				$('#playlist .items').append(data);
+			});
+		},
+
+		addParent: function(parentId) {
+			var url = 'index.php/playlists/addParent/' + parentId;
+			$.get(url, function(data) {
+				$('#playlist .items').append(data);
+			});
 		},
 
 		clear: function() {
-			$('#playlist').empty();
+			$('#playlist .items').empty();
 		},
 
-		highlightPlaying: function() {
-			if (Playlist._playingIdx >= 0) {
-				// clear last played song
-				$('.now-playing').removeClass('now-playing');
+		currentPlayingId: function() {
+			return $('.now-playing').attr('id');
+			/*
+			var id = false;
+			var length = $('.now-playing').length;
+			if (length <= 0) {
+				id = $('.now-playing').attr('id');
+			}
+			return id;
+			*/
+		},
 
+		highlight: function(id) {
+			// clear current highlighted item
+			$('.now-playing').removeClass('now-playing');
+
+			if (id) {
 				// highlight current song
-				$('#playlist-item-' + Playlist._playingIdx).addClass('now-playing');
+				$('#playlist-item-' + id).addClass('now-playing');
 
 				// calculate top position and scroll to it
 				var playlistTop = $('#playlist').position()['top'];
@@ -51,9 +66,9 @@ var Playlist = function() {
 
 		loadPlaylist: function(name) {
 			if (name) {
-				var url = PROC_PLAYLISTS + '/read/' + encodeURIComponent(name);
-				$('#playlist').load(url, function() {
-					$('.items', this).sortable({
+				var url = 'index.php/playlists/read/' + encodeURIComponent(name);
+				$('#playlist .items').load(url, function() {
+					$(this).sortable({
 						axis: 'y',
 						opacity: .75
 					});
@@ -64,30 +79,27 @@ var Playlist = function() {
 		},
 
 		loadPlaylists: function() {
-			$('#saved-playlists').load(PROC_PLAYLISTS).resizable();
+			$('#saved-playlists').load('index.php/playlists').resizable();
 		},
 
-		removePlaylist: function(name) {
-			if (!name) {
-				name = $('#saved-playlists .items').val();
-			}
-			if (name != '_new') {
-				var url = PROC_PLAYLISTS + '/' + name;
+		deletePlaylist: function(id, rev) {
+			if (id && id != '_new') {
+				var url = 'index.php/playlists/delete/' + id + '/' + rev;
 				$.ajax({
 					type: 'DELETE',
 					url: url,
-					success: function() {
+					success: function(data, textStatus) {
 						Playlist.loadPlaylists();
 					},
-					error: function () {
-						alert('Unable to delete playlist [' + name + ']');
+					error: function(XMLHttpRequest, textStatus, errorThrown) {
+						alert('Unable to delete playlist [' + textStatus + ']');
 					}
 				});
 			}
 		},
 
-		removeItem: function(idx) {
-			$('[id="playlist-item-' + idx + '"]').remove();
+		removeItem: function(id) {
+			$('#playlist-item-' + id).remove();
 		},
 
 		/**
@@ -97,25 +109,38 @@ var Playlist = function() {
 			if (!name) {
 				name = $('#saved-playlists .items :selected').val();
 			}
-			if (name == '_new') {
+			if (!name || name == '_new') {
 				name = '';
 				while (name == '') {
 					name = prompt("Please provide a name for this playlist.");
 				}
 			}
 			if (name != null) {
-				var playlist = JSON.stringify(Playlist._playlist);
+				ids = [];
+				$('.playlist-item').each(function (idx) {
+						var id = this.id.substring(this.id.lastIndexOf('-') + 1);
+						ids.push(id);
+					}
+				);
+				
+				var playlist = JSON.stringify(ids);
 				$.ajax({
 					type: 'POST',
-					url: PROC_PLAYLISTS + '/' + name,
+					url: 'index.php/playlists/save/' + name,
 					data: {'playlist': playlist},
 					success: function() {
 						Playlist.loadPlaylists();
 					},
 					error: function() {
+						alert("An error occurred saving the playlist.  Please try again later.");
 					}
 				});
 			}
+		},
+
+		toggleSavedView: function() {
+			$("#saved-playlists").toggle("normal");
+			$("#saved-playlists-actions .left").toggle("normal");
 		}
 	};
 }();

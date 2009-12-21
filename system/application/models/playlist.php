@@ -1,8 +1,6 @@
 <?php
 class Playlist extends Model
 {
-    const PLAYLISTS_BY_USER = '_design/playlists/_view/by_user?startkey=';
-
     function Playlist()
     {
         parent::Model();
@@ -17,30 +15,39 @@ class Playlist extends Model
     function read($id)
     {
         $this->load->library('rest', array('server' => $this->config->item('couchdb_server')));
-        $playlist_json = $this->rest->get($id);
-        $playlist = json_decode($playlist_json, TRUE);
+        $playlist = $this->rest->get($id, null, 'json');
         return $playlist;
+	}
+
+	function delete($id)
+	{
+	    $this->load->library('rest', array('server' => $this->config->item('couchdb_server')));
+	    $message = $this->rest->delete($id, 'json');
+        return $message;
 	}
 
 	function lists($user)
 	{
 	    $this->load->library('rest', array('server' => $this->config->item('couchdb_server')));
-	    $playlists_json = $this->rest->get(Playlist::PLAYLISTS_BY_USER.'"'.$user.'"');
+	    $playlists_json = $this->rest->get("_design/playlists/_view/by_user?startkey=[\"$user\"]&endkey=[\"$user\",\"\u9999\"]");
 	    $playlists = json_decode($playlists_json, TRUE);
+	    unset($playlists['total_rows']);
+	    unset($playlists['offset']);
 	    return $playlists;
 	}
 
-	function save($name, $data)
+	function save($user_id, $title, $playlist)
 	{
         // create the filename by prepending the user name to the playlist name
-        $doc_id = $this->_generate_id($name);
-        // persist the playlist to the doc store
+        $doc_id = sha1("$user_id/$title");
+        $doc = array(
+            '_id' => $doc_id, 'user_id' => $user_id, 'type' => 'playlist',
+            'public' => true, 'title' => $title, 'playlist' => $playlist
+        );
         $this->load->library('rest', array('server' => $this->config->item('couchdb_server')));
-        $message_json = $this->rest->put($doc_id, array(
-            '_id' => $doc_id, 'user_id' => $this->_user(), 'type' => 'playlist',
-            'title' => $name, 'playlist' => $data
-        ));
-        $message = json_decode($message_json, TRUE);
+//        $doc_json = json_encode($doc);
+//        echo $doc_json;
+        $message = $this->rest->put($doc_id, $doc, 'json');
         return $message;
     }
 
@@ -54,14 +61,14 @@ class Playlist extends Model
      *
      * @param name The name of the playlist to work with.
      */
-    function _generate_id($name)
+    private function _generate_id($name)
     {
         $fullname = $this->_user(). "/$name";
         $sha1 = sha1($fullname);
         return $sha1;
     }
 
-    function _playlists_dir()
+    private function _playlists_dir()
     {
         $dir = $this->config->item('playlists_dir');
         $user = $this->_user();
@@ -71,7 +78,7 @@ class Playlist extends Model
         return $dir;
     }
 
-    function _user()
+    private function _user()
     {
         $user = false;
         if (array_key_exists('PHP_AUTH_USER', $_SERVER)) {
