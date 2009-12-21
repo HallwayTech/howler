@@ -106,16 +106,13 @@ var Playlist = function() {
 		 * Saves the current playlist.
 		 */
 		save: function(name) {
-			if (!name) {
-				name = $('#saved-playlists .items :selected').val();
-			}
 			if (!name || name == '_new') {
 				name = '';
 				while (name == '') {
 					name = prompt("Please provide a name for this playlist.");
 				}
 			}
-			if (name != null) {
+			if (name) {
 				ids = [];
 				$('.playlist-item').each(function (idx) {
 						var id = this.id.substring(this.id.lastIndexOf('-') + 1);

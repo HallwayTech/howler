@@ -171,15 +171,19 @@ var Player = function() {
 			Player.create();
 		},
 
-		setMarquee: function(idx) {
-//			$('#marquee .artist').html(description.artist);
-//			$('#marquee .title').html(description.title);
-//			$('#marquee .album').html(description.album);
+		setMarquee: function(id) {
+			var playlistItem = $('#playlist-item-' + id + ' .content');
+			var artist = $('.artist', playlistItem).text();
+			var title = $('.title', playlistItem).text();
+			var album = $('.album', playlistItem).text();
+			$('#marquee .artist').html(artist);
+			$('#marquee .title').html(title);
+			$('#marquee .album').html(album);
 		},
 
 		controls: {
 			next: function() {
-				var stopPlaying = _repeat == 'NONE' && next >= Playlist._playlist.length;
+				var stopPlaying = _repeat == 'NONE';
 				if (!stopPlaying) {
 					var next = Player.nextId();
 					Player.controls.play(next);
@@ -193,7 +197,7 @@ var Player = function() {
 				player.sendEvent('LOAD', [item]);
 				player.sendEvent('PLAY', true);
 				Playlist.highlight(id);
-				Player.setMarquee('0');
+				Player.setMarquee(id);
 			},
 
 			prev: function() {
