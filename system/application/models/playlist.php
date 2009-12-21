@@ -15,7 +15,16 @@ class Playlist extends Model
     function read($id)
     {
         $this->load->library('rest', array('server' => $this->config->item('couchdb_server')));
-        $playlist = $this->rest->get($id, null, 'json');
+        if (is_array($id)) {
+            $playlists = array('keys' => $id);
+            $playlist_json = json_encode($playlists);
+            $playlists = $this->rest->post(
+                '_all_docs?include_docs=true', $playlist_json, 'json'
+            );
+            $playlist = $playlists->rows;
+        } else {
+            $playlist = $this->rest->get($id, null, 'json');
+        }
         return $playlist;
 	}
 

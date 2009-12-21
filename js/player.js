@@ -33,7 +33,6 @@ var Player = function() {
 	var _history = [];
 
 	return {
-
 		create: function() {
 			var swfUrl = 'lib/player-4.2.90.swf';
 			var width = '100%';

@@ -22,14 +22,13 @@ class Playlists extends Controller
 	 *
 	 * @param name The name of the playlist to retrieve.
 	 */
-	function read($name)
+	function read($id)
 	{
         $this->load->model('playlist');
-        $playlist = $this->playlist->read($name);
-        foreach ($playlist->playlist as $entry) {
-            // TODO update playlists to include song _id
-            $entry->_id = $entry->file;
-            $this->load->view('playlist_item', $entry);
+        $playlist = $this->playlist->read($id);
+        $playlist_entries = $this->playlist->read($playlist->playlist);
+        foreach ($playlist_entries as $entry) {
+            $this->load->view('playlist_item', $entry->doc);
         }
 	}
 
