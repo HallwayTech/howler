@@ -147,13 +147,15 @@ var Player = function() {
 			},
 
 			play: function(id) {
-				// load, play and highlight the item
-				var url = 'index.php/files/read/' + id;
-				var item = {file: url, type: 'sound', start: '0'};
-				player.sendEvent('LOAD', [item]);
+				if (id) {
+					// load, play and highlight the item
+					var url = 'index.php/files/read/' + id;
+					var item = {file: url, type: 'sound', start: '0'};
+					player.sendEvent('LOAD', [item]);
+					Playlist.highlight(id);
+					Player.setMarquee(id);
+				}
 				player.sendEvent('PLAY', true);
-				Playlist.highlight(id);
-				Player.setMarquee(id);
 			},
 
 			prev: function() {

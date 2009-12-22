@@ -141,7 +141,7 @@ var Playlist = function() {
 		/**
 		 * Saves the current playlist.
 		 */
-		save: function(name, rev) {
+		savePlaylist: function(name, rev) {
 			if (!name || name == '_new') {
 				name = '';
 				while (name == '') {

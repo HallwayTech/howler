@@ -14,7 +14,7 @@
         </div>
         <div class='actions'>
             <span class='load'>[<a href='#' onclick='Playlist.loadPlaylist("<?= $id ?>");return false' title='Load' alt='Load'>L</a>]</span>
-            <span class='save'>[<a href='#' onclick='Playlist.save("<?= $title ?>", "<?= $rev ?>");return false' title='Save' alt='Save'>S</a>]</span>
+            <span class='save'>[<a href='#' onclick='Playlist.savePlaylist("<?= $title ?>", "<?= $rev ?>");return false' title='Save' alt='Save'>S</a>]</span>
             <span class='delete'>[<a href='#' onclick='Playlist.deletePlaylist("<?= $id ?>", "<?= $rev ?>");return false' title='Delete' alt='Delete'>D</a>]</span>
         </div>
         <div class='clear'></div>

@@ -52,7 +52,7 @@
                 <div id='saved-playlists-actions'>
                     <div class='left'>
                         <input type='button' value='New' onclick='Playlist.clear()'/>
-                        <input type='button' value='Save as...' onclick='Playlist.save()'/>
+                        <input type='button' value='Save as...' onclick='Playlist.savePlaylist()'/>
                     </div>
                     <div class='right'>
                         <a href='#' onclick='Playlist.toggleSavedView();return false'>--</a>
