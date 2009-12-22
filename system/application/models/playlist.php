@@ -53,10 +53,9 @@ class Playlist extends Model
             '_id' => $doc_id, 'user_id' => $user_id, 'type' => 'playlist',
             'public' => true, 'title' => $title, 'playlist' => $playlist
         );
+        $doc_json = json_encode($doc);
         $this->load->library('rest', array('server' => $this->config->item('couchdb_server')));
-//        $doc_json = json_encode($doc);
-//        echo $doc_json;
-        $message = $this->rest->put($doc_id, $doc, 'json');
+        $message = $this->rest->put($doc_id, $doc_json, 'json');
         return $message;
     }
 

@@ -40,15 +40,20 @@ class Playlists extends Controller
 	 */
 	function save($name)
 	{
-	    $user_id = $this->_current_user();
-	    $playlist_param = $this->input->post('playlist');
-	    $playlist = json_decode($playlist_param);
-	    $this->load->model('playlist');
-        $response = $this->playlist->save($user_id, $name, $playlist);
-        if (!empty($response->error)) {
-            log_message('error', $response);
-            show_error($response);
-        }
+	    $this->load->helper('request_method');
+
+	    if (is_method_allowed(array(PUT, POST))) {
+	       $user_id = $this->_current_user();
+	       $playlist_param = $this->input->post('playlist');
+	       $playlist = json_decode($playlist_param);
+	       $this->load->model('playlist');
+            $response = $this->playlist->save($user_id, $name, $playlist);
+            if (!empty($response->error)) {
+                $response_json = json_encode($response);
+                log_message('error', $response_json);
+                show_error($response_json);
+            }
+	    }
 	}
 
 	/**
@@ -59,15 +64,16 @@ class Playlists extends Controller
 	 */
 	function delete($id, $rev)
 	{
-	    if ($_SERVER['REQUEST_METHOD'] == 'DELETE') {
+	    $this->load->helper('request_method');
+
+	    if (is_method_allowed(DELETE)) {
 	        $this->load->model('playlist');
             $response = $this->playlist->delete("$id?rev=$rev");
             if (!empty($response->error)) {
-                log_message('error', $response);
-                show_error($response);
+                $response_json = json_encode($response);
+            log_message('error', $response_json);
+            show_error($response_json);
             }
-        } else {
-            show_error('Request method must be DELETE.');
         }
 	}
 

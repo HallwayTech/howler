@@ -137,6 +137,8 @@ class Curl {
         // If its an array (instead of a query string) then format it correctly
         if(is_array($params)) {
             $qparams = http_build_query($params);
+        } else {
+            $qparams = $params;
         }
         
         // Add in the specific options provided
@@ -144,14 +146,13 @@ class Curl {
 
         // build temp file to hold data
         $tmp = tmpfile();
-        $params_json = json_encode($params);
-        fwrite($tmp, $params_json);
+        fwrite($tmp, $qparams);
         fseek($tmp, 0);
 
         $this->option(CURLOPT_PUT, TRUE);
         $this->option(CURLOPT_INFILE, $tmp);
-        $this->option(CURLOPT_INFILESIZE, strlen($params_json));
-        $this->option(CURLOPT_POSTFIELDS, $params);
+        $this->option(CURLOPT_INFILESIZE, strlen($qparams));
+//        $this->option(CURLOPT_POSTFIELDS, $qparams);
     }
     
     public function delete($options = array())
