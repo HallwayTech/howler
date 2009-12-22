@@ -9,6 +9,25 @@ function load($url, $filename)
     $docs = json_decode($file, true);
 
     foreach ($docs as $doc) {
+        echo "Processing {$doc['_id']}\n";
+
+        // see if a version already exists in the db
+        $ch = curl_init("$url/{$doc['_id']}");
+
+        // return the transfer as a string
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+        // $output contains the output string
+        $output = curl_exec($ch);
+        $response_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+        // if the document exists, use the _rev returned
+        if ($response_code == 200 && !empty($output)) {
+            echo "--Updating existing doc\n";
+            $response = json_decode($output);
+            $doc['_rev'] = $response->_rev;
+        }
+
         // convert doc to json for storage
         $doc_json = json_encode($doc);
 
@@ -19,7 +38,7 @@ function load($url, $filename)
 
         // create curl resource
         $ch = curl_init("$url/{$doc['_id']}");
-
+        
         // return the transfer as a string
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
