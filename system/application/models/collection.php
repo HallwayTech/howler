@@ -85,7 +85,7 @@ class Collection extends Model
 
         // construct the output
         $output = array(
-            'label' => $title, 'dirs' => $dirs, 'files' => $files
+            'id' => $id, 'label' => $title, 'dirs' => $dirs, 'files' => $files
         );
         if (!empty($title_doc->parent)) {
             $output['parent'] = $title_doc->parent; 

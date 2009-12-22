@@ -68,66 +68,6 @@ var Player = function() {
 		},
 
 		/**
-		 * Get the next index to play.  Considers if the next index should be
-		 * chosen randomly.
-		 *
-		 * @param options Expected options include:
-		 *  -current
-		 *      The current index [int].
-		 *  -history
-		 *      The history of played indices [int array].
-		 *  -random
-		 *      Whether to choose randomly or not [boolean].
-		 *  -playlistLength
-		 *      Length of the current playlist [int].
-		 * @return The next index to play.
-		 */
-		nextId: function(options) {
-			var currentPlayingId = Playlist.currentPlayingId();
-			var nextId = false;
-			if (currentPlayingId) {
-				var id = $('#' + currentPlayingId + ' + li').attr('id');
-				if (id) {
-					nextId = id.substring(id.lastIndexOf('-') + 1);
-				}
-			} else {
-				var id = $('#playlist .items li:first').attr('id');
-				if (id) {
-					nextId = id.substring(id.lastIndexOf('-') + 1);
-				}
-			}
-			return nextId;
-			
-			/*
-			options = options || {};
-			var current = options.current || Playlist._playingIdx;
-			var history = options.history || _history || [];
-			var random = options.random || _random;
-			var playlistLength = options.playlistLength || ;
-			var next = 0;
-
-			if (playlistLength > 0) {
-				if (random) {
-					do {
-						// get random playlist position until no collision
-						next = Math.round(Math.abs(Math.random() * (playlistLength - 1)));
-					} while (next == current || history.indexOf(next) > -1);
-
-					history.push(next);
-					while (history.length > history.length * MAX_HIST) {
-						// push the last one off the list
-						history.shift();
-					}
-				} else {
-					next = current + 1;
-				}
-			}
-
-			return next;
-			*/
-		},
-
-		/**
 		 * random() -- tells where the play order should be random
 		 *
 		 * @returns true if play should be random
@@ -200,9 +140,8 @@ var Player = function() {
 
 		controls: {
 			next: function() {
-				var stopPlaying = _repeat == 'NONE';
-				if (!stopPlaying) {
-					var next = Player.nextId();
+				var next = Playlist.nextId();
+				if (next) {
 					Player.controls.play(next);
 				}
 			},
@@ -218,7 +157,10 @@ var Player = function() {
 			},
 
 			prev: function() {
-				Player.controls.play(Playlist._playingIdx - 1);
+				var prev = Playlist.prevId();
+				if (prev) {
+					Player.controls.play(prev);
+				}
 			}
 		},
 

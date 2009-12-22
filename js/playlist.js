@@ -46,6 +46,22 @@ var Playlist = function() {
 			*/
 		},
 
+		deletePlaylist: function(id, rev) {
+			if (id && id != '_new') {
+				var url = 'index.php/playlists/delete/' + id + '/' + rev;
+				$.ajax({
+					type: 'DELETE',
+					url: url,
+					success: function(data, textStatus) {
+						Playlist.loadPlaylists();
+					},
+					error: function(XMLHttpRequest, textStatus, errorThrown) {
+						alert('Unable to delete playlist [' + textStatus + ']');
+					}
+				});
+			}
+		},
+
 		highlight: function(id) {
 			// clear current highlighted item
 			$('.now-playing').removeClass('now-playing');
@@ -82,20 +98,40 @@ var Playlist = function() {
 			$('#saved-playlists').load('index.php/playlists').resizable();
 		},
 
-		deletePlaylist: function(id, rev) {
-			if (id && id != '_new') {
-				var url = 'index.php/playlists/delete/' + id + '/' + rev;
-				$.ajax({
-					type: 'DELETE',
-					url: url,
-					success: function(data, textStatus) {
-						Playlist.loadPlaylists();
-					},
-					error: function(XMLHttpRequest, textStatus, errorThrown) {
-						alert('Unable to delete playlist [' + textStatus + ']');
-					}
-				});
+		nextId: function() {
+			var currentPlayingId = Playlist.currentPlayingId();
+			var nextId = false;
+			if (currentPlayingId) {
+				var id = $('#' + currentPlayingId).next().attr('id');
+				if (id) {
+					nextId = id.substring(id.lastIndexOf('-') + 1);
+				}
 			}
+			if (!nextId) {
+				var id = $('#playlist .items li:first').attr('id');
+				if (id) {
+					nextId = id.substring(id.lastIndexOf('-') + 1);
+				}
+			}
+			return nextId;
+		},
+
+		prevId: function() {
+			var currentPlayingId = Playlist.currentPlayingId();
+			var nextId = false;
+			if (currentPlayingId) {
+				var id = $('#' + currentPlayingId).prev().attr('id');
+				if (id) {
+					nextId = id.substring(id.lastIndexOf('-') + 1);
+				}
+			}
+			if (!nextId) {
+				var id = $('#playlist .items li:last').attr('id');
+				if (id) {
+					nextId = id.substring(id.lastIndexOf('-') + 1);
+				}
+			}
+			return nextId;
 		},
 
 		removeItem: function(id) {

@@ -2,8 +2,14 @@
 <div id='collectionNav'>
     <ul>
         <li id='refreshLink'><a href='#' onclick='Collection.refresh();return false'>Refresh</a></li>
+<?php if (!empty($parent)): ?>
         <li id='backLink'><a href='#' onclick='Collection.view("<?= $parent ?>");return false'>Go back</a></li>
-        <li id='addAllLink'><a href='#' onclick='Playlist.addParent("<?= $parent ?>");return false'>Add All Songs</a></li>
+<?php elseif (false and !empty($search)): ?>
+        <li id='backLink'><a href='#' onclick='Collection.search("<?= $search ?>");return false'>Go back</a></li>
+<?php else: ?>
+        <li id='backLink'>Go back</li>
+<?php endif ?>
+        <li id='addAllLink'><a href='#' onclick='Playlist.addParent("<?= $id ?>");return false'>Add All Songs</a></li>
     </ul>
 </div>
 
