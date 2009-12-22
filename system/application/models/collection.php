@@ -85,8 +85,11 @@ class Collection extends Model
 
         // construct the output
         $output = array(
-            'parent' => $id, 'label' => $title, 'dirs' => $dirs, 'files' => $files
+            'label' => $title, 'dirs' => $dirs, 'files' => $files
         );
+        if (!empty($title_doc->parent)) {
+            $output['parent'] = $title_doc->parent; 
+        }
         return $output;
     }
 
@@ -123,14 +126,14 @@ class Collection extends Model
                 null, 'json'
             );
 
-            foreach($collections->rows as $row) {
-                $key = $row->key;
+            foreach($collections->rows as $collection) {
+                $key = $collection->key;
                 if ($key[1] == 'd') {
-                    $dirs[] = array('id' => $row->id, 'label' => $key[2]);
+                    $dirs[] = array('id' => $collection->id, 'label' => $key[2]);
                 } else {
-                    $value = $row->value;
+                    $value = $collection->value;
                     $files[] = array(
-                        'id' => $row->id, 'title' => $value->title,
+                        'id' => $collection->id, 'title' => $value->title,
                         'artist' => $value->artist, 'album' => $value->album
                     );
                 }

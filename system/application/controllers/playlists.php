@@ -14,7 +14,11 @@ class Playlists extends Controller
 	    $user = $this->_current_user();
 	    $this->load->model('playlist');
 	    $playlists = $this->playlist->lists($user);
-		$this->load->view('playlists', $playlists);
+	    if (sizeof($playlists->rows) > 0) {
+	        $this->load->view('playlists', $playlists);
+	    } else {
+	        set_status_header(204);
+	    }
 	}
 
 	/**
@@ -38,16 +42,23 @@ class Playlists extends Controller
 	 *
 	 * @param name The name of the playlist to save.
 	 */
-	function save($name)
+	function save($name, $rev)
 	{
 	    $this->load->helper('request_method');
 
 	    if (is_method_allowed(array(PUT, POST))) {
-	       $user_id = $this->_current_user();
-	       $playlist_param = $this->input->post('playlist');
-	       $playlist = json_decode($playlist_param);
-	       $this->load->model('playlist');
-            $response = $this->playlist->save($user_id, $name, $playlist);
+	        // get the current user
+	        $user_id = $this->_current_user();
+
+	        // get the submitted playlist
+	        $playlist_param = $this->input->post('playlist');
+	        $playlist = json_decode($playlist_param);
+
+	        // load the playlist model
+	        $this->load->model('playlist');
+
+	        // save the playlist
+            $response = $this->playlist->save($user_id, $name, $playlist, $rev);
             if (!empty($response->error)) {
                 $response_json = json_encode($response);
                 log_message('error', $response_json);
@@ -71,8 +82,8 @@ class Playlists extends Controller
             $response = $this->playlist->delete("$id?rev=$rev");
             if (!empty($response->error)) {
                 $response_json = json_encode($response);
-            log_message('error', $response_json);
-            show_error($response_json);
+                log_message('error', $response_json);
+                show_error($response_json);
             }
         }
 	}

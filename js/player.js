@@ -171,13 +171,31 @@ var Player = function() {
 		},
 
 		setMarquee: function(id) {
+			// collect available information
 			var playlistItem = $('#playlist-item-' + id + ' .content');
 			var artist = $('.artist', playlistItem).text();
 			var title = $('.title', playlistItem).text();
 			var album = $('.album', playlistItem).text();
-			$('#marquee .artist').html(artist);
-			$('#marquee .title').html(title);
-			$('#marquee .album').html(album);
+			var label = $('.label', playlistItem).text();
+
+			// set the values in the marquee
+			var marquee = $('#marquee');
+			if (label) {
+				// set and show the label
+				$('.label', marquee).html(label).show();
+
+				// hide the unused fields
+				$('.artist,.title,.album', marquee).hide();
+			} else {
+				// hide the unused label
+				$('.label', marquee).hide();
+
+				// set the artist, title and album then show them
+				$('.artist', marquee).html(artist);
+				$('.title', marquee).html(title);
+				$('.album', marquee).html(album);
+				$('.artist,.title,.album', marquee).show();
+			}
 		},
 
 		controls: {

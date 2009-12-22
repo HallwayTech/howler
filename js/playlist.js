@@ -105,7 +105,7 @@ var Playlist = function() {
 		/**
 		 * Saves the current playlist.
 		 */
-		save: function(name) {
+		save: function(name, rev) {
 			if (!name || name == '_new') {
 				name = '';
 				while (name == '') {
@@ -119,14 +119,24 @@ var Playlist = function() {
 						ids.push(id);
 					}
 				);
-				
+
+				var url = 'index.php/playlists/save/' + name;
+				if (rev) {
+					url += '/' + rev;
+				} else {
+					url += '/_new';
+				}
+
 				var playlist = JSON.stringify(ids);
+
 				$.ajax({
 					type: 'POST',
-					url: 'index.php/playlists/save/' + name,
+					url: url,
 					data: {'playlist': playlist},
 					success: function() {
-						Playlist.loadPlaylists();
+						if (!rev) {
+							Playlist.loadPlaylists();
+						}
 					},
 					error: function() {
 						alert("An error occurred saving the playlist.  Please try again later.");

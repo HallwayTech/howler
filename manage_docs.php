@@ -2,7 +2,7 @@
 function load($url, $filename)
 {
     if (!file_exists($filename)) {
-       die("Could not find docs file [$filename]");
+       die("Could not find docs file [$filename]\n");
     }
 
     $file = file_get_contents($filename);

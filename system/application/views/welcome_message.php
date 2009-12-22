@@ -1,46 +1,47 @@
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
         <!-- javascript -->
-        <script type="text/javascript" src="lib/jquery-1.3.2.min.js"></script>
-        <script type="text/javascript" src="lib/jquery-ui-1.7.1.custom.min.js"></script>
-        <script type="text/javascript" src="lib/swfobject-2.2.min.js"></script>
-        <script type="text/javascript" src="lib/querystring-1.3.min.js"></script>
-        <script type="text/javascript" src="lib/json2.min.js"></script>
-        <script type="text/javascript" src="js/playlist.js"></script>
-        <script type="text/javascript" src="js/player.js"></script>
-        <script type="text/javascript" src="js/collection.js"></script>
-        <script type="text/javascript" src="js/actions.js"></script>
+        <script type='text/javascript' src='lib/jquery-1.3.2.min.js'></script>
+        <script type='text/javascript' src='lib/jquery-ui-1.7.1.custom.min.js'></script>
+        <script type='text/javascript' src='lib/swfobject-2.2.min.js'></script>
+        <script type='text/javascript' src='lib/querystring-1.3.min.js'></script>
+        <script type='text/javascript' src='lib/json2.min.js'></script>
+        <script type='text/javascript' src='js/playlist.js'></script>
+        <script type='text/javascript' src='js/player.js'></script>
+        <script type='text/javascript' src='js/collection.js'></script>
+        <script type='text/javascript' src='js/actions.js'></script>
         <!-- stylesheets -->
-        <link rel="stylesheet" type="text/css" href="css/collection.css" />
-        <link rel="stylesheet" type="text/css" href="css/jquery-ui-1.7.1.custom.css" />
-        <link rel="stylesheet" type="text/css" href="css/player.css" />
-        <link rel="stylesheet" type="text/css" href="css/playlist.css" />
+        <link rel='stylesheet' type='text/css' href='css/collection.css' />
+        <link rel='stylesheet' type='text/css' href='css/jquery-ui-1.7.1.custom.css' />
+        <link rel='stylesheet' type='text/css' href='css/player.css' />
+        <link rel='stylesheet' type='text/css' href='css/playlist.css' />
 
         <title>&#164;&#164; Home Media Player &#164;&#164;</title>
     </head>
     <body>
-        <div id="player">
+        <div id='player'>
             <!-- menus -->
-            <div id="menubar">
+            <div id='menubar'>
                 <!-- actions menu -->
-                <div class="player-menu"><input type="button" id="restart-player" onclick="Actions.restartPlayer()" value="Restart player" /></div>
+                <div class='player-menu'><input type='button' id='restart-player' onclick='Actions.restartPlayer()' value='Restart player' /></div>
                 <!-- random menu -->
-                <div class="player-menu"><input type="checkbox" id="random"<?= ($random == 'true') ? ' checked="checked"' : '' ?> onclick="Player.random(this.checked)"/><label for="random"> Random?</label></div>
+                <div class='player-menu'><input type='checkbox' id='random'<?= ($random == 'true') ? ' checked="checked"' : '' ?> onclick='Player.random(this.checked)'/><label for='random'> Random?</label></div>
                 <!-- repeat menu -->
-                <div class="player-menu"><select id="repeat-menu"><?php foreach($repeats as $value => $output): ?>
-                	<option value="<?= $value ?>"<?= ($repeat == $value) ? ' selected="selected"' : '' ?>><?= $output ?></option>
+                <div class='player-menu'><select id='repeat-menu'><?php foreach($repeats as $value => $output): ?>
+                	<option value='<?= $value ?>'<?= ($repeat == $value) ? ' selected="selected"' : '' ?>><?= $output ?></option>
                 <?php endforeach ?></select></div>
             </div>
             <!-- marquee -->
             <div id='marquee'>
-                <span class="artist"></span> - <span class="title"></span>
-                <span class="album"></span>
+                <span class='label'></span>
+                <span class='artist'></span> - <span class='title'></span>
+                <span class='album'></span>
                 <div class='clear'></div>
             </div>
             <!-- player -->
-            <div id="playerWrapper">
-                <div id="playerSpot">This text will be replaced by the media player.</div>
+            <div id='playerWrapper'>
+                <div id='playerSpot'>This text will be replaced by the media player.</div>
             </div>
             <div id='controls-container'>
                 <input type='button' onclick='Player.controls.prev()' value='&#60; Prev' />
@@ -70,9 +71,9 @@
                 <ul>
 				<?php foreach($alpha_nav as $alpha): ?>
 					<?php if (is_array($alpha)): ?>
-					<li><a href='#' onclick="Collection.search('<?= $alpha[1] ?>');return false"><?= $alpha[0] ?></a></li>
+					<li><a href='#' onclick='Collection.search("<?= $alpha[1] ?>");return false'><?= $alpha[0] ?></a></li>
 					<?php else: ?>
-                    <li><a href='#' onclick="Collection.search('<?= $alpha ?>');return false"><?= $alpha ?></a></li>
+                    <li><a href='#' onclick='Collection.search("<?= $alpha ?>");return false'><?= $alpha ?></a></li>
                     <?php endif ?>
 				<?php endforeach ?>
                 </ul>

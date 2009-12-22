@@ -18,7 +18,7 @@ $config['default_repeat'] = 'LIST';
 $config['default_random'] = 'false';
 
 // url to access couchdb server via REST
-$config['couchdb_server'] = 'http://127.0.0.1:5984/howler1';
+$config['couchdb_server'] = 'http://127.0.0.1:5984/howler';
 
 /*
 |--------------------------------------------------------------------------

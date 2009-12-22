@@ -39,21 +39,28 @@ class Playlist extends Model
 	{
 	    $this->load->library('rest', array('server' => $this->config->item('couchdb_server')));
 	    $playlists_json = $this->rest->get("_design/playlists/_view/by_user?startkey=[\"$user\"]&endkey=[\"$user\",\"\u9999\"]");
-	    $playlists = json_decode($playlists_json, TRUE);
-	    unset($playlists['total_rows']);
-	    unset($playlists['offset']);
+	    $playlists = json_decode($playlists_json);
+	    unset($playlists->total_rows);
+	    unset($playlists->offset);
 	    return $playlists;
 	}
 
-	function save($user_id, $title, $playlist)
+	function save($user_id, $title, $playlist, $rev = null)
 	{
         // create the filename by prepending the user name to the playlist name
         $doc_id = sha1("$user_id/$title");
+
+        // build the playlist document
         $doc = array(
             '_id' => $doc_id, 'user_id' => $user_id, 'type' => 'playlist',
             'public' => true, 'title' => $title, 'playlist' => $playlist
         );
+        if ($rev && $rev != '_new') {
+            $doc['_rev'] = $rev;
+        }
         $doc_json = json_encode($doc);
+
+        // save to the database
         $this->load->library('rest', array('server' => $this->config->item('couchdb_server')));
         $message = $this->rest->put($doc_id, $doc_json, 'json');
         return $message;

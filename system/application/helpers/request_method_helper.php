@@ -35,7 +35,8 @@ if ( ! function_exists('require_method'))
     {
         $allowed = false;
 
-        $method = $this->input->server('REQUEST_METHOD');
+        $CI = &get_instance();
+        $method = $CI->input->server('REQUEST_METHOD');
 
         if (is_array($allowed_method)) {
             $allowed = in_array($method, $allowed_method);
@@ -45,7 +46,7 @@ if ( ! function_exists('require_method'))
 
         if (!$allowed) {
             show_error('Request method not allowed. Expected '
-                . join(',', $allowed_method));
+                . join(',', $allowed_method), 405);
         }
 
         return $allowed;
