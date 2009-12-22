@@ -134,7 +134,7 @@ if (($type != 'design' && $type != 'playlist')
     die(usage($argv));
 }
 
-$filename = "{$db}_{$type}_docs.json";
+$filename = "{$type}_docs.json";
 
 switch ($func) {
     case 'load':
