@@ -71,9 +71,9 @@
                 <ul>
 				<?php foreach($alpha_nav as $alpha): ?>
 					<?php if (is_array($alpha)): ?>
-					<li><a href='#' onclick='Collection.search("<?= $alpha[1] ?>");return false'><?= $alpha[0] ?></a></li>
+					<li onclick='Collection.search("<?= $alpha[1] ?>")'><a href='#' onclick='Collection.search("<?= $alpha[1] ?>");return false'><?= $alpha[0] ?></a></li>
 					<?php else: ?>
-                    <li><a href='#' onclick='Collection.search("<?= $alpha ?>");return false'><?= $alpha ?></a></li>
+                    <li onclick='Collection.search("<?= $alpha ?>")'><a href='#' onclick='Collection.search("<?= $alpha ?>");return false'><?= $alpha ?></a></li>
                     <?php endif ?>
 				<?php endforeach ?>
                 </ul>
