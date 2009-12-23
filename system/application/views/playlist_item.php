@@ -14,7 +14,7 @@
 <?php endif ?>
     </div>
     <div class='remove'>
-        <a href='#' onclick='Playlist.removeItem('<?= $_id ?>');return false' title='Remove "<?= $label ?>"'><img src='images/cross.png' alt='Remove "<?= $label ?>"' /></a>
+        <a href='#' onclick='Playlist.removeItem("<?= $_id ?>");return false' title='Remove "<?= $label ?>"'><img src='images/cross.png' alt='Remove "<?= $label ?>"' /></a>
     </div>
     <div class='clear'></div>
 </li>
