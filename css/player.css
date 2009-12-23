@@ -9,10 +9,9 @@
 	font-weight: bold;
 }
 
-.now-playing
-{
-	background-color: yellow;
-	border: medium double #fff;
+#player {
+    float: left;
+    width: 40%;
 }
 
 .clear
@@ -25,7 +24,6 @@
 	border: 1px gray dashed;
 	float: left;
 	width: 32%;
-	height: 23px;
 	text-align: center;
 	vertical-align: middle;
 }

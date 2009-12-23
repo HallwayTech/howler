@@ -1,15 +1,24 @@
+#collection {
+    float: left;
+    width: 60%;
+}
+
+#alphaNav {
+    float: left;
+    margin-left: 1em;
+    margin-right: 1em;
+}
+
 #alphaNav ul
 {
 	list-style-type: none;
 	padding: 0;
 	margin: 0;
-	float: left;
-	width: 20px;
 }
 
 #alphaNav li
 {
-	width: 20px;
+    width: 20px;
 	height: 20px;
 	border: 1px solid #aaa;
 	cursor: pointer;
@@ -18,41 +27,24 @@
 
 #listingContainer
 {
-	float: left;
-	margin-left: 1em;
-	width: 90%;
-	height: 100%;
+    float: left;
 	overflow-y: auto;
-}
-
-#player {
-	float: left;
-	width: 40%;
-}
-
-#collection {
-	float: right;
-	width: 59%;
 }
 
 #collectionNav ul
 {
-	padding: 0;
+    padding: 0;
 }
 
 #collectionNav li
 {
-	list-style-type: none;
-	display: inline;
+    list-style-type: none;
+    display: inline;
 }
 
 #collectionNav li:before, #collectionNav li:after
 {
-	content: " | ";
-}
-
-.template {
-	display: none;
+    content: " | ";
 }
 
 .dirs, .files {

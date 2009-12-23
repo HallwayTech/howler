@@ -55,7 +55,7 @@
                         <input type='button' value='Save as...' onclick='Playlist.savePlaylist()'/>
                     </div>
                     <div class='right'>
-                        <a href='#' onclick='Playlist.toggleSavedView();return false'>--</a>
+                        <a href='#' onclick='Playlist.hideSavedView();return false' title='Hide saved playlists' class='hide-button'><img src='images/arrow_up.png' alt='Hide saved playlists' /></a>
                     </div>
                 </div>
                 <div class='clear'></div>
@@ -71,9 +71,9 @@
                 <ul>
 				<?php foreach($alpha_nav as $alpha): ?>
 					<?php if (is_array($alpha)): ?>
-					<li onclick='Collection.search("<?= $alpha[1] ?>")'><a href='#' onclick='Collection.search("<?= $alpha[1] ?>");return false'><?= $alpha[0] ?></a></li>
+					<li onclick='Collection.search("<?= $alpha[1] ?>")'><a href='#' onclick='Collection.search("<?= $alpha[1] ?>");return false' title='Search for "<?= $alpha[1] ?>"'><?= $alpha[0] ?></a></li>
 					<?php else: ?>
-                    <li onclick='Collection.search("<?= $alpha ?>")'><a href='#' onclick='Collection.search("<?= $alpha ?>");return false'><?= $alpha ?></a></li>
+                    <li onclick='Collection.search("<?= $alpha ?>")'><a href='#' onclick='Collection.search("<?= $alpha ?>");return false' title='Search for "<?= $alpha ?>"'><?= $alpha ?></a></li>
                     <?php endif ?>
 				<?php endforeach ?>
                 </ul>

@@ -181,9 +181,30 @@ var Playlist = function() {
 			}
 		},
 
-		toggleSavedView: function() {
-			$("#saved-playlists").toggle("normal");
-			$("#saved-playlists-actions .left").toggle("normal");
+		hideSavedView: function() {
+			$('#saved-playlists').slideUp('normal', function() {
+				var anchor = $('#saved-playlists-actions .hide-button');
+				anchor.click(function() {
+					Playlist.showSavedView();
+					return false;
+				});
+				anchor.removeClass('hide-button').addClass('show-button');
+				var img = $('img', anchor);
+				img.attr('src', 'images/arrow_down.png');
+			});
+		},
+
+		showSavedView: function() {
+			$('#saved-playlists').slideDown('normal', function() {
+				var anchor = $('#saved-playlists-actions .show-button');
+				anchor.click(function() {
+					Playlist.hideSavedView();
+					return false;
+				});
+				anchor.removeClass('show-button').addClass('hide-button');
+				var img = $('img', anchor);
+				img.attr('src', 'images/arrow_up.png');
+			});
 		}
 	};
 }();

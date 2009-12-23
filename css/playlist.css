@@ -1,112 +1,113 @@
-.light-bg
-{
+/*
+.hide-button div, .show-button div {
+    display: none;
+}
+
+.hide-button {
+    height: 16px;
+    width: 16px;
+    background-image: url(images/arrow_up.png);
+}
+
+.show-button {
+    height: 16px;
+    width: 16px;
+    background-image: url(images/arrow_down.png);
+}
+*/
+
+img {
+    border: 0;
+}
+
+.light-bg {
 	background-color: lightgray
 }
 
-.fleft
-{
-	float: left
+.fleft {
+	float: left;
 }
 
-.fright
-{
-	float: right
+.fright {
+	float: right;
 }
 
-.now-playing
-{
+.now-playing {
 	background-color: yellow;
 	border: medium double #fff;
 }
 
-#playlist .items
-{
-	list-style-type: none;
-	padding: 1;
-	margin: 1;
-}
-
-#playlist
-{
-	overflow-y: auto;
-	height: 75%;
-}
-
-/* current playlist & items */
-.playlist-item
-{
-	border: 1px solid #aaa;
-	padding: 2px;
-	margin: 3px;
-}
-
-.playlist-item .content
-{
-	/*cursor: pointer;*/
-	float: left;
-	width: 95%;
-}
-
-.playlist-item .remove
-{
-	float: right;
-}
-
-.artist
-{
-}
-
-.title
-{
-}
-
-.album
-{
-	font-style: italic;
-	display: block;
-}
-
-/* saved playlists & items */
-#saved-playlists-container
-{
-	border: 1px solid #aaa;
-}
-
-#saved-playlists-actions .left
-{
-	float: left;
-}
-
-#saved-playlists-actions .right
-{
-	float: right;
-}
-
-#saved-playlists
-{
-	overflow-y: auto;
-	height: 7em; 
-}
-	
-#saved-playlists .list
-{
-	width: 100%
+#playlist .items {
 	list-style-type: none;
 	padding: 1px;
 	margin: 1px;
 }
 
-#saved-playlists .list .item
-{
-	width: 100%;
+#playlist {
+	overflow-y: auto;
+	height: 75%;
 }
 
-#saved-playlists .list .item .desc
-{
+/* current playlist & items */
+.playlist-item {
+	border: 1px solid #aaa;
+	padding: 2px;
+	margin: 3px;
+}
+
+.playlist-item .content {
+	/*cursor: pointer;*/
+	float: left;
+	width: 95%;
+}
+
+.playlist-item .remove {
+	float: right;
+}
+
+.artist {
+}
+
+.title {
+}
+
+.album {
+	font-style: italic;
+	display: block;
+}
+
+/* saved playlists & items */
+#saved-playlists-container {
+	border: 1px solid #aaa;
+}
+
+#saved-playlists-actions .left {
+	float: left;
+}
+
+#saved-playlists-actions .right {
+	float: right;
+}
+
+#saved-playlists {
+	overflow-y: auto;
+	height: 7em;
+}
+	
+#saved-playlists .list {
+	list-style-type: none;
+	padding: 1px;
+	margin: 1px;
+}
+
+#saved-playlists .list .item {
+}
+
+#saved-playlists .list .item .desc {
 	float: left
 }
 
-#saved-playlists .list .item .actions
-{
+#saved-playlists .list .item .actions {
 	float: right;
 	font-size: .75em
+}
