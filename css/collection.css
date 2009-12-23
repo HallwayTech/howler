@@ -9,15 +9,13 @@
     margin-right: 1em;
 }
 
-#alphaNav ul
-{
+#alphaNav ul {
 	list-style-type: none;
 	padding: 0;
 	margin: 0;
 }
 
-#alphaNav li
-{
+#alphaNav li {
     width: 20px;
 	height: 20px;
 	border: 1px solid #aaa;
@@ -25,33 +23,35 @@
 	text-align: center;
 }
 
-#listingContainer
-{
-    float: left;
-	overflow-y: auto;
+#listingContainer {
 }
 
-#collectionNav ul
-{
+#collectionNav {
+    height: 3%;
+}
+#collectionNav ul {
     padding: 0;
 }
 
-#collectionNav li
-{
+#collectionNav li {
     list-style-type: none;
     display: inline;
 }
 
-#collectionNav li:before, #collectionNav li:after
-{
+#collectionNav li:before, #collectionNav li:after {
     content: " | ";
+}
+
+#listHeader {
+    height: 3%;
+    font-weight: bold;
+}
+
+#listing {
+    height: 93%;
+    overflow-y: auto;
 }
 
 .dirs, .files {
 	list-style-type: none;
-}
-
-#listHeader
-{
-	font-weight: bold;
 }
