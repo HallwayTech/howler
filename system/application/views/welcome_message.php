@@ -26,7 +26,7 @@
                 <!-- actions menu -->
                 <div class='player-menu'><input type='button' id='restart-player' onclick='Actions.restartPlayer()' value='Restart player' /></div>
                 <!-- random menu -->
-                <div class='player-menu'><input type='checkbox' id='random'<?= ($random == 'true') ? ' checked="checked"' : '' ?> onclick='Player.random(this.checked)'/><label for='random'> Random?</label></div>
+                <div class='player-menu'><input type='checkbox' id='random'<?= ($random == 'true') ? ' checked="checked"' : '' ?>/><label for='random'> Random?</label></div>
                 <!-- repeat menu -->
                 <div class='player-menu'><select id='repeat-menu'><?php foreach($repeats as $value => $output): ?>
                 	<option value='<?= $value ?>'<?= ($repeat == $value) ? ' selected="selected"' : '' ?>><?= $output ?></option>

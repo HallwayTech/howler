@@ -90,7 +90,7 @@ var Playlist = function() {
 			if (currentPlayingId) {
 				if (!overrideRepeat && Playlist.repeat() == 'SONG') {
 					nextId = currentPlayingId.substring(currentPlayingId.lastIndexOf('-') + 1);
-				} else {
+				} else if (!Playlist.random()) {
 					var id = $('#' + currentPlayingId).next().attr('id');
 					if (id) {
 						nextId = id.substring(id.lastIndexOf('-') + 1);
@@ -98,9 +98,14 @@ var Playlist = function() {
 				}
 			}
 			if (!nextId) {
-				var id = $('#playlist .items li:first').attr('id');
-				if (id) {
-					nextId = id.substring(id.lastIndexOf('-') + 1);
+				if (Playlist.random()) {
+					var randomId = Playlist.randomId();
+					nextId = randomId;
+				} else {
+					var id = $('#playlist .items li:first').attr('id');
+					if (id) {
+						nextId = id.substring(id.lastIndexOf('-') + 1);
+					}
 				}
 			}
 			return nextId;
@@ -119,6 +124,7 @@ var Playlist = function() {
 					}
 				}
 			}
+			// TODO if history is available, go back through it
 			if (!prevId) {
 				var id = $('#playlist .items li:last').attr('id');
 				if (id) {
@@ -128,21 +134,28 @@ var Playlist = function() {
 			return prevId;
 		},
 
+		random: function(state) {
+			var rand = $('#random');
+			if (state != null) {
+				rand.val(state);
+			} else {
+				return rand.val();
+			}
+		},
+
 		/**
 		 * random() -- tells where the play order should be random
 		 *
 		 * @returns true if play should be random
 		 *          false otherwise
 		 */
-		random: function(checked) {
-			if (typeof(checked) != 'undefined') {
-				_random = checked;
-				if (_random && _state != 'PLAYING') {
-					Player.controls.next();
-				}
-			} else {
-				return _random;
-			}
+		randomId: function(checked) {
+			var playlist = $('#playlist .items li');
+			var size = playlist.size();
+			var pos = Math.floor(Math.random() * size);
+			var id = $('#playlist .items li:eq(' + pos + ')').attr('id');
+			var nextId = id.substring(id.lastIndexOf('-') + 1);
+			return nextId;
 		},
 
 		removeItem: function(id) {
@@ -201,7 +214,7 @@ var Playlist = function() {
 						}
 					},
 					error: function() {
-						alert("An error occurred saving the playlist.  Please try again later.");
+						alert('An error occurred saving the playlist.  Please try again later.');
 					}
 				});
 			}
