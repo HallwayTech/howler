@@ -134,6 +134,14 @@ var Playlist = function() {
 			return prevId;
 		},
 
+		/**
+		 * random() -- tells if the play order should be random
+		 * 
+		 * random(state) -- sets whether the play order should be random.
+		 *
+		 * @returns true if play should be random
+		 *          false otherwise
+		 */
 		random: function(state) {
 			var rand = $('#random');
 			if (state != null) {
@@ -144,12 +152,11 @@ var Playlist = function() {
 		},
 
 		/**
-		 * random() -- tells where the play order should be random
-		 *
-		 * @returns true if play should be random
-		 *          false otherwise
+		 * randomId() -- Get a random item ID from the playlist.
+		 * 
+		 * @return A randomly selected playlist item's ID.
 		 */
-		randomId: function(checked) {
+		randomId: function() {
 			var playlist = $('#playlist .items li');
 			var size = playlist.size();
 			var pos = Math.floor(Math.random() * size);
@@ -158,6 +165,10 @@ var Playlist = function() {
 			return nextId;
 		},
 
+		/**
+		 * removeItem(id) -- Remove an item from the playlist. The item is selected
+		 *   by matching to the provided ID.
+		 */
 		removeItem: function(id) {
 			$('#playlist-item-' + id).remove();
 		},
@@ -220,6 +231,10 @@ var Playlist = function() {
 			}
 		},
 
+		/**
+		 * toggleSavedView() -- Show/hide the saved playlists area based on the
+		 *   current view state of the area.
+		 */
 		toggleSavedView: function() {
 			var anchor = $('#saved-playlists-actions a');
 			var img = $('img', anchor);
