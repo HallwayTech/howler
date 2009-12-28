@@ -44,8 +44,8 @@
                 <div id='playerSpot'>This text will be replaced by the media player.</div>
             </div>
             <div id='controls-container'>
-                <input type='button' onclick='Player.controls.prev()' value='&#60; Prev' />
-                <input type='button' onclick='Player.controls.next()' value='Next &#62;' />
+                <input type='button' onclick='Player.controls.prev(true)' value='&#60; Prev' />
+                <input type='button' onclick='Player.controls.next(true)' value='Next &#62;' />
             </div>
             <!-- saved playlists -->
             <div id='saved-playlists-container'>
