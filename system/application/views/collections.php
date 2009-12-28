@@ -18,7 +18,9 @@
     <ul class='dirs'>
     <?php foreach ($dirs as $dir): ?>
         <li class='dir'>
-            <a href='#' onclick='Playlist.addParent("<?= $dir['id'] ?>");return false' class='fileAdd' title='Add "<?= $dir['label'] ?>"'><img src='images/add.png' alt='Add "<?= $dir['label'] ?>"' /></a>
+            <a href='#' onclick='Playlist.addParent("<?= $dir['id'] ?>");return false' class='fileAdd' title='Add "<?= $dir['label'] ?>"'>
+                <img src='images/add.png' alt='Add "<?= $dir['label'] ?>"' />
+            </a>
             <a href='#' onclick='Collection.view("<?= $dir['id'] ?>");return false' title='View "<?= $dir['label'] ?>"'><?= $dir['label'] ?></a>
         </li>
     <?php endforeach ?>
@@ -29,7 +31,9 @@
     <ul class='files'>
     <?php foreach ($files as $file): ?>
         <li class='file' id='<?= $file['id'] ?>'>
-            <a href='#' onclick='Playlist.addItem("<?= $file['id'] ?>");return false' class='fileAdd' title='Add "<?= $file['label'] ?>"'><img src='images/add.png' alt='Add "<?= $file['label'] ?>"' /></a><?= $file['label'] ?>
+            <a href='#' onclick='Collection.download("<?= $file['id'] ?>");return false' class='fileDownload' title='Download "<?= $file['label'] ?>"'><img src='images/arrow_down.png' alt='Download "<?= $file['label'] ?>"' /></a>
+            <a href='#' onclick='Playlist.addItem("<?= $file['id'] ?>");return false' class='fileAdd' title='Add "<?= $file['label'] ?>"'><img src='images/add.png' alt='Add "<?= $file['label'] ?>"' /></a>
+            <?= $file['label'] ?>
         </li>
     <?php endforeach ?>
     </ul>

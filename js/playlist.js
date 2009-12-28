@@ -190,7 +190,7 @@ var Playlist = function() {
 				});
 				anchor.removeClass('hide-button').addClass('show-button');
 				var img = $('img', anchor);
-				img.attr('src', 'images/arrow_down.png');
+				img.attr('src', 'images/bullet_arrow_down.png');
 			});
 		},
 
@@ -203,7 +203,7 @@ var Playlist = function() {
 				});
 				anchor.removeClass('show-button').addClass('hide-button');
 				var img = $('img', anchor);
-				img.attr('src', 'images/arrow_up.png');
+				img.attr('src', 'images/bullet_arrow_up.png');
 			});
 		}
 	};

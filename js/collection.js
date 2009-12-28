@@ -4,6 +4,10 @@ var Collection = function() {
 	var cache = {};
 
 	return {
+		download: function(id) {
+			window.open('index.php/files/read/' + id, 'Download');
+		},
+
 		/**
 		 * Search for entries
 		 *
