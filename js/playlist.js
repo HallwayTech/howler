@@ -21,6 +21,11 @@ var Playlist = function() {
 			});
 		},
 
+		/**
+		 * Add all items associated to a parent ID.
+		 * 
+		 * @param parentId The parent ID to load all children of.
+		 */
 		addParent: function(parentId) {
 			var url = 'index.php/playlists/addParent/' + parentId;
 			$.get(url, function(data) {
@@ -28,10 +33,17 @@ var Playlist = function() {
 			});
 		},
 
+		/**
+		 * Clear all items from the current playlist. Does not affect the state of
+		 * any saved playlists.
+		 */
 		clear: function() {
 			$('#playlist .items').empty();
 		},
 
+		/**
+		 * Delete a saved playlist.
+		 */
 		deletePlaylist: function(id, rev) {
 			if (id && id != '_new') {
 				var url = 'index.php/playlists/delete/' + id + '/' + rev;
@@ -48,6 +60,9 @@ var Playlist = function() {
 			}
 		},
 
+		/**
+		 * Highlight an item in the current playlist using the ID of the item.
+		 */
 		highlight: function(id) {
 			// clear current highlighted item
 			$('.now-playing').removeClass('now-playing');
@@ -66,9 +81,14 @@ var Playlist = function() {
 			}
 		},
 
-		loadPlaylist: function(name) {
-			if (name) {
-				var url = 'index.php/playlists/read/' + encodeURIComponent(name);
+		/**
+		 * Load a saved playlist.
+		 * 
+		 * @param id The ID of the playlist to load.
+		 */
+		loadPlaylist: function(id) {
+			if (id) {
+				var url = 'index.php/playlists/read/' + id;
 				$('#playlist .items').load(url, function() {
 					$(this).sortable({
 						axis: 'y',
@@ -80,10 +100,20 @@ var Playlist = function() {
 			}
 		},
 
+		/**
+		 * Load the list of all playlists available to the user.
+		 */
 		loadPlaylists: function() {
 			$('#saved-playlists').load('index.php/playlists').resizable();
 		},
 
+		/**
+		 * Get the ID of the next item in the playlist that should be played. Will
+		 * select a random ID, if the random checkbox is ticked.
+		 * 
+		 * @param overrideRepeat(optional) Whether to override a repeat state of
+		 *        'SONG'.
+		 */
 		nextId: function(overrideRepeat) {
 			var currentPlayingId = Player.currentPlayingId();
 			var nextId = false;
@@ -111,6 +141,13 @@ var Playlist = function() {
 			return nextId;
 		},
 
+		/**
+		 * Get the ID of the previous item in the playlist that should be played.
+		 * Will not select a random ID, if the random checkbox is ticked.
+		 * 
+		 * @param overrideRepeat(optional) Whether to override a repeat state of
+		 *        'SONG'.
+		 */
 		prevId: function(overrideRepeat) {
 			var currentPlayingId = Player.currentPlayingId();
 			var prevId = false;
@@ -135,9 +172,8 @@ var Playlist = function() {
 		},
 
 		/**
-		 * random() -- tells if the play order should be random
-		 * 
-		 * random(state) -- sets whether the play order should be random.
+		 * Tells if the play order should be random, if state is not provided.
+		 * Sets whether the play order should be random, if state is provided.
 		 *
 		 * @returns true if play should be random
 		 *          false otherwise
@@ -152,7 +188,7 @@ var Playlist = function() {
 		},
 
 		/**
-		 * randomId() -- Get a random item ID from the playlist.
+		 * Get the ID of a random item in the current playlist.
 		 * 
 		 * @return A randomly selected playlist item's ID.
 		 */
@@ -166,18 +202,20 @@ var Playlist = function() {
 		},
 
 		/**
-		 * removeItem(id) -- Remove an item from the playlist. The item is selected
-		 *   by matching to the provided ID.
+		 * Remove an item from the current playlist. The item is selected by matching
+		 * to the provided ID.
+		 * 
+		 * @param id The ID of the item to remove from the playlist.
 		 */
 		removeItem: function(id) {
 			$('#playlist-item-' + id).remove();
 		},
 
 		/**
-		 * repeat() -- gets the repeat state
-		 *
-		 * repeat(val) -- sets the repeat state.
-		 *   accepted values: NONE, SONG, LIST
+		 * Gets the repeat state, if state is not provided.
+		 * 
+		 * Sets the repeat state, if state is provided.
+		 * Expected values: NONE, SONG, LIST
 		 */
 		repeat: function(state) {
 			var menu = $('#repeat-menu');
@@ -232,8 +270,8 @@ var Playlist = function() {
 		},
 
 		/**
-		 * toggleSavedView() -- Show/hide the saved playlists area based on the
-		 *   current view state of the area.
+		 * Show/hide the saved playlists area based on the current view state of the
+		 * area.
 		 */
 		toggleSavedView: function() {
 			var anchor = $('#saved-playlists-actions a');
