@@ -181,29 +181,18 @@ var Playlist = function() {
 			}
 		},
 
-		hideSavedView: function() {
-			$('#saved-playlists').slideUp('normal', function() {
-				var anchor = $('#saved-playlists-actions .hide-button');
-				anchor.click(function() {
-					Playlist.showSavedView();
-					return false;
-				});
-				anchor.removeClass('hide-button').addClass('show-button');
-				var img = $('img', anchor);
-				img.attr('src', 'images/bullet_arrow_down.png');
-			});
-		},
-
-		showSavedView: function() {
-			$('#saved-playlists').slideDown('normal', function() {
-				var anchor = $('#saved-playlists-actions .show-button');
-				anchor.click(function() {
-					Playlist.hideSavedView();
-					return false;
-				});
-				anchor.removeClass('show-button').addClass('hide-button');
-				var img = $('img', anchor);
-				img.attr('src', 'images/bullet_arrow_up.png');
+		toggleSavedView: function() {
+			$('#saved-playlists').slideToggle('normal', function() {
+				var anchor = $('#saved-playlists-actions a');
+				if (anchor.hasClass('hide-button')) {
+					var img = $('img', anchor);
+					img.attr('src', 'images/bullet_arrow_down.png');
+					anchor.removeClass('hide-button').addClass('show-button');
+				} else if (anchor.hasClass('show-button')) {
+					var img = $('img', anchor);
+					img.attr('src', 'images/bullet_arrow_up.png');
+					anchor.removeClass('show-button').addClass('hide-button');
+				}
 			});
 		}
 	};
