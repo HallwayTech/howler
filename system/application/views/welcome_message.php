@@ -12,10 +12,8 @@
         <script type='text/javascript' src='js/collection.js'></script>
         <script type='text/javascript' src='js/actions.js'></script>
         <!-- stylesheets -->
-        <link rel='stylesheet' type='text/css' href='css/collection.css' />
+        <link rel='stylesheet' type='text/css' href='css/howler.css' />
         <link rel='stylesheet' type='text/css' href='css/jquery-ui-1.7.1.custom.css' />
-        <link rel='stylesheet' type='text/css' href='css/player.css' />
-        <link rel='stylesheet' type='text/css' href='css/playlist.css' />
 
         <title>&#164;&#164; Home Media Player &#164;&#164;</title>
     </head>

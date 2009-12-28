@@ -1,0 +1,202 @@
+/***********************************************************************************/
+/*                                GENERAL STYLES                                   */
+/***********************************************************************************/
+body { 
+    margin: 3px; 
+    padding: 2px; 
+    height:100%; 
+}
+
+.clear
+{
+    clear: both;
+}
+
+img {
+    border: 0;
+}
+
+.light-bg {
+    background-color: lightgray
+}
+
+.fleft {
+    float: left;
+}
+
+.fright {
+    float: right;
+}
+
+/***********************************************************************************/
+/*                                 PLAYER STYLES                                   */
+/***********************************************************************************/
+#marquee
+{
+    padding: 4px;
+    background-color: lightblue;
+    border: medium double #fff;
+    clear: both;
+    height: 2.5em;
+    text-align: center;
+    font-weight: bold;
+}
+
+#player {
+    float: left;
+    width: 40%;
+}
+
+.player-menu
+{
+    border: 1px gray dashed;
+    float: left;
+    width: 32%;
+    text-align: center;
+    vertical-align: middle;
+}
+
+/***********************************************************************************/
+/*                                PLAYLIST STYLES                                  */
+/***********************************************************************************/
+
+.now-playing {
+    background-color: yellow;
+    border: medium double #fff;
+}
+
+#playlist .items {
+    list-style-type: none;
+    padding: 1px;
+    margin: 1px;
+}
+
+#playlist {
+    overflow-y: auto;
+    height: 75%;
+}
+
+/* current playlist & items */
+.playlist-item {
+    border: 1px solid #aaa;
+    padding: 2px;
+    margin: 3px;
+}
+
+.playlist-item .content {
+    /*cursor: pointer;*/
+    float: left;
+    width: 95%;
+}
+
+.playlist-item .remove {
+    float: right;
+}
+
+.playlist-item .artist {
+}
+
+.playlist-item .title {
+}
+
+.playlist-item .album {
+    font-style: italic;
+    display: block;
+}
+
+/* saved playlists & items */
+#saved-playlists-container {
+    border: 1px solid #aaa;
+}
+
+#saved-playlists-actions .left {
+    float: left;
+}
+
+#saved-playlists-actions .right {
+    float: right;
+}
+
+#saved-playlists {
+    overflow-y: auto;
+    height: 7em;
+}
+    
+#saved-playlists .list {
+    list-style-type: none;
+    padding: 1px;
+    margin: 1px;
+}
+
+#saved-playlists .list .item {
+}
+
+#saved-playlists .list .item .desc {
+    float: left
+}
+
+#saved-playlists .list .item .actions {
+    float: right;
+    font-size: .75em
+}
+
+/***********************************************************************************/
+/*                               COLLECTION STYLES                                 */
+/***********************************************************************************/
+#collection {
+    float: left;
+    width: 60%;
+}
+
+#alphaNav {
+    float: left;
+    margin-left: 1em;
+    margin-right: 1em;
+}
+
+#alphaNav ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+#alphaNav li {
+    width: 20px;
+    height: 20px;
+    border: 1px solid #aaa;
+    cursor: pointer;
+    text-align: center;
+}
+
+#listingContainer {
+}
+
+#collectionNav {
+    height: 3%;
+}
+#collectionNav ul {
+    padding: 0;
+}
+
+#collectionNav li {
+    list-style-type: none;
+    display: inline;
+}
+
+#collectionNav li:before, #collectionNav li:after {
+    content: " | ";
+}
+
+#listHeader {
+    height: 3%;
+    font-weight: bold;
+}
+
+#listing {
+    height: 93%;
+    overflow-y: auto;
+}
+
+.dirs, .files {
+    list-style-type: none;
+}

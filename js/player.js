@@ -31,20 +31,22 @@ var Player = function() {
 
 	return {
 		create: function() {
-			var swfUrl = 'lib/player-4.2.90.swf';
+			var swfUrl = 'lib/player-5.swf';
 			var width = '100%';
 			var height = 20;
 			var flashVersion = '7.0.0';
 			var expressInstallSwfUrl = false;
 			var flashVars = {
-				'file': '',
+				'file': 'nofile.mp3',
 				'bufferlength': '5',
-				'volume': 100
+				'volume': 100,
+				'icons': false
 			};
 
 			var params = {
 				'allowscriptaccess': 'always',
-				'allowfullscreen': 'false'
+				'allowfullscreen': 'false',
+				'wmode': 'opaque'
 			};
 
 			var attributes = {
@@ -52,7 +54,8 @@ var Player = function() {
 				'name': playerId
 			};
 
-			swfobject.embedSWF(swfUrl, playerAreaId, width, height, flashVersion, expressInstallSwfUrl, flashVars, params, attributes);
+			swfobject.embedSWF(swfUrl, playerAreaId, width, height, flashVersion,
+					expressInstallSwfUrl, flashVars, params, attributes);
 		},
  
 		currentPlayingId: function() {
