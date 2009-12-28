@@ -32,18 +32,6 @@ var Playlist = function() {
 			$('#playlist .items').empty();
 		},
 
-		currentPlayingId: function() {
-			return $('.now-playing').attr('id');
-			/*
-			var id = false;
-			var length = $('.now-playing').length;
-			if (length <= 0) {
-				id = $('.now-playing').attr('id');
-			}
-			return id;
-			*/
-		},
-
 		deletePlaylist: function(id, rev) {
 			if (id && id != '_new') {
 				var url = 'index.php/playlists/delete/' + id + '/' + rev;
@@ -97,11 +85,11 @@ var Playlist = function() {
 		},
 
 		nextId: function(overrideRepeat) {
-			var currentPlayingId = Playlist.currentPlayingId();
+			var currentPlayingId = Player.currentPlayingId();
 			var nextId = false;
 			if (currentPlayingId) {
-				if (!overrideRepeat && Player.repeat() == 'SONG') {
-					nextId = currentPlayingId;
+				if (!overrideRepeat && Playlist.repeat() == 'SONG') {
+					nextId = currentPlayingId.substring(currentPlayingId.lastIndexOf('-') + 1);
 				} else {
 					var id = $('#' + currentPlayingId).next().attr('id');
 					if (id) {
@@ -119,11 +107,11 @@ var Playlist = function() {
 		},
 
 		prevId: function(overrideRepeat) {
-			var currentPlayingId = Playlist.currentPlayingId();
+			var currentPlayingId = Player.currentPlayingId();
 			var prevId = false;
 			if (currentPlayingId) {
-				if (!overrideRepeat && Player.repeat() == 'SONG') {
-					nextId = currentPlayingId;
+				if (!overrideRepeat && Playlist.repeat() == 'SONG') {
+					prevId = currentPlayingId;
 				} else {
 					var id = $('#' + currentPlayingId).prev().attr('id');
 					if (id) {
@@ -140,8 +128,40 @@ var Playlist = function() {
 			return prevId;
 		},
 
+		/**
+		 * random() -- tells where the play order should be random
+		 *
+		 * @returns true if play should be random
+		 *          false otherwise
+		 */
+		random: function(checked) {
+			if (typeof(checked) != 'undefined') {
+				_random = checked;
+				if (_random && _state != 'PLAYING') {
+					Player.controls.next();
+				}
+			} else {
+				return _random;
+			}
+		},
+
 		removeItem: function(id) {
 			$('#playlist-item-' + id).remove();
+		},
+
+		/**
+		 * repeat() -- gets the repeat state
+		 *
+		 * repeat(val) -- sets the repeat state.
+		 *   accepted values: NONE, SONG, LIST
+		 */
+		repeat: function(state) {
+			var menu = $('#repeat-menu');
+			if (state) {
+				menu.val(state.toUpperCase());
+			} else {
+				return menu.val();
+			}
 		},
 
 		/**

@@ -1,4 +1,4 @@
-var player = null;
+var swfplayer = null;
 // id of player after it is embedded
 var playerId = 'dood';
 // id of element to replace with embedded player
@@ -9,10 +9,10 @@ var playerAreaId = 'playerSpot';
  * Performed by the player swf.
  */
 function playerReady(thePlayer) {
-	player = swfobject.getObjectById(playerId);
+	swfplayer = swfobject.getObjectById(playerId);
 
-	if (!player) {
-		player = document.getElementById(playerId);
+	if (!swfplayer) {
+		swfplayer = document.getElementById(playerId);
 	}
 
 	Player.init();
@@ -26,11 +26,8 @@ var Player = function() {
 	// constants
 	var MAX_HIST = .75;
 
-	// default setup states
-	var _repeat = 'LIST'; // NONE, SONG, LIST
-	var _random = false;
+	var _currentId = null;
 	var _state = null;
-	var _history = [];
 
 	return {
 		create: function() {
@@ -58,43 +55,16 @@ var Player = function() {
 			swfobject.embedSWF(swfUrl, playerAreaId, width, height, flashVersion, expressInstallSwfUrl, flashVars, params, attributes);
 		},
  
+		currentPlayingId: function() {
+			return $('.now-playing').attr('id');
+		},
+
 		init: function() {
-			if (player) {
-				player.addModelListener('STATE', 'Player.trackers.stateTracker');
+			if (swfplayer) {
+				swfplayer.addModelListener('STATE', 'Player.trackers.stateTracker');
 				Player.setMarquee('0');
 			} else {
 				alert('Unable to find player.');
-			}
-		},
-
-		/**
-		 * random() -- tells where the play order should be random
-		 *
-		 * @returns true if play should be random
-		 *          false otherwise
-		 */
-		random: function(checked) {
-			if (typeof(checked) != 'undefined') {
-				_random = checked;
-				if (_random && _state != 'PLAYING') {
-					Player.controls.next();
-				}
-			} else {
-				return _random;
-			}
-		},
-
-		/**
-		 * repeat() -- gets the repeat state
-		 *
-		 * repeat(val) -- sets the repeat state.
-		 *   accepted values: NONE, SONG, LIST
-		 */
-		repeat: function(state) {
-			if (state) {
-				_repeat = state.toUpperCase();
-			} else {
-				return _repeat;
 			}
 		},
 
@@ -147,15 +117,18 @@ var Player = function() {
 			},
 
 			play: function(id) {
-				if (id) {
+				if (id && id != _currentId) {
 					// load, play and highlight the item
 					var url = 'index.php/files/read/' + id;
 					var item = {file: url, type: 'sound', start: '0'};
-					player.sendEvent('LOAD', [item]);
+					swfplayer.sendEvent('LOAD', [item]);
 					Playlist.highlight(id);
 					Player.setMarquee(id);
+					_currentId = id;
 				}
-				player.sendEvent('PLAY', true);
+				if (_currentId) {
+					swfplayer.sendEvent('PLAY', true);
+				}
 			},
 
 			prev: function() {
@@ -191,11 +164,7 @@ var Player = function() {
 				// if playing is complete, progress the playlist forward by 1, load next
 				// song into the player, and change the highlighted playlist item.
 				if (_state == 'COMPLETED') {
-					if (_repeat == 'SONG') {
-						Player.controls.play();
-					} else {
-						Player.controls.next();
-					}
+					Player.controls.next();
 				}
 			}
 		}
