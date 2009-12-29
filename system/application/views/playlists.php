@@ -1,13 +1,12 @@
-<ul class='list'>
 <?php foreach($rows as $index => $row): ?>
     <?php $id = $row->id ?>
     <?php $key = $row->key ?>
     <?php $title = $key[1] ?>
     <?php $rev = $row->value ?>
     <?php if ($index % 2 != 0): ?>
-    <li class='item'>
+    <li class='item-even'>
     <?php else: ?>
-    <li class='item light-bg'>
+    <li class='item-odd'>
     <?php endif ?>
         <div class='desc'>
             <span class='name'><?= $title ?></span>
@@ -19,9 +18,7 @@
         </div>
         <div class='clear'></div>
     </li>
-<?php endforeach ?>
-</ul>
-<?php
+<?php endforeach;
 
 /* End of file playlists.php */
 /* Location: ./system/application/controllers/playlists.php */

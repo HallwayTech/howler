@@ -1,202 +1,226 @@
 /***********************************************************************************/
 /*                                GENERAL STYLES                                   */
 /***********************************************************************************/
+html, div, span {
+    vertical-align:baseline
+}
+
 body { 
-    margin: 3px; 
-    padding: 2px; 
+    margin:5px; 
     height:100%; 
 }
 
-.clear
-{
-    clear: both;
+ol, ul {
+    list-style:none;
+}
+
+.clear {
+    clear:both;
 }
 
 img {
-    border: 0;
+    border:0;
 }
 
-.light-bg {
-    background-color: lightgray
+#main-left {
+    float:left;
+    width:40%;
+    height:100%;
 }
 
-.fleft {
-    float: left;
+#main-right {
+    float:right;
+    width:60%;
+    height:100%;
 }
 
-.fright {
-    float: right;
+.list .item-odd {
+    background-color:lightgray;
 }
 
 /***********************************************************************************/
 /*                                 PLAYER STYLES                                   */
 /***********************************************************************************/
-#marquee
-{
-    padding: 4px;
-    background-color: lightblue;
-    border: medium double #fff;
-    clear: both;
-    height: 2.5em;
-    text-align: center;
-    font-weight: bold;
+#menubar {
+    float:left;
+    width:100%;
 }
 
-#player {
-    float: left;
-    width: 40%;
+.player-menu {
+    border:1px gray dashed;
+    float:left;
+    width:32.5%;
+    text-align:center;
+    height:1.5em;
+    vertical-align:middle;
 }
 
-.player-menu
-{
-    border: 1px gray dashed;
-    float: left;
-    width: 32%;
-    text-align: center;
-    vertical-align: middle;
+#marquee {
+    background-color:lightblue;
+    border:medium double #fff;
+    width:100%;
+    height:2.5em;
+    text-align:center;
+    font-weight:bold;
+    float:left;
+}
+
+#player-wrapper {
+    width:100%;
+    float:left;
+}
+
+#player-actions {
+    float:left;
+    display:inline;
+    padding:0;
+    text-align:right;
+    background-color:transparent;
+    width:10%;
+}
+
+.player-button {
+    padding:0;
+    margin:0;
+    width:20px;
+    height:20px;
+}
+
+#swfplayer {
+    float:left;
+    display:inline;
+    width:90%;
 }
 
 /***********************************************************************************/
 /*                                PLAYLIST STYLES                                  */
 /***********************************************************************************/
-
-.now-playing {
-    background-color: yellow;
-    border: medium double #fff;
+#saved-playlists-container {
+    border:1px solid #aaa;
+    width:100%;
+    float:left;
 }
 
-#playlist .items {
-    list-style-type: none;
-    padding: 1px;
-    margin: 1px;
+#saved-playlists-actions {
+    width:100%;
+    float:left;
+}
+
+#saved-playlists-actions .left, #saved-playlists-actions .right {
+    width:50%;
+}
+
+#saved-playlists-actions .left {
+    float:left;
+}
+
+#saved-playlists-actions .right {
+    float:right;
+    text-align:right;
+}
+
+#saved-playlists {
+    float:left;
+    overflow-y:scroll;
+    width:100%;
+    height:4em;
+}
+    
+#saved-playlists .list {
+    padding:1px;
+    margin:1px;
+}
+
+#saved-playlists .list li .desc {
+    float:left
+}
+
+#saved-playlists .list li .actions {
+    float:right;
+    font-size:.75em
+}
+
+.now-playing {
+    background-color:yellow;
+    border:medium double #fff;
 }
 
 #playlist {
-    overflow-y: auto;
-    height: 75%;
+    float:left;
+    overflow-y:auto;
+    height:80%;
+}
+
+#playlist .items {
+    padding:1px;
+    margin:1px;
 }
 
 /* current playlist & items */
 .playlist-item {
-    border: 1px solid #aaa;
-    padding: 2px;
-    margin: 3px;
+    border:1px solid #aaa;
+    padding:2px;
+    margin:3px;
 }
 
 .playlist-item .content {
-    /*cursor: pointer;*/
-    float: left;
-    width: 95%;
+    cursor:pointer;
+    float:left;
 }
 
 .playlist-item .remove {
-    float: right;
+    text-align:right;
+    float:right;
 }
 
-.playlist-item .artist {
+.playlist-item .album, #marquee .album {
+    font-style:italic;
+    display:block;
 }
 
-.playlist-item .title {
-}
-
-.playlist-item .album {
-    font-style: italic;
-    display: block;
-}
-
-/* saved playlists & items */
-#saved-playlists-container {
-    border: 1px solid #aaa;
-}
-
-#saved-playlists-actions .left {
-    float: left;
-}
-
-#saved-playlists-actions .right {
-    float: right;
-}
-
-#saved-playlists {
-    overflow-y: auto;
-    height: 7em;
-}
-    
-#saved-playlists .list {
-    list-style-type: none;
-    padding: 1px;
-    margin: 1px;
-}
-
-#saved-playlists .list .item {
-}
-
-#saved-playlists .list .item .desc {
-    float: left
-}
-
-#saved-playlists .list .item .actions {
-    float: right;
-    font-size: .75em
+#playlist {
+    width:100%;
 }
 
 /***********************************************************************************/
 /*                               COLLECTION STYLES                                 */
 /***********************************************************************************/
-#collection {
-    float: left;
-    width: 60%;
-}
-
 #alphaNav {
-    float: left;
-    margin-left: 1em;
-    margin-right: 1em;
+    float:left;
+    margin-left:1em;
+    margin-right:1em;
 }
 
 #alphaNav ul {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
+    padding:0;
+    margin:0;
 }
 
-#alphaNav li {
-    width: 20px;
-    height: 20px;
-    border: 1px solid #aaa;
-    cursor: pointer;
-    text-align: center;
+#alphaNav ul li {
+    width:20px;
+    height:20px;
+    border:1px solid #aaa;
+    cursor:pointer;
+    text-align:center;
 }
 
-#listingContainer {
-}
-
-#collectionNav {
-    height: 3%;
-}
 #collectionNav ul {
-    padding: 0;
+    padding:0;
 }
 
 #collectionNav li {
-    list-style-type: none;
-    display: inline;
+    display:inline;
 }
 
 #collectionNav li:before, #collectionNav li:after {
-    content: " | ";
+    content:" | ";
 }
 
 #listHeader {
-    height: 3%;
-    font-weight: bold;
+    font-weight:bold;
 }
 
 #listing {
-    height: 93%;
-    overflow-y: auto;
-}
-
-.dirs, .files {
-    list-style-type: none;
+    height:90%;
+    overflow-y:auto;
 }

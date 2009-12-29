@@ -6,7 +6,6 @@ var Playlist = function() {
 		 */
 		init: function() {
 			Playlist.loadPlaylists();
-//			$('#saved-playlists').resizable();
 		},
 
 		/**
@@ -46,17 +45,19 @@ var Playlist = function() {
 		 */
 		deletePlaylist: function(id, rev) {
 			if (id && id != '_new') {
-				var url = 'index.php/playlists/delete/' + id + '/' + rev;
-				$.ajax({
-					type: 'DELETE',
-					url: url,
-					success: function(data, textStatus) {
+				if (confirm('Are you sure you want to delete this playlist?')) {
+					var url = 'index.php/playlists/delete/' + id + '/' + rev;
+					$.ajax({
+						type: 'DELETE',
+						url: url,
+						success: function(data, textStatus) {
 						Playlist.loadPlaylists();
-					},
-					error: function(XMLHttpRequest, textStatus, errorThrown) {
-						alert('Unable to delete playlist [' + textStatus + ']');
-					}
-				});
+						},
+						error: function(XMLHttpRequest, textStatus, errorThrown) {
+							alert('Unable to delete playlist [' + textStatus + ']');
+						}
+					});
+				}
 			}
 		},
 
@@ -104,7 +105,8 @@ var Playlist = function() {
 		 * Load the list of all playlists available to the user.
 		 */
 		loadPlaylists: function() {
-			$('#saved-playlists').load('index.php/playlists').resizable();
+			$('#saved-playlists .list').load('index.php/playlists');
+//			$('#saved-playlists .list').resizable();
 		},
 
 		/**
@@ -181,9 +183,9 @@ var Playlist = function() {
 		random: function(state) {
 			var rand = $('#random');
 			if (state != null) {
-				rand.val(state);
+				rand.attr('checked', state);
 			} else {
-				return rand.val();
+				return rand.attr('checked');
 			}
 		},
 
@@ -251,7 +253,7 @@ var Playlist = function() {
 					url += '/_new';
 				}
 
-				var playlist = JSON.stringify(ids);
+				var playlist = '[' + ids.join(',') + ']';
 
 				$.ajax({
 					type: 'POST',

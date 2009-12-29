@@ -5,8 +5,6 @@
         <script type='text/javascript' src='lib/jquery-1.3.2.min.js'></script>
         <script type='text/javascript' src='lib/jquery-ui-1.7.1.custom.min.js'></script>
         <script type='text/javascript' src='lib/swfobject-2.2.min.js'></script>
-        <script type='text/javascript' src='lib/querystring-1.3.min.js'></script>
-        <script type='text/javascript' src='lib/json2.min.js'></script>
         <script type='text/javascript' src='js/playlist.js'></script>
         <script type='text/javascript' src='js/player.js'></script>
         <script type='text/javascript' src='js/collection.js'></script>
@@ -18,7 +16,7 @@
         <title>&#164;&#164; Home Media Player &#164;&#164;</title>
     </head>
     <body>
-        <div id='player'>
+        <div id='main-left'>
             <!-- menus -->
             <div id='menubar'>
                 <!-- actions menu -->
@@ -29,6 +27,7 @@
                 <div class='player-menu'><select id='repeat-menu'><?php foreach($repeats as $value => $output): ?>
                 	<option value='<?= $value ?>'<?= ($repeat == $value) ? ' selected="selected"' : '' ?>><?= $output ?></option>
                 <?php endforeach ?></select></div>
+                <div class='clear'></div>
             </div>
             <!-- marquee -->
             <div id='marquee'>
@@ -38,12 +37,12 @@
                 <div class='clear'></div>
             </div>
             <!-- player -->
-            <div id='playerWrapper'>
-                <div id='playerSpot'>This text will be replaced by the media player.</div>
-            </div>
-            <div id='controls-container'>
-                <input type='button' onclick='Player.controls.prev(true)' value='&#60; Prev' />
-                <input type='button' onclick='Player.controls.next(true)' value='Next &#62;' />
+            <div id='player-wrapper'>
+                <div id='player-actions'>
+                    <a href='#' onclick='Player.controls.prev(true);return false' title='&#60 Previous'><img src='images/control_start.png' class='player-button' alt='&#60 Previous' /></a><a href='#' onclick='Player.controls.next(true);return false' title='Next &#62'><img src='images/control_end.png' class='player-button' alt='Next &#62' /></a>
+                </div>
+                <div id='swfplayer'>This text will be replaced by the media player.</div>
+                <div class='clear'></div>
             </div>
             <!-- saved playlists -->
             <div id='saved-playlists-container'>
@@ -55,16 +54,22 @@
                     <div class='right'>
                         <a href='#' onclick='Playlist.toggleSavedView();return false' title='Hide saved playlists' class='hide-button'><img src='images/bullet_arrow_up.png' alt='Hide saved playlists' /></a>
                     </div>
+                    <div class='clear'></div>
+                </div>
+                <div id='saved-playlists'>
+                    <ul class='list'></ul>
                 </div>
                 <div class='clear'></div>
-                <div id='saved-playlists'></div>
             </div>
             <!-- playlist -->
-            <div id='playlist'><ul class='items'></ul></div>
+            <div id='playlist'>
+                <ul class='items'></ul>
+                <div class='clear'></div>
+            </div>
         </div>
 
         <!-- collection -->
-        <div id='collection'>
+        <div id='main-right'>
             <div id='alphaNav'>
                 <ul>
 				<?php foreach($alpha_nav as $alpha): ?>

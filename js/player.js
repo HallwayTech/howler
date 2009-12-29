@@ -1,8 +1,8 @@
 var swfplayer = null;
 // id of player after it is embedded
-var playerId = 'dood';
+var playerId = 'swfplayer';
 // id of element to replace with embedded player
-var playerAreaId = 'playerSpot';
+var playerAreaId = 'swfplayer';
 
 /**
  * Called after the player has been created and is ready for interaction.
@@ -31,22 +31,24 @@ var Player = function() {
 
 	return {
 		create: function() {
-			var swfUrl = 'lib/player-5.swf';
-			var width = '100%';
-			var height = 20;
+			var swfUrl = 'lib/player-5.0.swf';
+			var width = '90%';
+			var height = 23;
 			var flashVersion = '7.0.0';
 			var expressInstallSwfUrl = false;
 			var flashVars = {
-				'file': 'nofile.mp3',
-				'bufferlength': '5',
-				'volume': 100,
-				'icons': false
+				client: flashVersion,
+				file: 'nofile.mp3',
+				bufferlength: '5',
+				volume: 100,
+				icons: false,
+				usefullscreen: false
 			};
 
 			var params = {
-				'allowscriptaccess': 'always',
-				'allowfullscreen': 'false',
-				'wmode': 'opaque'
+				allowscriptaccess: 'always',
+				allowfullscreen: 'false',
+				wmode: 'opaque'
 			};
 
 			var attributes = {
