@@ -1,17 +1,8 @@
 <html>
     <head>
         <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
-        <!-- javascript -->
-        <script type='text/javascript' src='lib/jquery-1.3.2.min.js'></script>
-        <script type='text/javascript' src='lib/jquery-ui-1.7.1.custom.min.js'></script>
-        <script type='text/javascript' src='lib/swfobject-2.2.min.js'></script>
-        <script type='text/javascript' src='js/playlist.js'></script>
-        <script type='text/javascript' src='js/player.js'></script>
-        <script type='text/javascript' src='js/collection.js'></script>
-        <script type='text/javascript' src='js/actions.js'></script>
         <!-- stylesheets -->
-        <link rel='stylesheet' type='text/css' href='css/howler.css' />
-        <link rel='stylesheet' type='text/css' href='css/jquery-ui-1.7.1.custom.css' />
+        <link rel='stylesheet' type='text/css' href='index.php/stylesheets' />
 
         <title>&#164;&#164; Home Media Player &#164;&#164;</title>
     </head>
@@ -83,6 +74,8 @@
             </div>
             <div id='listingContainer'></div>
         </div>
+        <!-- javascript -->
+        <script type='text/javascript' src='index.php/scripts'></script>
     </body>
 </html>
 

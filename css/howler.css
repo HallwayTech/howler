@@ -144,15 +144,11 @@ img {
     font-size:.75em
 }
 
-.now-playing {
-    background-color:yellow;
-    border:medium double #fff;
-}
-
 #playlist {
     float:left;
     overflow-y:auto;
-    height:80%;
+    height:75%;
+    width:100%;
 }
 
 #playlist .items {
@@ -160,7 +156,11 @@ img {
     margin:1px;
 }
 
-/* current playlist & items */
+.now-playing {
+    background-color:yellow;
+    border:medium double #fff;
+}
+
 .playlist-item {
     border:1px solid #aaa;
     padding:2px;
@@ -181,10 +181,6 @@ img {
 #marquee .album {
     font-style:italic;
     display:block;
-}
-
-#playlist {
-    width:100%;
 }
 
 /***********************************************************************************/

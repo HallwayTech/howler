@@ -281,11 +281,11 @@ var Playlist = function() {
 			var savedPlaylists = $('#saved-playlists');
 			if (anchor.hasClass('hide-button')) {
 				img.attr('src', 'images/bullet_arrow_down.png');
-				savedPlaylists.slideUp();
+				savedPlaylists.slideUp('fast');
 				anchor.removeClass('hide-button').addClass('show-button');
 			} else if (anchor.hasClass('show-button')) {
 				img.attr('src', 'images/bullet_arrow_up.png');
-				savedPlaylists.slideDown();
+				savedPlaylists.slideDown('fast');
 				anchor.removeClass('show-button').addClass('hide-button');
 			}
 		}
