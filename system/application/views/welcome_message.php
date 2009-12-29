@@ -6,6 +6,7 @@
 
         <title>&#164;&#164; Home Media Player &#164;&#164;</title>
     </head>
+    <?php flush() ?>
     <body>
         <div id='main-left'>
             <!-- menus -->
