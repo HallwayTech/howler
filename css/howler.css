@@ -1,7 +1,9 @@
 /***********************************************************************************/
 /*                                GENERAL STYLES                                   */
 /***********************************************************************************/
-html, div, span {
+html,
+div,
+span {
     vertical-align:baseline
 }
 
@@ -10,7 +12,8 @@ body {
     height:100%; 
 }
 
-ol, ul {
+ol,
+ul {
     list-style:none;
 }
 
@@ -106,7 +109,8 @@ img {
     float:left;
 }
 
-#saved-playlists-actions .left, #saved-playlists-actions .right {
+#saved-playlists-actions .left,
+#saved-playlists-actions .right {
     width:50%;
 }
 
@@ -173,7 +177,8 @@ img {
     float:right;
 }
 
-.playlist-item .album, #marquee .album {
+.playlist-item .album,
+#marquee .album {
     font-style:italic;
     display:block;
 }
@@ -212,7 +217,8 @@ img {
     display:inline;
 }
 
-#collectionNav li:before, #collectionNav li:after {
+#collectionNav li:before,
+#collectionNav li:after {
     content:" | ";
 }
 
