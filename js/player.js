@@ -134,10 +134,8 @@ var Player = function() {
 					Playlist.highlight(id);
 				} else if (_state == 'PLAYING') {
 					swfplayer.sendEvent('PLAY', false);
-					Playlist.highlightBlur();
 				} else {
 					swfplayer.sendEvent('PLAY', true);
-					Playlist.highlightFocus();
 				}
 			},
 
@@ -176,6 +174,10 @@ var Player = function() {
 				// song into the player, and change the highlighted playlist item.
 				if (_state == 'COMPLETED') {
 					Player.controls.next();
+				} else if (_state == 'PLAYING' && info['oldstate'] == 'PAUSED') {
+					Playlist.highlightFocus();
+				} else if (_state == 'PAUSED') {
+					Playlist.highlightBlur();
 				}
 			}
 		}
