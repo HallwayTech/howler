@@ -32,6 +32,16 @@ class Collection extends Model
         parent::Model();
     }
 
+    function random($count)
+    {
+        $this->load->library('rest', array('server' => $this->config->item('couchdb_server')));
+        $start_key = sha1(time());
+        $files = $this->rest->get("_design/collections/_view/files?startkey=\"$start_key\"&limit=$count&include_docs=true", null, 'json');
+        unset($files->total_rows);
+        unset($files->offset);
+        return $files;
+    }
+
     function read($id)
     {
         $this->load->library('rest', array('server' => $this->config->item('couchdb_server')));

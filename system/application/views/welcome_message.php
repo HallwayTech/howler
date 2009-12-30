@@ -44,6 +44,7 @@
                     <div class='left'>
                         <input type='button' value='New' onclick='Playlist.clear()'/>
                         <input type='button' value='Save as...' onclick='Playlist.savePlaylist()'/>
+                        <input type='button' value='Generate...' onclick='Playlist.generate()'/>
                     </div>
                     <div class='right'>
                         <a href='#' onclick='Playlist.toggleSavedView();return false' title='Show saved playlists' class='show-button'><img src='images/bullet_arrow_down.png' alt='Show saved playlists' /></a>

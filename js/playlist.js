@@ -62,6 +62,27 @@ var Playlist = function() {
 			}
 		},
 
+		generate: function() {
+			var count = 0;
+			while (count != null && count <= 0) {
+				count = prompt('How many entries would you like in\nyour generated playlist? [limit 1000]');
+				if (count != null && (count <= 0 || count > 1000 || isNaN(count))) {
+					alert('Please enter a number between 1 and 1000');
+					count = -1;
+				}
+			}
+
+			if (!isNaN(count) && count > 0) {
+				var url = 'index.php/playlists/generate/' + count;
+				$('#playlist .items').load(url, function() {
+					$(this).sortable({
+						axis: 'y',
+						opacity: .75
+					});
+				});
+			}
+		},
+
 		/**
 		 * Highlight an item in the current playlist using the ID of the item.
 		 */
