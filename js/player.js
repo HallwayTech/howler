@@ -174,9 +174,12 @@ var Player = function() {
 				// song into the player, and change the highlighted playlist item.
 				if (_state == 'COMPLETED') {
 					Player.controls.next();
-				} else if (_state == 'PLAYING' && info['oldstate'] == 'PAUSED') {
+				} else if (_state == 'PLAYING'
+					&& (info['oldstate'] == 'PAUSED' || info['oldstate'] == 'IDLE')) {
 					Playlist.highlightFocus();
 				} else if (_state == 'PAUSED') {
+					Playlist.highlightBlur();
+				} else if (_state == 'IDLE') {
 					Playlist.highlightBlur();
 				}
 			}
