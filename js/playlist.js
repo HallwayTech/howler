@@ -140,11 +140,14 @@ var Playlist = function() {
 						var id = nextItem.attr('id');
 						if (id) {
 							nextId = id.substring(id.lastIndexOf('-') + 1);
+						} else if (Playlist.repeat() != 'NONE') {
+							id = $('#playlist .items li:first').attr('id');
+							if (id) {
+								nextId = id.substring(id.lastIndexOf('-') + 1);
+							}
 						}
 					}
-				}
-
-				if (!nextId) {
+				} else {
 					var id = $('#playlist .items li:first').attr('id');
 					if (id) {
 						nextId = id.substring(id.lastIndexOf('-') + 1);
@@ -172,11 +175,15 @@ var Playlist = function() {
 					var id = prevItem.attr('id');
 					if (id) {
 						prevId = id.substring(id.lastIndexOf('-') + 1);
+					} else if (Playlist.repeat() != 'NONE') {
+						var id = $('#playlist .items li:last').attr('id');
+						if (id) {
+							prevId = id.substring(id.lastIndexOf('-') + 1);
+						}
 					}
 				}
-			}
-			// TODO if history is available, go back through it
-			if (!prevId) {
+			} else {
+				// TODO if history is available, go back through it
 				var id = $('#playlist .items li:last').attr('id');
 				if (id) {
 					prevId = id.substring(id.lastIndexOf('-') + 1);
