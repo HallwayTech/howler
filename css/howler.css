@@ -8,8 +8,10 @@ span {
 }
 
 body {
-    margin:5px; 
-    height:100%; 
+    margin:0;
+    padding:5px;
+    height:100%;
+    overflow:hidden;
 }
 
 ol,
@@ -109,11 +111,6 @@ img {
     float:left;
 }
 
-#saved-playlists-actions .left,
-#saved-playlists-actions .right {
-    width:50%;
-}
-
 #saved-playlists-actions .left {
     float:left;
 }
@@ -193,7 +190,7 @@ img {
 /***********************************************************************************/
 #alpha-nav {
     float:left;
-    margin:0 1em 0 1em;
+    margin:0 .75em 0 .75em;
 }
 
 #alpha-nav ul {
@@ -205,23 +202,30 @@ img {
     width:20px;
     height:20px;
     border:1px solid #aaa;
-    cursor:pointer;
     text-align:center;
 }
 
 #collection-container {
     height:100%;
-    width:90%;
+    width:92%;
     float:left;
 }
 
-#collection-nav {
+#collection-header {
     float:left;
     width:100%;
+    font-weight:bold;
+}
+
+#collection-nav {
+    width:100%;
+    float:left;
 }
 
 #collection-nav ul {
     padding:0;
+    margin-top:.5em;
+    margin-bottom:.5em;
 }
 
 #collection-nav li {
@@ -233,14 +237,23 @@ img {
     content:" | ";
 }
 
-#collection-header {
-    float:left;
-    width:100%;
-    font-weight:bold;
-}
-
 #collection {
-    height:90%;
+    height:98%;
     width:100%;
     overflow-y:auto;
+    margin-top:0;
+    margin-bottom:0;
+}
+
+#collection .dirs {
+    margin-top:0;
+    margin-bottom:0;
+    width:100%;
+    padding-left:.5em;
+}
+
+#collection .files {
+    margin-top:1em;
+    width:100%;
+    padding-left:.5em;
 }
