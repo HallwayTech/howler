@@ -223,9 +223,8 @@ img {
 }
 
 #collection-nav ul {
-    padding:0;
-    margin-top:.5em;
-    margin-bottom:.5em;
+    padding:.5em 0 .5em 0;
+    margin:0;
 }
 
 #collection-nav li {
@@ -241,19 +240,17 @@ img {
     height:98%;
     width:100%;
     overflow-y:auto;
-    margin-top:0;
-    margin-bottom:0;
+    margin:0;
 }
 
 #collection .dirs {
-    margin-top:0;
-    margin-bottom:0;
+    padding:.5em 0 .5em .5em;
+    margin:0;
     width:100%;
-    padding-left:.5em;
 }
 
 #collection .files {
-    margin-top:1em;
+    margin:0;
+    padding:.5em 0 .5em 1.5em;
     width:100%;
-    padding-left:.5em;
 }
