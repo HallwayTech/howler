@@ -7,7 +7,7 @@ span {
     vertical-align:baseline
 }
 
-body { 
+body {
     margin:5px; 
     height:100%; 
 }
@@ -15,10 +15,6 @@ body {
 ol,
 ul {
     list-style:none;
-}
-
-.clear {
-    clear:both;
 }
 
 img {
@@ -32,9 +28,13 @@ img {
 }
 
 #main-right {
-    float:right;
+    float:left;
     width:60%;
     height:100%;
+}
+
+.clear {
+    clear:both;
 }
 
 .list .item-odd {
@@ -186,18 +186,17 @@ img {
 /***********************************************************************************/
 /*                               COLLECTION STYLES                                 */
 /***********************************************************************************/
-#alphaNav {
+#alpha-nav {
     float:left;
-    margin-left:1em;
-    margin-right:1em;
+    margin:0 1em 0 1em;
 }
 
-#alphaNav ul {
+#alpha-nav ul {
     padding:0;
     margin:0;
 }
 
-#alphaNav ul li {
+#alpha-nav ul li {
     width:20px;
     height:20px;
     border:1px solid #aaa;
@@ -205,24 +204,38 @@ img {
     text-align:center;
 }
 
-#collectionNav ul {
+#collection-container {
+    height:100%;
+    width:90%;
+    float:left;
+}
+
+#collection-nav {
+    float:left;
+    width:100%;
+}
+
+#collection-nav ul {
     padding:0;
 }
 
-#collectionNav li {
+#collection-nav li {
     display:inline;
 }
 
-#collectionNav li:before,
-#collectionNav li:after {
+#collection-nav li:before,
+#collection-nav li:after {
     content:" | ";
 }
 
-#listHeader {
+#collection-header {
+    float:left;
+    width:100%;
     font-weight:bold;
 }
 
-#listing {
+#collection {
     height:90%;
+    width:100%;
     overflow-y:auto;
 }

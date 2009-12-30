@@ -24,7 +24,9 @@
             <!-- marquee -->
             <div id='marquee'>
                 <span class='label'></span>
-                <span class='artist'></span> - <span class='title'></span>
+                <span class='artist'></span>
+                -
+                <span class='title'></span>
                 <span class='album'></span>
                 <div class='clear'></div>
             </div>
@@ -56,24 +58,25 @@
             <!-- playlist -->
             <div id='playlist'>
                 <ul class='items'></ul>
-                <div class='clear'></div>
             </div>
+            <div class='clear'></div>
         </div>
 
         <!-- collection -->
         <div id='main-right'>
-            <div id='alphaNav'>
+            <div id='alpha-nav'>
                 <ul>
 				<?php foreach($alpha_nav as $alpha): ?>
 					<?php if (is_array($alpha)): ?>
-					<li onclick='Collection.search("<?= $alpha[1] ?>")'><a href='#' onclick='Collection.search("<?= $alpha[1] ?>");return false' title='Search for "<?= $alpha[1] ?>"'><?= $alpha[0] ?></a></li>
+					<li><a href='#' onclick='Collection.search("<?= $alpha[1] ?>");return false' title='Search for "<?= $alpha[1] ?>"'><?= $alpha[0] ?></a></li>
 					<?php else: ?>
-                    <li onclick='Collection.search("<?= $alpha ?>")'><a href='#' onclick='Collection.search("<?= $alpha ?>");return false' title='Search for "<?= $alpha ?>"'><?= $alpha ?></a></li>
+                    <li><a href='#' onclick='Collection.search("<?= $alpha ?>");return false' title='Search for "<?= $alpha ?>"'><?= $alpha ?></a></li>
                     <?php endif ?>
 				<?php endforeach ?>
                 </ul>
             </div>
-            <div id='listingContainer'></div>
+            <div id='collection-container'></div>
+            <div class='clear'></div>
         </div>
         <!-- javascript -->
         <script type='text/javascript' src='index.php/scripts'></script>

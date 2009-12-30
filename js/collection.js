@@ -3,6 +3,20 @@ var Collection = function() {
 	var path = '';
 	var cache = {};
 
+	/**
+	 * Hide the wait icon.
+	 */
+	function _done() {
+		$('body').css('cursor', 'auto');
+	}
+
+	/**
+	 * Show the wait icon.
+	 */
+	function _wait() {
+		$('body').css('cursor', 'wait');
+	}
+
 	return {
 		download: function(id) {
 			window.open('index.php/files/read/' + id, 'Download');
@@ -14,13 +28,13 @@ var Collection = function() {
 		 * @param search the search term to use.  entries starting with this term are returned.
 		 */
 		search: function(search) {
-			Collection._wait();
+			_wait();
 			$('#output').html('Loading...');
 
 			path = search;
 			url = 'index.php/collections/find/' + encodeURIComponent(search);
-			$('#listingContainer').load(url);
-			Collection._done();
+			$('#collection-container').load(url);
+			_done();
 		},
 
 		/**
@@ -29,24 +43,10 @@ var Collection = function() {
 		 * @param dirIdx the index to show relative to the current url.
 		 */
 		view: function(parentId) {
-			Collection._wait();
+			_wait();
 			url = 'index.php/collections/byParent/' + parentId;
-			$('#listingContainer').load(url);
-			Collection._done();
-		},
-
-		/**
-		 * Hide the wait icon.
-		 */
-		_done: function() {
-			$('body').css('cursor', 'auto');
-		},
-
-		/**
-		 * Show the wait icon.
-		 */
-		_wait: function() {
-			$('body').css('cursor', 'wait');
+			$('#collection-container').load(url);
+			_done();
 		}
 	}
 }();

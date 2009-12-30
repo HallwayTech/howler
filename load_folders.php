@@ -7,7 +7,6 @@ ini_set('memory_limit', '64M');
 
 define('TEST', true);
 define('LOAD_LIMIT', 25);
-
 define('MUSIC_DIR', '/home/chall/Music');
 
 function walkdir($dir, $top_level_count)

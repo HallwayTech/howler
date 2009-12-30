@@ -1,5 +1,5 @@
-<span id='listHeader'>Listing for <?= $label ?></span>
-<div id='collectionNav'>
+<div id='collection-header'>Listing for <?= $label ?></div>
+<div id='collection-nav'>
     <ul>
         <li id='refreshLink'><a href='#' onclick='Collection.refresh();return false'>Refresh</a></li>
 <?php if (!empty($parent)): ?>
@@ -13,7 +13,7 @@
     </ul>
 </div>
 
-<div id='listing'>
+<div id='collection'>
 <?php if (isset($dirs)): ?>
     <ul class='dirs'>
     <?php foreach ($dirs as $dir): ?>
@@ -39,6 +39,7 @@
     </ul>
 <?php endif ?>
 </div>
+<div class='clear'></div>
 
 <?php
 
