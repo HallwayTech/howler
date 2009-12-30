@@ -59,7 +59,8 @@ var Playlist = function() {
 		 */
 		highlight: function(id) {
 			// clear current highlighted item
-			$('.now-playing .controls .play').removeClass('now-playing').attr('src', 'images/control_play_blue.png');
+			$('.now-playing .controls .play').attr('src', 'images/control_play_blue.png');
+			$('.now-playing').removeClass('now-playing');
 
 			if (id) {
 				// highlight current song
@@ -126,18 +127,24 @@ var Playlist = function() {
 		 *        'SONG'.
 		 */
 		nextId: function(overrideRepeat) {
-			var currentPlayingId = Player.currentPlayingId();
 			var nextId = false;
-			if (currentPlayingId
-					&& ((!overrideRepeat && Playlist.repeat() == 'SONG')
-					|| !Playlist.random())) {
-				nextId = currentPlayingId;
-			}
-			if (!nextId) {
-				if (Playlist.random()) {
-					var randomId = Playlist.randomId();
-					nextId = randomId;
-				} else {
+			if (Playlist.random()) {
+				nextId = Playlist.randomId();
+			} else {
+				var currentPlayingId = Player.currentPlayingId();
+				if (currentPlayingId) {
+					if (!overrideRepeat && Playlist.repeat() == 'SONG') {
+						nextId = currentPlayingId;
+					} else {
+						var nextItem = $('#playlist-item-' + currentPlayingId).next();
+						var id = nextItem.attr('id');
+						if (id) {
+							nextId = id.substring(id.lastIndexOf('-') + 1);
+						}
+					}
+				}
+
+				if (!nextId) {
 					var id = $('#playlist .items li:first').attr('id');
 					if (id) {
 						nextId = id.substring(id.lastIndexOf('-') + 1);
@@ -157,9 +164,16 @@ var Playlist = function() {
 		prevId: function(overrideRepeat) {
 			var currentPlayingId = Player.currentPlayingId();
 			var prevId = false;
-			if (currentPlayingId
-					&& (!overrideRepeat && Playlist.repeat() == 'SONG')) {
-				prevId = currentPlayingId;
+			if (currentPlayingId) {
+				if (!overrideRepeat && Playlist.repeat() == 'SONG') {
+					prevId = currentPlayingId;
+				} else {
+					var prevItem = $('#playlist-item-' + currentPlayingId).prev();
+					var id = prevItem.attr('id');
+					if (id) {
+						prevId = id.substring(id.lastIndexOf('-') + 1);
+					}
+				}
 			}
 			// TODO if history is available, go back through it
 			if (!prevId) {
@@ -286,7 +300,7 @@ var Playlist = function() {
 				savedPlaylists.slideDown('fast');
 				anchor.removeClass('show-button').addClass('hide-button');
 			}
-		},
+		}
 	};
 }();
 
