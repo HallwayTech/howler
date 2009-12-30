@@ -124,6 +124,7 @@ img {
 }
 
 #saved-playlists {
+    display:none;
     float:left;
     overflow-y:scroll;
     width:100%;

@@ -46,7 +46,7 @@
                         <input type='button' value='Save as...' onclick='Playlist.savePlaylist()'/>
                     </div>
                     <div class='right'>
-                        <a href='#' onclick='Playlist.toggleSavedView();return false' title='Hide saved playlists' class='hide-button'><img src='images/bullet_arrow_up.png' alt='Hide saved playlists' /></a>
+                        <a href='#' onclick='Playlist.toggleSavedView();return false' title='Show saved playlists' class='show-button'><img src='images/bullet_arrow_down.png' alt='Show saved playlists' /></a>
                     </div>
                     <div class='clear'></div>
                 </div>

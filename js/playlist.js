@@ -1,5 +1,13 @@
 /* global $ */
 var Playlist = function() {
+	function _extractId(str) {
+		var id = false;
+		if (str) {
+			id = str.substring(str.lastIndexOf('-') + 1);
+		}
+		return id;
+	}
+
 	return {
 		/**
 		 * Add an item to the current loaded playlist
@@ -105,6 +113,7 @@ var Playlist = function() {
 						axis: 'y',
 						opacity: .75
 					});
+					Playlist.toggleSavedView();
 				});
 			} else {
 				alert('No playlist to load.');
@@ -126,32 +135,33 @@ var Playlist = function() {
 		 * @param overrideRepeat(optional) Whether to override a repeat state of
 		 *        'SONG'.
 		 */
-		nextId: function(overrideRepeat) {
+		nextId: function(ignoreRepeat) {
 			var nextId = false;
-			if (Playlist.random()) {
-				nextId = Playlist.randomId();
-			} else {
-				var currentPlayingId = Player.currentPlayingId();
-				if (currentPlayingId) {
-					if (!overrideRepeat && Playlist.repeat() == 'SONG') {
-						nextId = currentPlayingId;
-					} else {
-						var nextItem = $('#playlist-item-' + currentPlayingId).next();
-						var id = nextItem.attr('id');
+			var currentPlayingId = Player.currentPlayingId();
+			if (currentPlayingId) {
+				if (!ignoreRepeat && Playlist.repeat() == 'SONG') {
+					nextId = currentPlayingId;
+				} else if (Playlist.random()) {
+					nextId = Playlist.randomId();
+				} else {
+					// get the ID of the item after the current playing one
+					var nextItem = $('#playlist-item-' + currentPlayingId).next();
+					var id = nextItem.attr('id');
+					if (id) {
+						// trim the item ID to just the data ID
+						nextId = _extractId(id);
+					} else if (Playlist.repeat() != 'NONE') {
+						// if allowed to repeat the list, grab the first item
+						id = $('#playlist .items li:first').attr('id');
 						if (id) {
-							nextId = id.substring(id.lastIndexOf('-') + 1);
-						} else if (Playlist.repeat() != 'NONE') {
-							id = $('#playlist .items li:first').attr('id');
-							if (id) {
-								nextId = id.substring(id.lastIndexOf('-') + 1);
-							}
+							nextId = _extractId(id);
 						}
 					}
-				} else {
-					var id = $('#playlist .items li:first').attr('id');
-					if (id) {
-						nextId = id.substring(id.lastIndexOf('-') + 1);
-					}
+				}
+			} else {
+				var id = $('#playlist .items li:first').attr('id');
+				if (id) {
+					nextId = _extractId(id);
 				}
 			}
 			return nextId;
@@ -164,21 +174,22 @@ var Playlist = function() {
 		 * @param overrideRepeat(optional) Whether to override a repeat state of
 		 *        'SONG'.
 		 */
-		prevId: function(overrideRepeat) {
+		prevId: function(ignoreRepeat) {
 			var currentPlayingId = Player.currentPlayingId();
 			var prevId = false;
+
 			if (currentPlayingId) {
-				if (!overrideRepeat && Playlist.repeat() == 'SONG') {
+				if (!ignoreRepeat && Playlist.repeat() == 'SONG') {
 					prevId = currentPlayingId;
 				} else {
 					var prevItem = $('#playlist-item-' + currentPlayingId).prev();
 					var id = prevItem.attr('id');
 					if (id) {
-						prevId = id.substring(id.lastIndexOf('-') + 1);
+						prevId = _extractId(id);
 					} else if (Playlist.repeat() != 'NONE') {
 						var id = $('#playlist .items li:last').attr('id');
 						if (id) {
-							prevId = id.substring(id.lastIndexOf('-') + 1);
+							prevId = _extractId(id);
 						}
 					}
 				}
@@ -186,7 +197,7 @@ var Playlist = function() {
 				// TODO if history is available, go back through it
 				var id = $('#playlist .items li:last').attr('id');
 				if (id) {
-					prevId = id.substring(id.lastIndexOf('-') + 1);
+					prevId = _extractId(id);
 				}
 			}
 			return prevId;
@@ -218,7 +229,7 @@ var Playlist = function() {
 			var size = playlist.size();
 			var pos = Math.floor(Math.random() * size);
 			var id = $('#playlist .items li:eq(' + pos + ')').attr('id');
-			var nextId = id.substring(id.lastIndexOf('-') + 1);
+			var nextId = _extractId(id);
 			return nextId;
 		},
 
@@ -260,7 +271,7 @@ var Playlist = function() {
 			if (name) {
 				ids = [];
 				$('.playlist-item').each(function (idx) {
-						var id = this.id.substring(this.id.lastIndexOf('-') + 1);
+						var id = _extractId(this.id);
 						ids.push(id);
 					}
 				);
