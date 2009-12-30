@@ -39,8 +39,7 @@ var Player = function() {
 			var flashVars = {
 				file: '',
 				bufferlength: 5,
-				volume: 100,
-				playerready: 'playerReady'
+				volume: 100
 			};
 
 			var params = {
@@ -59,7 +58,7 @@ var Player = function() {
 		},
  
 		currentPlayingId: function() {
-			return $('.now-playing').attr('id');
+			return _currentId;
 		},
 
 		init: function() {
@@ -119,18 +118,26 @@ var Player = function() {
 				}
 			},
 
+			pause: function() {
+				swfplayer.sendEvent('PLAY', false);
+			},
+
 			play: function(id) {
 				if (id && id != _currentId) {
 					// load, play and highlight the item
 					var url = 'index.php/files/read/' + id;
 					var item = {file: url, type: 'sound', start: '0'};
 					swfplayer.sendEvent('LOAD', [item]);
-					Playlist.highlight(id);
-					Player.setMarquee(id);
 					_currentId = id;
-				}
-				if (_currentId) {
 					swfplayer.sendEvent('PLAY', true);
+					Player.setMarquee(id);
+					Playlist.highlight(id);
+				} else if (_state == 'PLAYING') {
+					swfplayer.sendEvent('PLAY', false);
+					Playlist.highlightBlur();
+				} else {
+					swfplayer.sendEvent('PLAY', true);
+					Playlist.highlightFocus();
 				}
 			},
 
@@ -164,6 +171,7 @@ var Player = function() {
 			 */
 			stateTracker: function(info) {
 				_state = info['newstate'];
+
 				// if playing is complete, progress the playlist forward by 1, load next
 				// song into the player, and change the highlighted playlist item.
 				if (_state == 'COMPLETED') {

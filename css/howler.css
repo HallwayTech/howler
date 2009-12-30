@@ -167,6 +167,10 @@ img {
     margin:3px;
 }
 
+.playlist-item .controls {
+    float:left;
+}
+
 .playlist-item .content {
     cursor:pointer;
     float:left;

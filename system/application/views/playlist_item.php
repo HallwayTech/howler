@@ -4,8 +4,10 @@
     <?php $label = $file ?>
 <?php endif ?>
 <li id='playlist-item-<?= $_id ?>' class='playlist-item'>
+    <div class='controls'>
+        <a href='#' onclick='Player.controls.play("<?= $_id ?>");return false'><img src='images/control_play_blue.png' alt='Play "<?= $label ?>"' class='play' /></a>
+    </div>
     <div class='content' onclick='Player.controls.play("<?= $_id ?>")'>
-        <a href='#' onclick='Player.controls.play("<?= $_id ?>");return false'><img src='images/control_play_blue.png' alt='Play "<?= $label ?>"' /></a>
 <?php if ($artist or $title or $album): ?>
         <span class='artist'><?= $artist ?></span> - <span class='title'><?= $title ?></span>
         <span class='album'><?= $album ?></span>

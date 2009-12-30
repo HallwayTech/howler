@@ -2,13 +2,6 @@
 var Playlist = function() {
 	return {
 		/**
-		 * Initialization of the playlist
-		 */
-		init: function() {
-			Playlist.loadPlaylists();
-		},
-
-		/**
 		 * Add an item to the current loaded playlist
 		 *
 		 * @param item The ID of the item to add to the playlist.
@@ -66,20 +59,36 @@ var Playlist = function() {
 		 */
 		highlight: function(id) {
 			// clear current highlighted item
-			$('.now-playing').removeClass('now-playing');
+			$('.now-playing .controls .play').removeClass('now-playing').attr('src', 'images/control_play_blue.png');
 
 			if (id) {
 				// highlight current song
-				$('#playlist-item-' + id).addClass('now-playing');
+				nowPlaying = $('#playlist-item-' + id).addClass('now-playing');
 
 				// calculate top position and scroll to it
 				var playlistTop = $('#playlist').position()['top'];
-				var nowPlayingTop = $('.now-playing').position()['top'];
+				var nowPlayingTop = nowPlaying.position()['top'];
 				var topDiff = nowPlayingTop - playlistTop;
 				var scrollTop = $('#playlist').scrollTop();
+				$('.controls .play', nowPlaying).attr('src', 'images/control_pause_blue.png');
 
 				$('#playlist').scrollTop(scrollTop + topDiff);
 			}
+		},
+
+		highlightBlur: function() {
+			$('.now-playing .controls .play').attr('src', 'images/control_play_blue.png');
+		},
+
+		highlightFocus: function() {
+			$('.now-playing .controls .play').attr('src', 'images/control_pause_blue.png');
+		},
+
+		/**
+		 * Initialization of the playlist
+		 */
+		init: function() {
+			Playlist.loadPlaylists();
 		},
 
 		/**
@@ -119,15 +128,10 @@ var Playlist = function() {
 		nextId: function(overrideRepeat) {
 			var currentPlayingId = Player.currentPlayingId();
 			var nextId = false;
-			if (currentPlayingId) {
-				if (!overrideRepeat && Playlist.repeat() == 'SONG') {
-					nextId = currentPlayingId.substring(currentPlayingId.lastIndexOf('-') + 1);
-				} else if (!Playlist.random()) {
-					var id = $('#' + currentPlayingId).next().attr('id');
-					if (id) {
-						nextId = id.substring(id.lastIndexOf('-') + 1);
-					}
-				}
+			if (currentPlayingId
+					&& ((!overrideRepeat && Playlist.repeat() == 'SONG')
+					|| !Playlist.random())) {
+				nextId = currentPlayingId;
 			}
 			if (!nextId) {
 				if (Playlist.random()) {
@@ -153,15 +157,9 @@ var Playlist = function() {
 		prevId: function(overrideRepeat) {
 			var currentPlayingId = Player.currentPlayingId();
 			var prevId = false;
-			if (currentPlayingId) {
-				if (!overrideRepeat && Playlist.repeat() == 'SONG') {
-					prevId = currentPlayingId;
-				} else {
-					var id = $('#' + currentPlayingId).prev().attr('id');
-					if (id) {
-						prevId = id.substring(id.lastIndexOf('-') + 1);
-					}
-				}
+			if (currentPlayingId
+					&& (!overrideRepeat && Playlist.repeat() == 'SONG')) {
+				prevId = currentPlayingId;
 			}
 			// TODO if history is available, go back through it
 			if (!prevId) {
@@ -288,7 +286,7 @@ var Playlist = function() {
 				savedPlaylists.slideDown('fast');
 				anchor.removeClass('show-button').addClass('hide-button');
 			}
-		}
+		},
 	};
 }();
 
