@@ -1,13 +1,13 @@
 <?php
-require_once 'lib/id3.php';
+require_once 'id3.php';
 
 error_reporting(E_ALL);
 
 ini_set('memory_limit', '64M');
 
-define('TEST', true);
+define('TEST', false);
 define('LOAD_LIMIT', 25);
-define('MUSIC_DIR', '/home/chall/Music');
+define('MUSIC_DIR', '/home/chall/music');
 
 function walkdir($dir, $top_level_count)
 {
@@ -29,7 +29,8 @@ function walkdir($dir, $top_level_count)
 
             // collect common fields
             $entry = array(
-                '_id' => $entry_id, 'added' => date(filemtime($full_path))
+                '_id' => $entry_id, 'added' => date('Y-m-d', filemtime($full_path)),
+                'url' => $path
             );
             if (!empty($dir)) {
                 $entry['parent'] = $parent_id; 
@@ -43,18 +44,22 @@ function walkdir($dir, $top_level_count)
                 if (!empty($dir)) {
                     $top_level_count++;
                 }
-                store($entry);
+                store_mysql($entry);
                 walkdir($path, $top_level_count);
             } elseif (is_file($full_path)) {
                 $entry['type'] = 'f';
-                $entry['file'] = $path;
 
                 // get any artist, title, album information found
                 list($artist, $title, $album) = id3_info($full_path);
                 $entry['artist'] = $artist;
                 $entry['title'] = $title;
                 $entry['album'] = $album;
-                store($entry);
+                if ($title) {
+                    $entry['label'] = $title;
+                } else {
+                    $entry['label'] = $node;
+                }
+                store_mysql($entry);
             }
             if (TEST === true && $top_level_count == LOAD_LIMIT) {
               exit;
@@ -63,7 +68,62 @@ function walkdir($dir, $top_level_count)
     }
 }
 
-function store($doc)
+function store_mysql($doc)
+{
+    @mysql_connect('localhost', 'root', 'mtrpls12') or exit(mysql_error());
+    @mysql_select_db('howler') or exit(mysql_error());
+
+    $fields = "entry_id, label, url, type, date_added";
+    $values = sprintf("'%s', '%s', '%s', '%s', '%s'",
+        mysql_real_escape_string($doc['_id']),
+        mysql_real_escape_string($doc['label']),
+        mysql_real_escape_string($doc['url']),
+        mysql_real_escape_string($doc['type']),
+        mysql_real_escape_string($doc['added']));
+    if (!empty($doc['parent'])) {
+        $fields .= ", parent_entry_id";
+        $values .= ", '".mysql_real_escape_string($doc['parent'])."'";
+    }
+    $sql = "insert into entries ($fields) values ($values)";
+
+    if (!TEST) {
+        $result = @mysql_query($sql);
+        if (!$result) {
+            echo "Unable to insert {$doc['label']}";
+        }
+    } else {
+        echo "$sql\n";
+    }
+
+    if ($doc['type'] == 'f') {
+        $fields = 'entry_id, artist, album, title';
+        $artist = 'null';
+        $album = 'null';
+        $title = 'null';
+        if (!empty($doc['artist'])) {
+            $artist = "'".mysql_real_escape_string($doc['artist'])."'";
+        }
+        if (!empty($doc['album'])) {
+            $album = "'".mysql_real_escape_string($doc['album'])."'";
+        }
+        if (!empty($doc['title'])) {
+            $title = "'".mysql_real_escape_string($doc['title'])."'";
+        }
+        $values = sprintf("'%s', %s, %s, %s", $doc['_id'], $artist, $album, $title);
+        $sql = "insert into id3 ($fields) values ($values)";
+        if (!TEST) {
+            $result = @mysql_query("insert into id3 ($fields) values ($values)");
+            if (!$result) {
+                echo "Unable to insert info for {$doc['label']}";
+            }
+        } else {
+            echo "$sql\n";
+        }
+    }
+    mysql_close();
+}
+
+function store_couch($doc)
 {
     // convert doc to json for storage
     $doc_json = json_encode($doc);
