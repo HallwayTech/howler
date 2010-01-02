@@ -44,13 +44,11 @@ class Collection extends Model
 
     function read($id)
     {
-        $sql = <<<SQL
-select e.*, i.artist, i.album, i.title
-from entries e
- left join id3 i on e.entry_id = i.entry_id
-where e.entry_id = '$id'
-SQL;
-        $query = $this->db->query($sql);
+        $this->db->select('e.*, i.artist, i.album, i.title')
+            ->from('entries e')
+            ->join('id3 i', 'e.entry_id = i.entry_id', 'left')
+            ->where('e.entry_id', $id);
+        $query = $this->db->get();
         return $query->row();
     }
 
@@ -63,14 +61,12 @@ SQL;
      */
     function byParent($id)
     {
-        $sql = <<<SQL
-select p.parent_entry_id, p.label as 'title', e.entry_id, e.label, e.type
-from entries p
-inner join entries e on p.entry_id = e.parent_entry_id
-where p.entry_id = '$id'
-order by e.url
-SQL;
-        $query = $this->db->query($sql);
+        $this->db->select("p.parent_entry_id, p.label as 'title', e.entry_id, e.label, e.type")
+            ->from('entries p')
+            ->join('entries e', 'p.entry_id = e.parent_entry_id', 'inner')
+            ->where('p.entry_id', $id)
+            ->order_by('e.url');
+        $query = $this->db->get();
         $result = $query->result();
 
         $title = null;
@@ -113,14 +109,12 @@ SQL;
      */
     function startsWith($search)
     {
-        $sql = <<<SQL
-select entry_id, label, type
-from entries
-where parent_entry_id is null
-and prefix REGEXP '[$search]'
-order by entries.url
-SQL;
-        $query = $this->db->query($sql);
+        $this->db->select('entry_id, label, type')
+            ->from('entries')
+            ->where('parent_entry_id is null')
+            ->where("prefix REGEXP '[$search]'")
+            ->order_by('url');
+        $query = $this->db->get();
 
         // build the lists of files and dirs
         $dirs = array();
