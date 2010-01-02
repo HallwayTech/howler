@@ -73,13 +73,15 @@ function store_mysql($doc)
     @mysql_connect('localhost', 'root', 'mtrpls12') or exit(mysql_error());
     @mysql_select_db('howler') or exit(mysql_error());
 
-    $fields = "entry_id, label, url, type, date_added";
-    $values = sprintf("'%s', '%s', '%s', '%s', '%s'",
+    preg_match('/[a-zA-Z0-9]/', $doc['label'], $matches);
+    $prefix = $matches[0];
+    $fields = "entry_id, label, url, type, date_added, prefix";
+    $values = sprintf("'%s', '%s', '%s', '%s', '%s', '%s'",
         mysql_real_escape_string($doc['_id']),
         mysql_real_escape_string($doc['label']),
         mysql_real_escape_string($doc['url']),
         mysql_real_escape_string($doc['type']),
-        mysql_real_escape_string($doc['added']));
+        mysql_real_escape_string($doc['added']), $prefix);
     if (!empty($doc['parent'])) {
         $fields .= ", parent_entry_id";
         $values .= ", '".mysql_real_escape_string($doc['parent'])."'";

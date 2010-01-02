@@ -44,9 +44,11 @@ class Collection extends Model
 
     function read($id)
     {
-        $this->load->library('rest', array('server' => $this->config->item('couchdb_server')));
-        $collection = $this->rest->get($id, null, 'json');
-        return $collection;
+        $query = $this->db->query("select * from entries where entry_id = '$id'");
+        return $query->row();
+//        $this->load->library('rest', array('server' => $this->config->item('couchdb_server')));
+//        $collection = $this->rest->get($id, null, 'json');
+//        return $collection;
     }
 
     /**
@@ -58,37 +60,30 @@ class Collection extends Model
      */
     function byParent($id)
     {
-        $this->load->library('rest', array('server' => $this->config->item('couchdb_server')));
+        $sql = <<<SQL
+select p.parent_entry_id, p.label as 'title', e.label, e.type
+from entries p
+inner join entries e on p.entry_id = e.parent_entry_id
+where p.entry_id = '$id'
+order by e.url
+SQL;
+        $query = $this->db->query($sql);
+        $result = $query->result();
 
-        // get the title
-        $title_doc = $this->rest->get($id, null, 'json');
-        $title = $title_doc->label;
-
-        // get the listing information
-        $prefixes = $this->rest->get(
-            "_design/collections/_view/by_parent?startkey=[\"$id\"]&endkey=[\"$id\",\"Z\"]",
-            null, 'json'
-        );
+        $title = null;
 
         // build the lists of files and dirs
         $dirs = array();
         $files = array();
 
-        foreach($prefixes->rows as $row) {
-            $info = array('id' => $row->id);
-            $key = $row->key;
-            if ($key[1] == 'd') {
-                $info['label'] = $key[2];
+        foreach($result as $row) {
+            if ($title == null) {
+                $title = $row->title;
+            }
+            $info = array('id' => $row->entry_id, 'label' => $row->label);
+            if ($row->type == 'd') {
                 $dirs[] = $info;
             } elseif ($key[1] == 'f') {
-                $value = $row->value;
-                $artist = $value->artist;
-                $title = $value->title;
-                if ($artist && $title) {
-                    $info['label'] = "$artist - $title";
-                } else {
-                    $info['label'] = $value->file;
-                }
                 $files[] = $info;
             }
         }
@@ -115,11 +110,20 @@ class Collection extends Model
      */
     function startsWith($query)
     {
+        $sql = <<<SQL
+select entry_id, label, type
+from entries
+where parent_entry_id is null
+order by entries.url
+SQL;
+        $query = $this->db->query($sql);
+        $result = $query->result();
+
         // build the lists of files and dirs
         $dirs = array();
         $files = array();
 
-        if (!empty($query)) {
+        if ($query->num_rows() > 0) {
             $search = strtolower($query);
             $startkey = $search;
             $endkey = $search;

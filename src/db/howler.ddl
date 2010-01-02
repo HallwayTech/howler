@@ -5,7 +5,8 @@ create table entries (
   url varchar(100) not null,
   parent_entry_id char(32) null,
   type char(1) not null,
-  date_added date not null
+  date_added date not null,
+  prefix char(1) null
 ) ENGINE=InnoDB;
 
 drop table if exists id3;
