@@ -1,24 +1,13 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 // File system location of the root of music.
-//define('MUSIC_DIR', '/var/media/music');
 $config['music_dir'] = '/home/chall/music';
-
-// File system location to where playlists are stored.  Reference can be
-// relative to installation directory.
-$config['playlists_dir'] = 'playlists';
-
-// URL of root to where media can be found.
-$config['music_url'] = 'music';
 
 // The default setting for the repeat list.
 $config['default_repeat'] = 'LIST';
 
 // The default setting for 'random'
 $config['default_random'] = 'false';
-
-// url to access couchdb server via REST
-$config['couchdb_server'] = 'http://127.0.0.1:5984/howler';
 
 /*
 |--------------------------------------------------------------------------
