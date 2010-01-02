@@ -8,11 +8,15 @@ class Files extends Controller
 
     function read($id)
     {
-        $this->load->library('rest', array('server' => $this->config->item('couchdb_server')));
-        $entry_json = $this->rest->get($id);
-        $entry = json_decode($entry_json, true);
+        $query = $this->db->query("select url from entries where entry_id = '$id'");
 
-        $filename = urldecode($this->config->item('music_dir') . "/{$entry['file']}");
+        if ($query->num_rows == 0) {
+            header("Status: 204 No Content");
+            return;
+        }
+
+        $entry = $query->row();
+        $filename = urldecode($this->config->item('music_dir') . "/{$entry->url}");
         $filename = stripslashes($filename);
 
         if (!is_readable($filename)) {
@@ -22,7 +26,7 @@ class Files extends Controller
             $basename = basename($filename);
             $filesize = filesize($filename);
 
-            header("Content-Disposition: attachment; filename=".urlencode($filename));
+            header("Content-Disposition: attachment; filename=\"{$entry->url}\"");
             header("Content-Type: audio/mpeg");
             header("Content-Length: $filesize");
             header("Content-Transfer-Encoding: binary");

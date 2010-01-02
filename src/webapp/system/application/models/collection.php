@@ -44,11 +44,14 @@ class Collection extends Model
 
     function read($id)
     {
-        $query = $this->db->query("select * from entries where entry_id = '$id'");
+        $sql = <<<SQL
+select e.*, i.artist, i.album, i.title
+from entries e
+ left join id3 i on e.entry_id = i.entry_id
+where e.entry_id = '$id'
+SQL;
+        $query = $this->db->query($sql);
         return $query->row();
-//        $this->load->library('rest', array('server' => $this->config->item('couchdb_server')));
-//        $collection = $this->rest->get($id, null, 'json');
-//        return $collection;
     }
 
     /**
@@ -61,7 +64,7 @@ class Collection extends Model
     function byParent($id)
     {
         $sql = <<<SQL
-select p.parent_entry_id, p.label as 'title', e.label, e.type
+select p.parent_entry_id, p.label as 'title', e.entry_id, e.label, e.type
 from entries p
 inner join entries e on p.entry_id = e.parent_entry_id
 where p.entry_id = '$id'
@@ -81,9 +84,9 @@ SQL;
                 $title = $row->title;
             }
             $info = array('id' => $row->entry_id, 'label' => $row->label);
-            if ($row->type == 'd') {
+            if($row->type == 'd') {
                 $dirs[] = $info;
-            } elseif ($key[1] == 'f') {
+            } elseif ($row->type == 'f') {
                 $files[] = $info;
             }
         }
@@ -108,54 +111,30 @@ SQL;
      * found alphanumeric character does not match the requested query, these
      * entries will contain empty arrays.
      */
-    function startsWith($query)
+    function startsWith($search)
     {
         $sql = <<<SQL
 select entry_id, label, type
 from entries
 where parent_entry_id is null
+and prefix REGEXP '[$search]'
 order by entries.url
 SQL;
         $query = $this->db->query($sql);
-        $result = $query->result();
 
         // build the lists of files and dirs
         $dirs = array();
         $files = array();
 
         if ($query->num_rows() > 0) {
-            $search = strtolower($query);
-            $startkey = $search;
-            $endkey = $search;
-            if ($query == '0-9') {
-                $startkey = '0';
-                $endkey = '9';
-            }
-
-            $this->load->library('rest', array(
-                'server' => $this->config->item('couchdb_server'))
-            );
-            $collections = $this->rest->get(
-                "_design/collections/_view/by_prefix?startkey=[\"$startkey\",\"d\"]&endkey=[\"$endkey\",\"f\"]",
-                null, 'json'
-            );
-
-            foreach($collections->rows as $collection) {
-                $key = $collection->key;
-                if ($key[1] == 'd') {
-                    $dirs[] = array('id' => $collection->id, 'label' => $key[2]);
-                } else {
-                    $value = $collection->value;
-                    $files[] = array(
-                        'id' => $collection->id, 'title' => $value->title,
-                        'artist' => $value->artist, 'album' => $value->album
-                    );
+            foreach($query->result() as $row) {
+                if ($row->type == 'd') {
+                    $dirs[] = array('id' => $row->entry_id, 'label' => $row->label);
                 }
             }
         }
-        $data['label'] = $query;
+        $data['label'] = $search;
         $data['dirs'] = $dirs;
-        $data['files'] = $files;
         return $data;
     }
 }

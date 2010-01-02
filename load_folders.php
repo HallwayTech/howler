@@ -74,7 +74,11 @@ function store_mysql($doc)
     @mysql_select_db('howler') or exit(mysql_error());
 
     preg_match('/[a-zA-Z0-9]/', $doc['label'], $matches);
-    $prefix = $matches[0];
+    if (!$matches) {
+        echo "Can't determine prefix of '{$doc['label']}'";
+        return;
+    }
+    $prefix = strtolower($matches[0]);
     $fields = "entry_id, label, url, type, date_added, prefix";
     $values = sprintf("'%s', '%s', '%s', '%s', '%s', '%s'",
         mysql_real_escape_string($doc['_id']),

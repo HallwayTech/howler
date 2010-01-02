@@ -6,6 +6,25 @@ class Playlists extends Controller
         parent::Controller();
     }
 
+    function addEntry($id)
+    {
+        $this->load->model('collection');
+        $entry = $this->collection->read($id);
+        $this->load->view('playlist_item', $entry);
+    }
+
+    function addParent($parentId)
+    {
+        $this->load->model('collection');
+        $entries = $this->collection->byParent($parentId);
+        foreach ($entries['files'] as $file) {
+            $this->addEntry($file['id']);
+        }
+        foreach ($entries['dirs'] as $dir) {
+            $this->addParent($dir['id']);
+        }
+    }
+
     function generate($count)
     {
         $this->load->model('collection');
@@ -94,25 +113,6 @@ class Playlists extends Controller
                 log_message('error', $response_json);
                 show_error($response_json);
             }
-        }
-    }
-
-    function addEntry($id)
-    {
-        $this->load->model('collection');
-        $entry = $this->collection->read($id);
-        $this->load->view('playlist_item', $entry);
-    }
-
-    function addParent($parentId)
-    {
-        $this->load->model('collection');
-        $entries = $this->collection->byParent($parentId);
-        foreach ($entries['files'] as $file) {
-            $this->addEntry($file['id']);
-        }
-        foreach ($entries['dirs'] as $dir) {
-            $this->addParent($dir['id']);
         }
     }
 
