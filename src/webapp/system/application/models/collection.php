@@ -32,26 +32,6 @@ class Collection extends Model
         parent::Model();
     }
 
-    function random($count)
-    {
-        $this->load->library('rest', array('server' => $this->config->item('couchdb_server')));
-        $start_key = sha1(time());
-        $files = $this->rest->get("_design/collections/_view/files?startkey=\"$start_key\"&limit=$count&include_docs=true", null, 'json');
-        unset($files->total_rows);
-        unset($files->offset);
-        return $files;
-    }
-
-    function read($id)
-    {
-        $this->db->select('e.*, i.artist, i.album, i.title')
-            ->from('entries e')
-            ->join('id3 i', 'e.entry_id = i.entry_id', 'left')
-            ->where('e.entry_id', $id);
-        $query = $this->db->get();
-        return $query->row();
-    }
-
     /**
      * Read a collection and return the names of the content entries.
      *
@@ -95,6 +75,28 @@ class Collection extends Model
             $output['parent'] = $title_doc->parent; 
         }
         return $output;
+    }
+
+    function random($count)
+    {
+        $this->db->select('e.label, e.url, i.*')
+            ->from('entries e')
+            ->join('id3 i', 'i.entry_id = e.entry_id', 'left')
+            ->where("type = 'f'")
+            ->order_by("rand()")
+            ->limit($count);
+        $query = $this->db->get();
+        return $query;
+    }
+
+    function read($id)
+    {
+        $this->db->select('e.*, i.artist, i.album, i.title')
+            ->from('entries e')
+            ->join('id3 i', 'e.entry_id = i.entry_id', 'left')
+            ->where('e.entry_id', $id);
+        $query = $this->db->get();
+        return $query->row();
     }
 
     /**

@@ -49,9 +49,13 @@ class Playlists extends Controller
     function generate($count)
     {
         $this->load->model('collection');
-        $files = $this->collection->random($count);
-        foreach ($files->rows as $entry) {
-            $this->load->view('playlist_item', $entry->doc);
+        $query = $this->collection->random($count);
+        if ($query->num_rows > 0) {
+            foreach ($query->result() as $entry) {
+                $this->load->view('playlist_item', $entry);
+            }
+        } else {
+            set_status_header(204);
         }
     }
 
