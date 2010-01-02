@@ -6,6 +6,27 @@ class Playlist extends Model
         parent::Model();
     }
 
+    function delete($id)
+    {
+        $where = array('playlist_id' => $id);
+        $this->db->trans_start();
+        $this->db->delete('playlist_entries', $where);
+        $this->db->delete('playlists', $where);
+        $this->db->trans_complete();
+        $response = $this->db->trans_status();
+        return $response;
+    }
+
+    function lists($user)
+    {
+        $query = $this->db->get_where('playlists', array('user_id' => $user));
+        $result = false;
+        if ($query->num_rows > 0) {
+           $result = $query;
+        }
+        return $result;
+    }
+
     /**
      * Read a playlist by the ID.
      *
@@ -14,56 +35,54 @@ class Playlist extends Model
      */
     function read($id)
     {
-        $this->load->library('rest', array('server' => $this->config->item('couchdb_server')));
-        if (is_array($id)) {
-            $playlists = array('keys' => $id);
-            $playlist_json = json_encode($playlists);
-            $playlists = $this->rest->post(
-                '_all_docs?include_docs=true', $playlist_json, 'json'
-            );
-            $playlist = $playlists->rows;
+        $this->db->select('p.name, e.label, i.*')
+            ->from('playlists p')
+            ->join('playlist_entries pe', 'p.playlist_id = pe.playlist_id', 'inner')
+            ->join('entries e', 'pe.entry_id = e.entry_id', 'inner')
+            ->join('id3 i', 'e.entry_id = i.entry_id', 'left')
+            ->where('p.playlist_id', $id);
+        $query = $this->db->get();
+
+        if ($query->num_rows > 0) {
+            return $query;
         } else {
-            $playlist = $this->rest->get($id, null, 'json');
+            return false;
         }
-        return $playlist;
 	}
 
-	function delete($id)
+	function save($user_id, $title, $entries)
 	{
-	    $this->load->library('rest', array('server' => $this->config->item('couchdb_server')));
-	    $message = $this->rest->delete($id, 'json');
-        return $message;
-	}
+	    $response = false;
 
-	function lists($user)
-	{
-	    $this->load->library('rest', array('server' => $this->config->item('couchdb_server')));
-	    $playlists_json = $this->rest->get("_design/playlists/_view/by_user?startkey=[\"$user\"]&endkey=[\"$user\",\"\u9999\"]");
-	    $playlists = json_decode($playlists_json);
-	    unset($playlists->total_rows);
-	    unset($playlists->offset);
-	    return $playlists;
-	}
+	    if (!empty($user_id) && !empty($title) && is_array($entries)) {
+    	    // start a transaction so we don't save a playlist without entries
+    	    $this->db->trans_start();
 
-	function save($user_id, $title, $playlist, $rev = null)
-	{
-        // create the filename by prepending the user name to the playlist name
-        $doc_id = sha1("$user_id/$title");
+            // create the filename by prepending the user name to the playlist name
+            $playlist_id = sha1("$user_id/$title");
 
-        // build the playlist document
-        $doc = array(
-            '_id' => $doc_id, 'user_id' => $user_id, 'type' => 'playlist',
-            'public' => true, 'title' => $title, 'playlist' => $playlist
-        );
-        if ($rev && $rev != '_new') {
-            $doc['_rev'] = $rev;
-        }
-        $doc_json = json_encode($doc);
+            // build the playlist document and insert it
+            $playlist = array(
+                'playlist_id' => $playlist_id, 'user_id' => $user_id,
+                'name' => $title
+            );
+            $this->db->insert('playlists', $playlist);
 
-        // save to the database
-        $this->load->library('rest', array('server' => $this->config->item('couchdb_server')));
-        $message = $this->rest->put($doc_id, $doc_json, 'json');
-        return $message;
+            $insert = "insert into playlist_entries (entry_id, playlist_id) values ('";
+            $glue = "', '$playlist_id'), ('";
+            $values = implode($glue, $entries);
+
+            // be sure to tack on the playlist_id at the end as implode only puts the
+            // glue between the entries.
+            $sql = $insert.$values."', '$playlist_id')";
+
+            // save to the database
+            $this->db->query($sql);
+
+            $this->db->trans_complete();
+            $response = $this->db->trans_status();
+	    }
+        return $response;
     }
 
     //===================================================================

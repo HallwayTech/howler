@@ -25,6 +25,27 @@ class Playlists extends Controller
         }
     }
 
+    /**
+     * Delete a specific playlist in the logged in user's space.
+     *
+     * @param name The name of the playlist to be deleted.  The name is resolved to
+     *             the user's space.
+     */
+    function delete($id)
+    {
+        $this->load->helper('request_method');
+
+        if (is_method_allowed(DELETE)) {
+            $this->load->model('playlist');
+            $response = $this->playlist->delete($id);
+            if ($response === false) {
+                $msg = "Unable to delete playlist [$id]";
+                log_message('error', $msg);
+                show_error($msg);
+            }
+        }
+    }
+
     function generate($count)
     {
         $this->load->model('collection');
@@ -42,8 +63,8 @@ class Playlists extends Controller
         $user = $this->_current_user();
         $this->load->model('playlist');
         $playlists = $this->playlist->lists($user);
-        if (sizeof($playlists->rows) > 0) {
-            $this->load->view('playlists', $playlists);
+        if ($playlists) {
+            $this->load->view('playlists', array('query' => $playlists));
         } else {
             set_status_header(204);
         }
@@ -58,9 +79,12 @@ class Playlists extends Controller
     {
         $this->load->model('playlist');
         $playlist = $this->playlist->read($id);
-        $playlist_entries = $this->playlist->read($playlist->playlist);
-        foreach ($playlist_entries as $entry) {
-            $this->load->view('playlist_item', $entry->doc);
+        if ($playlist) {
+            foreach ($playlist->result() as $entry) {
+                $this->load->view('playlist_item', $entry);
+            }
+        } else {
+            set_status_header(204);
         }
     }
 
@@ -70,7 +94,7 @@ class Playlists extends Controller
      *
      * @param name The name of the playlist to save.
      */
-    function save($name, $rev)
+    function save($name)
     {
         $this->load->helper('request_method');
 
@@ -80,38 +104,17 @@ class Playlists extends Controller
 
             // get the submitted playlist
             $playlist_param = $this->input->post('playlist');
-            $playlist = json_decode($playlist_param);
+            $playlist = explode(',', $playlist_param);
 
             // load the playlist model
             $this->load->model('playlist');
 
             // save the playlist
-            $response = $this->playlist->save($user_id, $name, $playlist, $rev);
-            if (!empty($response->error)) {
-                $response_json = json_encode($response);
-                log_message('error', $response_json);
-                show_error($response_json);
-            }
-        }
-    }
-
-    /**
-     * Delete a specific playlist in the logged in user's space.
-     *
-     * @param name The name of the playlist to be deleted.  The name is resolved to
-     *             the user's space.
-     */
-    function delete($id, $rev)
-    {
-        $this->load->helper('request_method');
-
-        if (is_method_allowed(DELETE)) {
-            $this->load->model('playlist');
-            $response = $this->playlist->delete("$id?rev=$rev");
-            if (!empty($response->error)) {
-                $response_json = json_encode($response);
-                log_message('error', $response_json);
-                show_error($response_json);
+            $response = $this->playlist->save($user_id, $name, $playlist);
+            if ($response === false) {
+                $msg = 'Could not save playlist.';
+                log_message('error', $msg);
+                show_error($msg);
             }
         }
     }

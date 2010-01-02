@@ -44,10 +44,10 @@ var Playlist = function() {
 		/**
 		 * Delete a saved playlist.
 		 */
-		deletePlaylist: function(id, rev) {
+		deletePlaylist: function(id) {
 			if (id && id != '_new') {
 				if (confirm('Are you sure you want to delete this playlist?')) {
-					var url = 'index.php/playlists/delete/' + id + '/' + rev;
+					var url = 'index.php/playlists/delete/' + id;
 					$.ajax({
 						type: 'DELETE',
 						url: url,
@@ -282,7 +282,7 @@ var Playlist = function() {
 		/**
 		 * Saves the current playlist.
 		 */
-		savePlaylist: function(name, rev) {
+		savePlaylist: function(name) {
 			if (!name || name == '_new') {
 				name = '';
 				while (name == '') {
@@ -298,22 +298,14 @@ var Playlist = function() {
 				);
 
 				var url = 'index.php/playlists/save/' + name;
-				if (rev) {
-					url += '/' + rev;
-				} else {
-					url += '/_new';
-				}
-
-				var playlist = '[' + ids.join(',') + ']';
+				var playlist = ids.join(',');
 
 				$.ajax({
 					type: 'POST',
 					url: url,
 					data: {'playlist': playlist},
 					success: function() {
-						if (!rev) {
-							Playlist.loadPlaylists();
-						}
+						Playlist.loadPlaylists();
 					},
 					error: function() {
 						alert('An error occurred saving the playlist.  Please try again later.');
