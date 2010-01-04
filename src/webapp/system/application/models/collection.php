@@ -50,6 +50,7 @@ class Collection extends Model
         $result = $query->result();
 
         $title = null;
+        $parent_entry_id = null;
 
         // build the lists of files and dirs
         $dirs = array();
@@ -58,6 +59,9 @@ class Collection extends Model
         foreach($result as $row) {
             if ($title == null) {
                 $title = $row->title;
+            }
+            if ($parent_entry_id == null && !empty($row->parent_entry_id)) {
+                $parent_entry_id = $row->parent_entry_id;
             }
             $info = array('id' => $row->entry_id, 'label' => $row->label);
             if($row->type == 'd') {
@@ -71,8 +75,13 @@ class Collection extends Model
         $output = array(
             'id' => $id, 'label' => $title, 'dirs' => $dirs, 'files' => $files
         );
-        if (!empty($title_doc->parent)) {
-            $output['parent'] = $title_doc->parent; 
+        if (!empty($parent_entry_id)) {
+            $output['parent'] = $parent_entry_id; 
+        } else {
+            preg_match('/[a-zA-Z0-9]/', $title, $matches);
+            if ($matches) {
+                $output['search'] = $matches[0];
+            }
         }
         return $output;
     }
@@ -129,7 +138,7 @@ class Collection extends Model
                 }
             }
         }
-        $data['label'] = $search;
+        $data['label'] = strtoupper($search);
         $data['dirs'] = $dirs;
         return $data;
     }

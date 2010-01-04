@@ -1,25 +1,26 @@
-<div id='collection-header'>Listing for <?= $label ?></div>
 <div id='collection-nav'>
-    <ul>
-        <li id='refreshLink'><a href='#' onclick='Collection.refresh();return false'>Refresh</a></li>
 <?php if (!empty($parent)): ?>
-        <li id='backLink'><a href='#' onclick='Collection.view("<?= $parent ?>");return false'>Go back</a></li>
-<?php elseif (false and !empty($search)): ?>
-        <li id='backLink'><a href='#' onclick='Collection.search("<?= $search ?>");return false'>Go back</a></li>
+    <a href='#' onclick='Collection.view("<?= $parent ?>");return false'><img src='images/folder_back.png' /></a>
+<?php elseif (!empty($search)): ?>
+    <a href='#' onclick='Collection.search("<?= $search ?>");return false'><img src='images/folder_back.png' /></a>
 <?php else: ?>
-        <li id='backLink'>Go back</li>
+    <img class='dimmed' src='images/folder_back.png' />
 <?php endif ?>
-        <li id='addAllLink'><a href='#' onclick='Playlist.addParent("<?= $id ?>");return false'>Add All Songs</a></li>
-    </ul>
+<?php if (!empty($id)): ?>
+    <a href='#' onclick='Playlist.addParent("<?= $id ?>");return false'><img src='images/folder_add.png' /></a>
+<?php else: ?>
+    <img class='dimmed' src='images/folder_add.png' />
+<?php endif ?>
 </div>
+<div id='collection-header'>Listing for <span id='collection-label'><?= $label ?></span></div>
 
 <div id='collection'>
-<?php if (isset($dirs)): ?>
+<?php if (!empty($dirs)): ?>
     <ul class='dirs'>
     <?php foreach ($dirs as $dir): ?>
         <li class='dir'>
             <a href='#' onclick='Playlist.addParent("<?= $dir['id'] ?>");return false' class='fileAdd' title='Add "<?= $dir['label'] ?>"'>
-                <img src='images/add.png' alt='Add "<?= $dir['label'] ?>"' />
+                <img src='images/folder_add.png' alt='Add "<?= $dir['label'] ?>"' />
             </a>
             <a href='#' onclick='Collection.view("<?= $dir['id'] ?>");return false' title='View "<?= $dir['label'] ?>"'><?= $dir['label'] ?></a>
         </li>
@@ -27,7 +28,7 @@
     </ul>
 <?php endif ?>
 
-<?php if (isset($files)):?>
+<?php if (!empty($files)):?>
     <ul class='files'>
     <?php foreach ($files as $file): ?>
         <li class='file' id='<?= $file['id'] ?>'>
