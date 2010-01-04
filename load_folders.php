@@ -46,7 +46,7 @@ function walkdir($dir, $top_level_count)
                 }
                 store_mysql($entry);
                 walkdir($path, $top_level_count);
-            } elseif (is_file($full_path)) {
+            } elseif (is_file($full_path) && substr($node, -4) == '.mp3') {
                 $entry['type'] = 'f';
 
                 // get any artist, title, album information found
@@ -75,10 +75,15 @@ function store_mysql($doc)
 
     preg_match('/[a-zA-Z0-9]/', $doc['label'], $matches);
     if (!$matches) {
-        echo "Can't determine prefix of '{$doc['label']}'";
-        return;
+        if ($doc['type'] == 'd') {
+            echo "Can't determine prefix of '{$doc['label']}'\n";
+            return;
+        } else {
+            $prefix = '';
+        }
+    } else {
+        $prefix = strtolower($matches[0]);
     }
-    $prefix = strtolower($matches[0]);
     $fields = "entry_id, label, url, type, date_added, prefix";
     $values = sprintf("'%s', '%s', '%s', '%s', '%s', '%s'",
         mysql_real_escape_string($doc['_id']),
