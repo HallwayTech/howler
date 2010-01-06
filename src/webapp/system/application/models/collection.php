@@ -88,7 +88,7 @@ class Collection extends Model
 
     function random($count)
     {
-        $this->db->select('e.label, e.url, i.*')
+        $this->db->select('e.label, e.url, e.parent_entry_id, i.*')
             ->from('entries e')
             ->join('id3 i', 'i.entry_id = e.entry_id', 'left')
             ->where("type = 'f'")
