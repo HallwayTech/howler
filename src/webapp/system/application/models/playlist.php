@@ -35,7 +35,7 @@ class Playlist extends Model
      */
     function read($id)
     {
-        $this->db->select('p.name, e.label, i.*')
+        $this->db->select('p.name, e.parent_entry_id, e.label, i.*')
             ->from('playlists p')
             ->join('playlist_entries pe', 'p.playlist_id = pe.playlist_id', 'inner')
             ->join('entries e', 'pe.entry_id = e.entry_id', 'inner')
