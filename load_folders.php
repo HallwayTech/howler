@@ -5,11 +5,13 @@ error_reporting(E_ALL);
 
 ini_set('memory_limit', '64M');
 
-define('TEST', false);
-define('LOAD_LIMIT', 25);
 define('MUSIC_DIR', '/home/chall/music');
 
-function walkdir($dir, $top_level_count)
+/**
+ * Walk a directory and insert all entries found (folders, files) into a mysql
+ * database.  Filters file that don't end in .mp3.
+ */
+function walk_dir($dir, $insert_current_dir = false)
 {
     $parent_id = sha1($dir);
 
@@ -41,11 +43,8 @@ function walkdir($dir, $top_level_count)
                 $entry['type'] = 'd';
                 $entry['label'] = $node;
 
-                if (!empty($dir)) {
-                    $top_level_count++;
-                }
                 store_mysql($entry);
-                walkdir($path, $top_level_count);
+                walk_dir($path);
             } elseif (is_file($full_path) && substr($node, -4) == '.mp3') {
                 $entry['type'] = 'f';
 
@@ -60,9 +59,6 @@ function walkdir($dir, $top_level_count)
                     $entry['label'] = $node;
                 }
                 store_mysql($entry);
-            }
-            if (TEST === true && $top_level_count == LOAD_LIMIT) {
-              exit;
             }
         }
     }
@@ -175,5 +171,4 @@ function store_couch($doc)
     }
 }
 
-$top_level_count = 0;
-walkdir('', $top_level_count);
+walk_dir('');
