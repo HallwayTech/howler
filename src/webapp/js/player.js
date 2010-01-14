@@ -64,7 +64,6 @@ var Player = function() {
 		init: function() {
 			if (swfplayer) {
 				swfplayer.addModelListener('STATE', 'Player.trackers.stateTracker');
-				Player.setMarquee('0');
 			} else {
 				alert('Unable to find player.');
 			}
@@ -93,12 +92,18 @@ var Player = function() {
 			// set the values in the marquee
 			var marquee = $('#marquee');
 			if (label) {
+				// set the window title
+				document.title = label;
+
 				// set and show the label
 				$('.label', marquee).html(label).show();
 
 				// hide the unused fields
 				$('.artist,.title,.album', marquee).hide();
 			} else {
+				// set the window title
+				document.title = artist + ' - ' + title;
+
 				// hide the unused label
 				$('.label', marquee).hide();
 
