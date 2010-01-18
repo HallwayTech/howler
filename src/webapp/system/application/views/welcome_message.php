@@ -19,7 +19,6 @@
                 <div class='player-menu'><select id='repeat-menu'><?php foreach($repeats as $value => $output): ?>
                 	<option value='<?= $value ?>'<?= ($repeat == $value) ? ' selected="selected"' : '' ?>><?= $output ?></option>
                 <?php endforeach ?></select></div>
-                <div class='clear'></div>
             </div>
             <!-- marquee -->
             <div id='marquee'>
@@ -28,7 +27,6 @@
                 -
                 <span class='title'></span>
                 <span class='album'></span>
-                <div class='clear'></div>
             </div>
             <!-- player -->
             <div id='player-wrapper'>
@@ -36,7 +34,6 @@
                     <a href='#' onclick='Player.controls.prev(true);return false' title='&#60 Previous'><img src='images/control_start.png' class='player-button' alt='&#60 Previous' /></a><a href='#' onclick='Player.controls.next(true);return false' title='Next &#62'><img src='images/control_end.png' class='player-button' alt='Next &#62' /></a>
                 </div>
                 <div id='swfplayer'>This text will be replaced by the media player.</div>
-                <div class='clear'></div>
             </div>
             <!-- saved playlists -->
             <div id='saved-playlists-container'>
@@ -49,18 +46,15 @@
                     <div class='right'>
                         <a href='#' onclick='Playlist.toggleSavedView();return false' title='Show saved playlists' class='show-button'><img src='images/bullet_arrow_down.png' alt='Show saved playlists' /></a>
                     </div>
-                    <div class='clear'></div>
                 </div>
                 <div id='saved-playlists'>
                     <ul class='list'></ul>
                 </div>
-                <div class='clear'></div>
             </div>
             <!-- playlist -->
             <div id='playlist'>
                 <ul class='items'></ul>
             </div>
-            <div class='clear'></div>
         </div>
 
         <!-- collection -->
@@ -77,7 +71,6 @@
                 </ul>
             </div>
             <div id='collection-container'></div>
-            <div class='clear'></div>
         </div>
         <!-- javascript -->
         <script type='text/javascript' src='index.php/scripts'></script>

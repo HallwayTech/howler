@@ -14,7 +14,6 @@
             <span class='save'><a href='#' onclick='Playlist.savePlaylist("<?= $title ?>");return false' title='Save playlist: "<?= $title ?>"'><img src='images/page_white_edit.png' alt='Save playlist: "<?= $title ?>"' /></a></span>
             <span class='delete'><a href='#' onclick='Playlist.deletePlaylist("<?= $id ?>");return false' title='Delete playlist: "<?= $title ?>"'><img src='images/page_white_delete.png' alt='Delete "<?= $title ?>"' /></a></span>
         </div>
-        <div class='clear'></div>
     </li>
 <?php endforeach;
 
