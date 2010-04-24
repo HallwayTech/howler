@@ -1,0 +1,768 @@
+
+
+Processing Rails::InfoController#properties (for 127.0.0.1 at 2010-04-22 19:53:21) [GET]
+  [4;36;1mSQL (0.3ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+Completed in 32ms (View: 1, DB: 0) | 200 OK [http://localhost/rails/info/properties]
+  [4;36;1mSQL (0.2ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mselect sqlite_version(*)[0m
+  [4;36;1mSQL (179.6ms)[0m   [0;1mCREATE TABLE "schema_migrations" ("version" varchar(255) NOT NULL) [0m
+  [4;35;1mSQL (74.5ms)[0m   [0mCREATE UNIQUE INDEX "unique_schema_migrations" ON "schema_migrations" ("version")[0m
+  [4;36;1mSQL (0.5ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mSQL (0.2ms)[0m   [0mSELECT version FROM schema_migrations[0m
+Migrating to CreateEntries (20100422234935)
+  [4;36;1mSQL (108.0ms)[0m   [0;1mCREATE TABLE "entries" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "artist" varchar(255), "album" varchar(255), "title" varchar(255), "created_at" datetime, "updated_at" datetime) [0m
+  [4;35;1mSQL (81.2ms)[0m   [0mINSERT INTO schema_migrations (version) VALUES ('20100422234935')[0m
+  [4;36;1mSQL (0.6ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mSQL (0.4ms)[0m   [0mSELECT version FROM schema_migrations[0m
+  [4;36;1mSQL (0.5ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mPRAGMA index_list("entries")[0m
+
+
+Processing Rails::InfoController#properties (for 127.0.0.1 at 2010-04-22 19:53:55) [GET]
+  [4;35;1mSQL (1.4ms)[0m   [0m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.8ms)[0m   [0;1mSELECT version FROM schema_migrations[0m
+Completed in 82ms (View: 2, DB: 2) | 200 OK [http://localhost/rails/info/properties]
+
+
+Processing ApplicationController#index (for 127.0.0.1 at 2010-04-22 19:54:03) [GET]
+
+
+ActionController::RoutingError (No route matches "/howler" with {:method=>:get}):
+    /vendor/rails/actionpack/lib/action_controller/routing/recognition_optimisation.rb:66:in `recognize_path'
+    /vendor/rails/actionpack/lib/action_controller/routing/route_set.rb:390:in `recognize'
+    /vendor/rails/actionpack/lib/action_controller/dispatcher.rb:183:in `handle_request'
+    /vendor/rails/actionpack/lib/action_controller/dispatcher.rb:112:in `dispatch_unlocked'
+    /vendor/rails/actionpack/lib/action_controller/dispatcher.rb:125:in `dispatch'
+    /vendor/rails/actionpack/lib/action_controller/dispatcher.rb:124:in `synchronize'
+    /vendor/rails/actionpack/lib/action_controller/dispatcher.rb:124:in `dispatch'
+    /vendor/rails/actionpack/lib/action_controller/dispatcher.rb:134:in `dispatch_cgi'
+    /vendor/rails/actionpack/lib/action_controller/dispatcher.rb:41:in `dispatch'
+    /vendor/rails/railties/lib/webrick_server.rb:103:in `handle_dispatch'
+    /vendor/rails/railties/lib/webrick_server.rb:74:in `service'
+    /usr/lib/ruby/1.8/webrick/httpserver.rb:104:in `service'
+    /usr/lib/ruby/1.8/webrick/httpserver.rb:65:in `run'
+    /usr/lib/ruby/1.8/webrick/server.rb:173:in `start_thread'
+    /usr/lib/ruby/1.8/webrick/server.rb:162:in `start'
+    /usr/lib/ruby/1.8/webrick/server.rb:162:in `start_thread'
+    /usr/lib/ruby/1.8/webrick/server.rb:95:in `start'
+    /usr/lib/ruby/1.8/webrick/server.rb:92:in `each'
+    /usr/lib/ruby/1.8/webrick/server.rb:92:in `start'
+    /usr/lib/ruby/1.8/webrick/server.rb:23:in `start'
+    /usr/lib/ruby/1.8/webrick/server.rb:82:in `start'
+    /vendor/rails/railties/lib/webrick_server.rb:60:in `dispatch'
+    /vendor/rails/railties/lib/commands/servers/webrick.rb:66
+    /usr/lib/ruby/1.8/rubygems/custom_require.rb:31:in `gem_original_require'
+    /usr/lib/ruby/1.8/rubygems/custom_require.rb:31:in `require'
+    /vendor/rails/activesupport/lib/active_support/dependencies.rb:153:in `require'
+    /vendor/rails/activesupport/lib/active_support/dependencies.rb:521:in `new_constants_in'
+    /vendor/rails/activesupport/lib/active_support/dependencies.rb:153:in `require'
+    /vendor/rails/railties/lib/commands/server.rb:49
+    /usr/lib/ruby/1.8/rubygems/custom_require.rb:31:in `gem_original_require'
+    /usr/lib/ruby/1.8/rubygems/custom_require.rb:31:in `require'
+    script/server:3
+
+Rendering /home/chall/src/howler/vendor/rails/actionpack/lib/action_controller/templates/rescues/layout.erb (not_found)
+
+
+Processing ApplicationController#index (for 127.0.0.1 at 2010-04-22 19:54:10) [GET]
+
+
+ActionController::RoutingError (No route matches "/howler/artist" with {:method=>:get}):
+    /vendor/rails/actionpack/lib/action_controller/routing/recognition_optimisation.rb:66:in `recognize_path'
+    /vendor/rails/actionpack/lib/action_controller/routing/route_set.rb:390:in `recognize'
+    /vendor/rails/actionpack/lib/action_controller/dispatcher.rb:183:in `handle_request'
+    /vendor/rails/actionpack/lib/action_controller/dispatcher.rb:112:in `dispatch_unlocked'
+    /vendor/rails/actionpack/lib/action_controller/dispatcher.rb:125:in `dispatch'
+    /vendor/rails/actionpack/lib/action_controller/dispatcher.rb:124:in `synchronize'
+    /vendor/rails/actionpack/lib/action_controller/dispatcher.rb:124:in `dispatch'
+    /vendor/rails/actionpack/lib/action_controller/dispatcher.rb:134:in `dispatch_cgi'
+    /vendor/rails/actionpack/lib/action_controller/dispatcher.rb:41:in `dispatch'
+    /vendor/rails/railties/lib/webrick_server.rb:103:in `handle_dispatch'
+    /vendor/rails/railties/lib/webrick_server.rb:74:in `service'
+    /usr/lib/ruby/1.8/webrick/httpserver.rb:104:in `service'
+    /usr/lib/ruby/1.8/webrick/httpserver.rb:65:in `run'
+    /usr/lib/ruby/1.8/webrick/server.rb:173:in `start_thread'
+    /usr/lib/ruby/1.8/webrick/server.rb:162:in `start'
+    /usr/lib/ruby/1.8/webrick/server.rb:162:in `start_thread'
+    /usr/lib/ruby/1.8/webrick/server.rb:95:in `start'
+    /usr/lib/ruby/1.8/webrick/server.rb:92:in `each'
+    /usr/lib/ruby/1.8/webrick/server.rb:92:in `start'
+    /usr/lib/ruby/1.8/webrick/server.rb:23:in `start'
+    /usr/lib/ruby/1.8/webrick/server.rb:82:in `start'
+    /vendor/rails/railties/lib/webrick_server.rb:60:in `dispatch'
+    /vendor/rails/railties/lib/commands/servers/webrick.rb:66
+    /usr/lib/ruby/1.8/rubygems/custom_require.rb:31:in `gem_original_require'
+    /usr/lib/ruby/1.8/rubygems/custom_require.rb:31:in `require'
+    /vendor/rails/activesupport/lib/active_support/dependencies.rb:153:in `require'
+    /vendor/rails/activesupport/lib/active_support/dependencies.rb:521:in `new_constants_in'
+    /vendor/rails/activesupport/lib/active_support/dependencies.rb:153:in `require'
+    /vendor/rails/railties/lib/commands/server.rb:49
+    /usr/lib/ruby/1.8/rubygems/custom_require.rb:31:in `gem_original_require'
+    /usr/lib/ruby/1.8/rubygems/custom_require.rb:31:in `require'
+    script/server:3
+
+Rendering /home/chall/src/howler/vendor/rails/actionpack/lib/action_controller/templates/rescues/layout.erb (not_found)
+
+
+Processing ApplicationController#index (for 127.0.0.1 at 2010-04-22 19:54:17) [GET]
+
+
+ActionController::RoutingError (No route matches "/howler/entries/artist" with {:method=>:get}):
+    /vendor/rails/actionpack/lib/action_controller/routing/recognition_optimisation.rb:66:in `recognize_path'
+    /vendor/rails/actionpack/lib/action_controller/routing/route_set.rb:390:in `recognize'
+    /vendor/rails/actionpack/lib/action_controller/dispatcher.rb:183:in `handle_request'
+    /vendor/rails/actionpack/lib/action_controller/dispatcher.rb:112:in `dispatch_unlocked'
+    /vendor/rails/actionpack/lib/action_controller/dispatcher.rb:125:in `dispatch'
+    /vendor/rails/actionpack/lib/action_controller/dispatcher.rb:124:in `synchronize'
+    /vendor/rails/actionpack/lib/action_controller/dispatcher.rb:124:in `dispatch'
+    /vendor/rails/actionpack/lib/action_controller/dispatcher.rb:134:in `dispatch_cgi'
+    /vendor/rails/actionpack/lib/action_controller/dispatcher.rb:41:in `dispatch'
+    /vendor/rails/railties/lib/webrick_server.rb:103:in `handle_dispatch'
+    /vendor/rails/railties/lib/webrick_server.rb:74:in `service'
+    /usr/lib/ruby/1.8/webrick/httpserver.rb:104:in `service'
+    /usr/lib/ruby/1.8/webrick/httpserver.rb:65:in `run'
+    /usr/lib/ruby/1.8/webrick/server.rb:173:in `start_thread'
+    /usr/lib/ruby/1.8/webrick/server.rb:162:in `start'
+    /usr/lib/ruby/1.8/webrick/server.rb:162:in `start_thread'
+    /usr/lib/ruby/1.8/webrick/server.rb:95:in `start'
+    /usr/lib/ruby/1.8/webrick/server.rb:92:in `each'
+    /usr/lib/ruby/1.8/webrick/server.rb:92:in `start'
+    /usr/lib/ruby/1.8/webrick/server.rb:23:in `start'
+    /usr/lib/ruby/1.8/webrick/server.rb:82:in `start'
+    /vendor/rails/railties/lib/webrick_server.rb:60:in `dispatch'
+    /vendor/rails/railties/lib/commands/servers/webrick.rb:66
+    /usr/lib/ruby/1.8/rubygems/custom_require.rb:31:in `gem_original_require'
+    /usr/lib/ruby/1.8/rubygems/custom_require.rb:31:in `require'
+    /vendor/rails/activesupport/lib/active_support/dependencies.rb:153:in `require'
+    /vendor/rails/activesupport/lib/active_support/dependencies.rb:521:in `new_constants_in'
+    /vendor/rails/activesupport/lib/active_support/dependencies.rb:153:in `require'
+    /vendor/rails/railties/lib/commands/server.rb:49
+    /usr/lib/ruby/1.8/rubygems/custom_require.rb:31:in `gem_original_require'
+    /usr/lib/ruby/1.8/rubygems/custom_require.rb:31:in `require'
+    script/server:3
+
+Rendering /home/chall/src/howler/vendor/rails/actionpack/lib/action_controller/templates/rescues/layout.erb (not_found)
+
+
+Processing ApplicationController#index (for 127.0.0.1 at 2010-04-22 19:54:37) [GET]
+
+
+ActionController::RoutingError (No route matches "/howler/entries" with {:method=>:get}):
+    /vendor/rails/actionpack/lib/action_controller/routing/recognition_optimisation.rb:66:in `recognize_path'
+    /vendor/rails/actionpack/lib/action_controller/routing/route_set.rb:390:in `recognize'
+    /vendor/rails/actionpack/lib/action_controller/dispatcher.rb:183:in `handle_request'
+    /vendor/rails/actionpack/lib/action_controller/dispatcher.rb:112:in `dispatch_unlocked'
+    /vendor/rails/actionpack/lib/action_controller/dispatcher.rb:125:in `dispatch'
+    /vendor/rails/actionpack/lib/action_controller/dispatcher.rb:124:in `synchronize'
+    /vendor/rails/actionpack/lib/action_controller/dispatcher.rb:124:in `dispatch'
+    /vendor/rails/actionpack/lib/action_controller/dispatcher.rb:134:in `dispatch_cgi'
+    /vendor/rails/actionpack/lib/action_controller/dispatcher.rb:41:in `dispatch'
+    /vendor/rails/railties/lib/webrick_server.rb:103:in `handle_dispatch'
+    /vendor/rails/railties/lib/webrick_server.rb:74:in `service'
+    /usr/lib/ruby/1.8/webrick/httpserver.rb:104:in `service'
+    /usr/lib/ruby/1.8/webrick/httpserver.rb:65:in `run'
+    /usr/lib/ruby/1.8/webrick/server.rb:173:in `start_thread'
+    /usr/lib/ruby/1.8/webrick/server.rb:162:in `start'
+    /usr/lib/ruby/1.8/webrick/server.rb:162:in `start_thread'
+    /usr/lib/ruby/1.8/webrick/server.rb:95:in `start'
+    /usr/lib/ruby/1.8/webrick/server.rb:92:in `each'
+    /usr/lib/ruby/1.8/webrick/server.rb:92:in `start'
+    /usr/lib/ruby/1.8/webrick/server.rb:23:in `start'
+    /usr/lib/ruby/1.8/webrick/server.rb:82:in `start'
+    /vendor/rails/railties/lib/webrick_server.rb:60:in `dispatch'
+    /vendor/rails/railties/lib/commands/servers/webrick.rb:66
+    /usr/lib/ruby/1.8/rubygems/custom_require.rb:31:in `gem_original_require'
+    /usr/lib/ruby/1.8/rubygems/custom_require.rb:31:in `require'
+    /vendor/rails/activesupport/lib/active_support/dependencies.rb:153:in `require'
+    /vendor/rails/activesupport/lib/active_support/dependencies.rb:521:in `new_constants_in'
+    /vendor/rails/activesupport/lib/active_support/dependencies.rb:153:in `require'
+    /vendor/rails/railties/lib/commands/server.rb:49
+    /usr/lib/ruby/1.8/rubygems/custom_require.rb:31:in `gem_original_require'
+    /usr/lib/ruby/1.8/rubygems/custom_require.rb:31:in `require'
+    script/server:3
+
+Rendering /home/chall/src/howler/vendor/rails/actionpack/lib/action_controller/templates/rescues/layout.erb (not_found)
+
+
+Processing Rails::InfoController#properties (for 127.0.0.1 at 2010-04-22 19:57:08) [GET]
+  [4;35;1mSQL (0.4ms)[0m   [0m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSELECT version FROM schema_migrations[0m
+Completed in 16ms (View: 1, DB: 1) | 200 OK [http://localhost/rails/info/properties]
+
+
+Processing Rails::InfoController#properties (for 127.0.0.1 at 2010-04-22 19:57:20) [GET]
+  [4;35;1mSQL (0.3ms)[0m   [0m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSELECT version FROM schema_migrations[0m
+Completed in 15ms (View: 1, DB: 0) | 200 OK [http://localhost/rails/info/properties]
+
+
+Processing ApplicationController#index (for 127.0.0.1 at 2010-04-22 20:01:50) [GET]
+
+
+ActionController::RoutingError (No route matches "/howler/entries" with {:method=>:get}):
+    /vendor/rails/actionpack/lib/action_controller/routing/recognition_optimisation.rb:66:in `recognize_path'
+    /vendor/rails/actionpack/lib/action_controller/routing/route_set.rb:390:in `recognize'
+    /vendor/rails/actionpack/lib/action_controller/dispatcher.rb:183:in `handle_request'
+    /vendor/rails/actionpack/lib/action_controller/dispatcher.rb:112:in `dispatch_unlocked'
+    /vendor/rails/actionpack/lib/action_controller/dispatcher.rb:125:in `dispatch'
+    /vendor/rails/actionpack/lib/action_controller/dispatcher.rb:124:in `synchronize'
+    /vendor/rails/actionpack/lib/action_controller/dispatcher.rb:124:in `dispatch'
+    /vendor/rails/actionpack/lib/action_controller/dispatcher.rb:134:in `dispatch_cgi'
+    /vendor/rails/actionpack/lib/action_controller/dispatcher.rb:41:in `dispatch'
+    /vendor/rails/railties/lib/webrick_server.rb:103:in `handle_dispatch'
+    /vendor/rails/railties/lib/webrick_server.rb:74:in `service'
+    /usr/lib/ruby/1.8/webrick/httpserver.rb:104:in `service'
+    /usr/lib/ruby/1.8/webrick/httpserver.rb:65:in `run'
+    /usr/lib/ruby/1.8/webrick/server.rb:173:in `start_thread'
+    /usr/lib/ruby/1.8/webrick/server.rb:162:in `start'
+    /usr/lib/ruby/1.8/webrick/server.rb:162:in `start_thread'
+    /usr/lib/ruby/1.8/webrick/server.rb:95:in `start'
+    /usr/lib/ruby/1.8/webrick/server.rb:92:in `each'
+    /usr/lib/ruby/1.8/webrick/server.rb:92:in `start'
+    /usr/lib/ruby/1.8/webrick/server.rb:23:in `start'
+    /usr/lib/ruby/1.8/webrick/server.rb:82:in `start'
+    /vendor/rails/railties/lib/webrick_server.rb:60:in `dispatch'
+    /vendor/rails/railties/lib/commands/servers/webrick.rb:66
+    /usr/lib/ruby/1.8/rubygems/custom_require.rb:31:in `gem_original_require'
+    /usr/lib/ruby/1.8/rubygems/custom_require.rb:31:in `require'
+    /vendor/rails/activesupport/lib/active_support/dependencies.rb:153:in `require'
+    /vendor/rails/activesupport/lib/active_support/dependencies.rb:521:in `new_constants_in'
+    /vendor/rails/activesupport/lib/active_support/dependencies.rb:153:in `require'
+    /vendor/rails/railties/lib/commands/server.rb:49
+    /usr/lib/ruby/1.8/rubygems/custom_require.rb:31:in `gem_original_require'
+    /usr/lib/ruby/1.8/rubygems/custom_require.rb:31:in `require'
+    script/server:3
+
+Rendering /home/chall/src/howler/vendor/rails/actionpack/lib/action_controller/templates/rescues/layout.erb (not_found)
+
+
+Processing ApplicationController#index (for 127.0.0.1 at 2010-04-22 20:01:57) [GET]
+
+
+ActionController::RoutingError (No route matches "/howler/entries/index" with {:method=>:get}):
+    /vendor/rails/actionpack/lib/action_controller/routing/recognition_optimisation.rb:66:in `recognize_path'
+    /vendor/rails/actionpack/lib/action_controller/routing/route_set.rb:390:in `recognize'
+    /vendor/rails/actionpack/lib/action_controller/dispatcher.rb:183:in `handle_request'
+    /vendor/rails/actionpack/lib/action_controller/dispatcher.rb:112:in `dispatch_unlocked'
+    /vendor/rails/actionpack/lib/action_controller/dispatcher.rb:125:in `dispatch'
+    /vendor/rails/actionpack/lib/action_controller/dispatcher.rb:124:in `synchronize'
+    /vendor/rails/actionpack/lib/action_controller/dispatcher.rb:124:in `dispatch'
+    /vendor/rails/actionpack/lib/action_controller/dispatcher.rb:134:in `dispatch_cgi'
+    /vendor/rails/actionpack/lib/action_controller/dispatcher.rb:41:in `dispatch'
+    /vendor/rails/railties/lib/webrick_server.rb:103:in `handle_dispatch'
+    /vendor/rails/railties/lib/webrick_server.rb:74:in `service'
+    /usr/lib/ruby/1.8/webrick/httpserver.rb:104:in `service'
+    /usr/lib/ruby/1.8/webrick/httpserver.rb:65:in `run'
+    /usr/lib/ruby/1.8/webrick/server.rb:173:in `start_thread'
+    /usr/lib/ruby/1.8/webrick/server.rb:162:in `start'
+    /usr/lib/ruby/1.8/webrick/server.rb:162:in `start_thread'
+    /usr/lib/ruby/1.8/webrick/server.rb:95:in `start'
+    /usr/lib/ruby/1.8/webrick/server.rb:92:in `each'
+    /usr/lib/ruby/1.8/webrick/server.rb:92:in `start'
+    /usr/lib/ruby/1.8/webrick/server.rb:23:in `start'
+    /usr/lib/ruby/1.8/webrick/server.rb:82:in `start'
+    /vendor/rails/railties/lib/webrick_server.rb:60:in `dispatch'
+    /vendor/rails/railties/lib/commands/servers/webrick.rb:66
+    /usr/lib/ruby/1.8/rubygems/custom_require.rb:31:in `gem_original_require'
+    /usr/lib/ruby/1.8/rubygems/custom_require.rb:31:in `require'
+    /vendor/rails/activesupport/lib/active_support/dependencies.rb:153:in `require'
+    /vendor/rails/activesupport/lib/active_support/dependencies.rb:521:in `new_constants_in'
+    /vendor/rails/activesupport/lib/active_support/dependencies.rb:153:in `require'
+    /vendor/rails/railties/lib/commands/server.rb:49
+    /usr/lib/ruby/1.8/rubygems/custom_require.rb:31:in `gem_original_require'
+    /usr/lib/ruby/1.8/rubygems/custom_require.rb:31:in `require'
+    script/server:3
+
+Rendering /home/chall/src/howler/vendor/rails/actionpack/lib/action_controller/templates/rescues/layout.erb (not_found)
+
+
+Processing EntriesController#show (for 127.0.0.1 at 2010-04-22 20:02:06) [GET]
+  Parameters: {"id"=>"index"}
+  [4;35;1mEntry Load (0.1ms)[0m   [0mSELECT * FROM "entries" WHERE ("entries"."id" = 0) [0m
+
+
+ActiveRecord::RecordNotFound (Couldn't find Entry with ID=index):
+    /vendor/rails/activerecord/lib/active_record/base.rb:1528:in `find_one'
+    /vendor/rails/activerecord/lib/active_record/base.rb:1511:in `find_from_ids'
+    /vendor/rails/activerecord/lib/active_record/base.rb:590:in `find'
+    /app/controllers/entries_controller.rb:16:in `show'
+    /vendor/rails/actionpack/lib/action_controller/base.rb:1256:in `send'
+    /vendor/rails/actionpack/lib/action_controller/base.rb:1256:in `perform_action_without_filters'
+    /vendor/rails/actionpack/lib/action_controller/filters.rb:617:in `call_filters'
+    /vendor/rails/actionpack/lib/action_controller/filters.rb:610:in `perform_action_without_benchmark'
+    /vendor/rails/actionpack/lib/action_controller/benchmarking.rb:68:in `perform_action_without_rescue'
+    /usr/lib/ruby/1.8/benchmark.rb:293:in `measure'
+    /vendor/rails/actionpack/lib/action_controller/benchmarking.rb:68:in `perform_action_without_rescue'
+    /vendor/rails/actionpack/lib/action_controller/rescue.rb:136:in `perform_action_without_caching'
+    /vendor/rails/actionpack/lib/action_controller/caching/sql_cache.rb:13:in `perform_action'
+    /vendor/rails/activerecord/lib/active_record/connection_adapters/abstract/query_cache.rb:34:in `cache'
+    /vendor/rails/activerecord/lib/active_record/query_cache.rb:8:in `cache'
+    /vendor/rails/actionpack/lib/action_controller/caching/sql_cache.rb:12:in `perform_action'
+    /vendor/rails/actionpack/lib/action_controller/base.rb:524:in `send'
+    /vendor/rails/actionpack/lib/action_controller/base.rb:524:in `process_without_filters'
+    /vendor/rails/actionpack/lib/action_controller/filters.rb:606:in `process_without_session_management_support'
+    /vendor/rails/actionpack/lib/action_controller/session_management.rb:134:in `process'
+    /vendor/rails/actionpack/lib/action_controller/base.rb:392:in `process'
+    /vendor/rails/actionpack/lib/action_controller/dispatcher.rb:184:in `handle_request'
+    /vendor/rails/actionpack/lib/action_controller/dispatcher.rb:112:in `dispatch_unlocked'
+    /vendor/rails/actionpack/lib/action_controller/dispatcher.rb:125:in `dispatch'
+    /vendor/rails/actionpack/lib/action_controller/dispatcher.rb:124:in `synchronize'
+    /vendor/rails/actionpack/lib/action_controller/dispatcher.rb:124:in `dispatch'
+    /vendor/rails/actionpack/lib/action_controller/dispatcher.rb:134:in `dispatch_cgi'
+    /vendor/rails/actionpack/lib/action_controller/dispatcher.rb:41:in `dispatch'
+    /vendor/rails/railties/lib/webrick_server.rb:103:in `handle_dispatch'
+    /vendor/rails/railties/lib/webrick_server.rb:74:in `service'
+    /usr/lib/ruby/1.8/webrick/httpserver.rb:104:in `service'
+    /usr/lib/ruby/1.8/webrick/httpserver.rb:65:in `run'
+    /usr/lib/ruby/1.8/webrick/server.rb:173:in `start_thread'
+    /usr/lib/ruby/1.8/webrick/server.rb:162:in `start'
+    /usr/lib/ruby/1.8/webrick/server.rb:162:in `start_thread'
+    /usr/lib/ruby/1.8/webrick/server.rb:95:in `start'
+    /usr/lib/ruby/1.8/webrick/server.rb:92:in `each'
+    /usr/lib/ruby/1.8/webrick/server.rb:92:in `start'
+    /usr/lib/ruby/1.8/webrick/server.rb:23:in `start'
+    /usr/lib/ruby/1.8/webrick/server.rb:82:in `start'
+    /vendor/rails/railties/lib/webrick_server.rb:60:in `dispatch'
+    /vendor/rails/railties/lib/commands/servers/webrick.rb:66
+    /usr/lib/ruby/1.8/rubygems/custom_require.rb:31:in `gem_original_require'
+    /usr/lib/ruby/1.8/rubygems/custom_require.rb:31:in `require'
+    /vendor/rails/activesupport/lib/active_support/dependencies.rb:153:in `require'
+    /vendor/rails/activesupport/lib/active_support/dependencies.rb:521:in `new_constants_in'
+    /vendor/rails/activesupport/lib/active_support/dependencies.rb:153:in `require'
+    /vendor/rails/railties/lib/commands/server.rb:49
+    /usr/lib/ruby/1.8/rubygems/custom_require.rb:31:in `gem_original_require'
+    /usr/lib/ruby/1.8/rubygems/custom_require.rb:31:in `require'
+    script/server:3
+
+Rendered /home/chall/src/howler/vendor/rails/actionpack/lib/action_controller/templates/rescues/_trace (11.6ms)
+Rendered /home/chall/src/howler/vendor/rails/actionpack/lib/action_controller/templates/rescues/_request_and_response (0.5ms)
+Rendering /home/chall/src/howler/vendor/rails/actionpack/lib/action_controller/templates/rescues/layout.erb (not_found)
+
+
+Processing EntriesController#index (for 127.0.0.1 at 2010-04-22 20:02:10) [GET]
+  [4;36;1mEntry Load (0.2ms)[0m   [0;1mSELECT * FROM "entries" [0m
+Rendering template within layouts/entries
+Rendering entries/index
+Completed in 6ms (View: 2, DB: 0) | 200 OK [http://localhost/entries]
+
+
+Processing EntriesController#new (for 127.0.0.1 at 2010-04-22 20:05:54) [GET]
+Rendering template within layouts/entries
+Rendering entries/new
+Completed in 8ms (View: 5, DB: 0) | 200 OK [http://localhost/entries/new]
+
+
+Processing EntriesController#create (for 127.0.0.1 at 2010-04-22 20:06:06) [POST]
+  Parameters: {"commit"=>"Create", "authenticity_token"=>"ad8736ae9d8e7e466cdac9e48a4b78764c7a5440", "entry"=>{"artist"=>"Carl Hall", "title"=>"Dis House", "album"=>"Rocks!"}}
+  [4;35;1mEntry Create (0.2ms)[0m   [0mINSERT INTO "entries" ("artist", "created_at", "title", "updated_at", "album") VALUES('Carl Hall', '2010-04-23 00:06:06', 'Dis House', '2010-04-23 00:06:06', 'Rocks!')[0m
+Redirected to #<Entry:0x7fb0e44f98a8>
+Completed in 160ms (DB: 0) | 302 Found [http://localhost/entries]
+
+
+Processing EntriesController#show (for 127.0.0.1 at 2010-04-22 20:06:06) [GET]
+  Parameters: {"id"=>"1"}
+  [4;36;1mEntry Load (0.2ms)[0m   [0;1mSELECT * FROM "entries" WHERE ("entries"."id" = 1) [0m
+Rendering template within layouts/entries
+Rendering entries/show
+Completed in 7ms (View: 3, DB: 0) | 200 OK [http://localhost/entries/1]
+
+
+Processing EntriesController#index (for 127.0.0.1 at 2010-04-22 20:06:09) [GET]
+  [4;35;1mEntry Load (0.3ms)[0m   [0mSELECT * FROM "entries" [0m
+Rendering template within layouts/entries
+Rendering entries/index
+Completed in 9ms (View: 6, DB: 0) | 200 OK [http://localhost/entries]
+
+
+Processing EntriesController#show (for 127.0.0.1 at 2010-04-22 20:06:36) [GET]
+  Parameters: {"id"=>"1"}
+  [4;36;1mEntry Load (0.2ms)[0m   [0;1mSELECT * FROM "entries" WHERE ("entries"."id" = 1) [0m
+Rendering template within layouts/entries
+Rendering entries/show
+Completed in 7ms (View: 3, DB: 0) | 200 OK [http://localhost/entries/1]
+
+
+Processing EntriesController#show to xml (for 127.0.0.1 at 2010-04-22 20:06:39) [GET]
+  Parameters: {"id"=>"1"}
+  [4;35;1mEntry Load (0.2ms)[0m   [0mSELECT * FROM "entries" WHERE ("entries"."id" = 1) [0m
+Completed in 53ms (View: 49, DB: 0) | 200 OK [http://localhost/entries/1.xml]
+
+
+Processing EntriesController#show to json (for 127.0.0.1 at 2010-04-22 20:06:50) [GET]
+  Parameters: {"id"=>"1"}
+  [4;36;1mEntry Load (0.2ms)[0m   [0;1mSELECT * FROM "entries" WHERE ("entries"."id" = 1) [0m
+Completed in 4ms (View: 0, DB: 0) | 406 Not Acceptable [http://localhost/entries/1.json]
+
+
+Processing EntriesController#show to html (for 127.0.0.1 at 2010-04-22 20:06:54) [GET]
+  Parameters: {"id"=>"1"}
+  [4;35;1mEntry Load (0.2ms)[0m   [0mSELECT * FROM "entries" WHERE ("entries"."id" = 1) [0m
+Rendering template within layouts/entries
+Rendering entries/show
+Completed in 7ms (View: 3, DB: 0) | 200 OK [http://localhost/entries/1.html]
+
+
+Processing EntriesController#show to html (for 127.0.0.1 at 2010-04-22 20:19:28) [GET]
+  Parameters: {"id"=>"1"}
+  [4;36;1mEntry Load (0.2ms)[0m   [0;1mSELECT * FROM "entries" WHERE ("entries"."id" = 1) [0m
+Rendering template within layouts/entries
+Rendering entries/show
+Completed in 7ms (View: 3, DB: 0) | 200 OK [http://localhost/entries/1.html]
+  [4;36;1mSQL (0.4ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSELECT version FROM schema_migrations[0m
+Migrating to CreateEntries (20100422234935)
+Migrating to AddTrack (20100423001639)
+  [4;36;1mSQL (0.1ms)[0m   [0;1mselect sqlite_version(*)[0m
+  [4;35;1mSQL (0.0ms)[0m   [0mSQLite3::SQLException: no such table: entry: ALTER TABLE "entry" ADD "track" varchar(255)[0m
+  [4;36;1mSQL (0.3ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSELECT version FROM schema_migrations[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSELECT version FROM schema_migrations[0m
+Migrating to CreateEntries (20100422234935)
+  [4;36;1mSQL (0.1ms)[0m   [0;1mselect sqlite_version(*)[0m
+  [4;35;1mSQL (0.1ms)[0m   [0m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSELECT version FROM schema_migrations[0m
+  [4;35;1mSQL (0.1ms)[0m   [0m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.0ms)[0m   [0;1mPRAGMA index_list("entries")[0m
+  [4;36;1mSQL (0.3ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSELECT version FROM schema_migrations[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSELECT version FROM schema_migrations[0m
+Migrating to CreateEntries (20100422234935)
+  [4;36;1mSQL (0.1ms)[0m   [0;1mselect sqlite_version(*)[0m
+  [4;35;1mSQL (0.1ms)[0m   [0m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSELECT version FROM schema_migrations[0m
+  [4;35;1mSQL (0.1ms)[0m   [0m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.0ms)[0m   [0;1mPRAGMA index_list("entries")[0m
+  [4;36;1mSQL (0.3ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSELECT version FROM schema_migrations[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSELECT version FROM schema_migrations[0m
+Migrating to CreateEntries (20100422234935)
+Migrating to AddTrack (20100423001639)
+  [4;36;1mSQL (0.1ms)[0m   [0;1mselect sqlite_version(*)[0m
+  [4;35;1mSQL (0.0ms)[0m   [0mSQLite3::SQLException: no such table: entry: ALTER TABLE "entry" ADD "track" varchar(255)[0m
+  [4;36;1mSQL (0.3ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSELECT version FROM schema_migrations[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSELECT version FROM schema_migrations[0m
+Migrating to CreateEntries (20100422234935)
+Migrating to AddTrack (20100423001639)
+  [4;36;1mSQL (0.1ms)[0m   [0;1mselect sqlite_version(*)[0m
+  [4;35;1mSQL (0.0ms)[0m   [0mSQLite3::SQLException: no such table: entry: ALTER TABLE "entry" ADD "track" varchar(255)[0m
+  [4;36;1mSQL (0.3ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSELECT version FROM schema_migrations[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSELECT version FROM schema_migrations[0m
+Migrating to CreateEntries (20100422234935)
+  [4;36;1mSQL (86.7ms)[0m   [0;1mDROP TABLE "entries"[0m
+  [4;35;1mSQL (82.1ms)[0m   [0mDELETE FROM schema_migrations WHERE version = '20100422234935'[0m
+  [4;36;1mSQL (0.4ms)[0m   [0;1mselect sqlite_version(*)[0m
+  [4;35;1mSQL (0.4ms)[0m   [0m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.2ms)[0m   [0;1mSELECT version FROM schema_migrations[0m
+  [4;35;1mSQL (0.4ms)[0m   [0m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.3ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSELECT version FROM schema_migrations[0m
+Migrating to CreateEntries (20100422234935)
+  [4;36;1mSQL (0.1ms)[0m   [0;1mselect sqlite_version(*)[0m
+  [4;35;1mSQL (81.3ms)[0m   [0mCREATE TABLE "entries" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "artist" varchar(255), "album" varchar(255), "title" varchar(255), "created_at" datetime, "updated_at" datetime) [0m
+  [4;36;1mSQL (65.6ms)[0m   [0;1mINSERT INTO schema_migrations (version) VALUES ('20100422234935')[0m
+Migrating to AddTrack (20100423001639)
+  [4;35;1mSQL (0.0ms)[0m   [0mSQLite3::SQLException: no such table: entry: ALTER TABLE "entry" ADD "track" varchar(255)[0m
+  [4;36;1mSQL (0.3ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSELECT version FROM schema_migrations[0m
+Migrating to CreateEntries (20100422234935)
+Migrating to AddTrack (20100423001639)
+  [4;36;1mSQL (0.1ms)[0m   [0;1mselect sqlite_version(*)[0m
+  [4;35;1mSQL (135.7ms)[0m   [0mALTER TABLE "entries" ADD "track" varchar(255)[0m
+  [4;36;1mSQL (83.1ms)[0m   [0;1mVACUUM[0m
+  [4;35;1mSQL (81.9ms)[0m   [0mINSERT INTO schema_migrations (version) VALUES ('20100423001639')[0m
+  [4;36;1mSQL (0.6ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mSQL (0.4ms)[0m   [0mSELECT version FROM schema_migrations[0m
+  [4;36;1mSQL (0.5ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mPRAGMA index_list("entries")[0m
+
+
+Processing EntriesController#show to html (for 127.0.0.1 at 2010-04-22 20:21:36) [GET]
+  Parameters: {"id"=>"1"}
+  [4;35;1mEntry Load (0.1ms)[0m   [0mSELECT * FROM "entries" WHERE ("entries"."id" = 1) [0m
+
+
+ActiveRecord::RecordNotFound (Couldn't find Entry with ID=1):
+    /vendor/rails/activerecord/lib/active_record/base.rb:1528:in `find_one'
+    /vendor/rails/activerecord/lib/active_record/base.rb:1511:in `find_from_ids'
+    /vendor/rails/activerecord/lib/active_record/base.rb:590:in `find'
+    /app/controllers/entries_controller.rb:16:in `show'
+    /vendor/rails/actionpack/lib/action_controller/base.rb:1256:in `send'
+    /vendor/rails/actionpack/lib/action_controller/base.rb:1256:in `perform_action_without_filters'
+    /vendor/rails/actionpack/lib/action_controller/filters.rb:617:in `call_filters'
+    /vendor/rails/actionpack/lib/action_controller/filters.rb:610:in `perform_action_without_benchmark'
+    /vendor/rails/actionpack/lib/action_controller/benchmarking.rb:68:in `perform_action_without_rescue'
+    /usr/lib/ruby/1.8/benchmark.rb:293:in `measure'
+    /vendor/rails/actionpack/lib/action_controller/benchmarking.rb:68:in `perform_action_without_rescue'
+    /vendor/rails/actionpack/lib/action_controller/rescue.rb:136:in `perform_action_without_caching'
+    /vendor/rails/actionpack/lib/action_controller/caching/sql_cache.rb:13:in `perform_action'
+    /vendor/rails/activerecord/lib/active_record/connection_adapters/abstract/query_cache.rb:34:in `cache'
+    /vendor/rails/activerecord/lib/active_record/query_cache.rb:8:in `cache'
+    /vendor/rails/actionpack/lib/action_controller/caching/sql_cache.rb:12:in `perform_action'
+    /vendor/rails/actionpack/lib/action_controller/base.rb:524:in `send'
+    /vendor/rails/actionpack/lib/action_controller/base.rb:524:in `process_without_filters'
+    /vendor/rails/actionpack/lib/action_controller/filters.rb:606:in `process_without_session_management_support'
+    /vendor/rails/actionpack/lib/action_controller/session_management.rb:134:in `process'
+    /vendor/rails/actionpack/lib/action_controller/base.rb:392:in `process'
+    /vendor/rails/actionpack/lib/action_controller/dispatcher.rb:184:in `handle_request'
+    /vendor/rails/actionpack/lib/action_controller/dispatcher.rb:112:in `dispatch_unlocked'
+    /vendor/rails/actionpack/lib/action_controller/dispatcher.rb:125:in `dispatch'
+    /vendor/rails/actionpack/lib/action_controller/dispatcher.rb:124:in `synchronize'
+    /vendor/rails/actionpack/lib/action_controller/dispatcher.rb:124:in `dispatch'
+    /vendor/rails/actionpack/lib/action_controller/dispatcher.rb:134:in `dispatch_cgi'
+    /vendor/rails/actionpack/lib/action_controller/dispatcher.rb:41:in `dispatch'
+    /vendor/rails/railties/lib/webrick_server.rb:103:in `handle_dispatch'
+    /vendor/rails/railties/lib/webrick_server.rb:74:in `service'
+    /usr/lib/ruby/1.8/webrick/httpserver.rb:104:in `service'
+    /usr/lib/ruby/1.8/webrick/httpserver.rb:65:in `run'
+    /usr/lib/ruby/1.8/webrick/server.rb:173:in `start_thread'
+    /usr/lib/ruby/1.8/webrick/server.rb:162:in `start'
+    /usr/lib/ruby/1.8/webrick/server.rb:162:in `start_thread'
+    /usr/lib/ruby/1.8/webrick/server.rb:95:in `start'
+    /usr/lib/ruby/1.8/webrick/server.rb:92:in `each'
+    /usr/lib/ruby/1.8/webrick/server.rb:92:in `start'
+    /usr/lib/ruby/1.8/webrick/server.rb:23:in `start'
+    /usr/lib/ruby/1.8/webrick/server.rb:82:in `start'
+    /vendor/rails/railties/lib/webrick_server.rb:60:in `dispatch'
+    /vendor/rails/railties/lib/commands/servers/webrick.rb:66
+    /usr/lib/ruby/1.8/rubygems/custom_require.rb:31:in `gem_original_require'
+    /usr/lib/ruby/1.8/rubygems/custom_require.rb:31:in `require'
+    /vendor/rails/activesupport/lib/active_support/dependencies.rb:153:in `require'
+    /vendor/rails/activesupport/lib/active_support/dependencies.rb:521:in `new_constants_in'
+    /vendor/rails/activesupport/lib/active_support/dependencies.rb:153:in `require'
+    /vendor/rails/railties/lib/commands/server.rb:49
+    /usr/lib/ruby/1.8/rubygems/custom_require.rb:31:in `gem_original_require'
+    /usr/lib/ruby/1.8/rubygems/custom_require.rb:31:in `require'
+    script/server:3
+
+Rendered /home/chall/src/howler/vendor/rails/actionpack/lib/action_controller/templates/rescues/_trace (9.2ms)
+Rendered /home/chall/src/howler/vendor/rails/actionpack/lib/action_controller/templates/rescues/_request_and_response (0.5ms)
+Rendering /home/chall/src/howler/vendor/rails/actionpack/lib/action_controller/templates/rescues/layout.erb (not_found)
+
+
+Processing EntriesController#index (for 127.0.0.1 at 2010-04-22 20:21:41) [GET]
+  [4;36;1mEntry Load (0.2ms)[0m   [0;1mSELECT * FROM "entries" [0m
+Rendering template within layouts/entries
+Rendering entries/index
+Completed in 5ms (View: 2, DB: 0) | 200 OK [http://localhost/entries]
+
+
+Processing EntriesController#new (for 127.0.0.1 at 2010-04-22 20:21:43) [GET]
+Rendering template within layouts/entries
+Rendering entries/new
+Completed in 8ms (View: 5, DB: 0) | 200 OK [http://localhost/entries/new]
+
+
+Processing EntriesController#index (for 127.0.0.1 at 2010-04-22 20:21:45) [GET]
+  [4;35;1mEntry Load (0.2ms)[0m   [0mSELECT * FROM "entries" [0m
+Rendering template within layouts/entries
+Rendering entries/index
+Completed in 6ms (View: 2, DB: 0) | 200 OK [http://localhost/entries]
+
+
+Processing EntriesController#index (for 127.0.0.1 at 2010-04-22 20:23:42) [GET]
+  [4;36;1mEntry Load (0.2ms)[0m   [0;1mSELECT * FROM "entries" [0m
+Rendering template within layouts/entries
+Rendering entries/index
+Completed in 6ms (View: 2, DB: 0) | 200 OK [http://localhost/entries]
+
+
+Processing EntriesController#new (for 127.0.0.1 at 2010-04-22 20:24:09) [GET]
+Rendering template within layouts/entries
+Rendering entries/new
+Completed in 9ms (View: 5, DB: 0) | 200 OK [http://localhost/entries/new]
+
+
+Processing EntriesController#new (for 127.0.0.1 at 2010-04-22 21:31:53) [GET]
+Rendering template within layouts/entries
+Rendering entries/new
+Completed in 9ms (View: 5, DB: 0) | 200 OK [http://localhost/entries/new]
+
+
+Processing EntriesController#index (for 127.0.0.1 at 2010-04-22 21:31:56) [GET]
+  [4;35;1mEntry Load (0.2ms)[0m   [0mSELECT * FROM "entries" [0m
+Rendering template within layouts/entries
+Rendering entries/index
+Completed in 5ms (View: 2, DB: 0) | 200 OK [http://localhost/entries]
+
+
+Processing EntriesController#new (for 127.0.0.1 at 2010-04-22 21:31:57) [GET]
+Rendering template within layouts/entries
+Rendering entries/new
+Completed in 9ms (View: 5, DB: 0) | 200 OK [http://localhost/entries/new]
+
+
+Processing EntriesController#create (for 127.0.0.1 at 2010-04-22 21:31:59) [POST]
+  Parameters: {"commit"=>"Create", "authenticity_token"=>"ad8736ae9d8e7e466cdac9e48a4b78764c7a5440", "entry"=>{"artist"=>"", "title"=>"", "track"=>"", "album"=>""}}
+Rendering template within layouts/entries
+Rendering entries/new
+Completed in 12ms (View: 4, DB: 0) | 200 OK [http://localhost/entries]
+
+
+Processing EntriesController#create (for 127.0.0.1 at 2010-04-22 21:32:40) [POST]
+  Parameters: {"commit"=>"Create", "authenticity_token"=>"ad8736ae9d8e7e466cdac9e48a4b78764c7a5440", "entry"=>{"artist"=>"", "title"=>"", "track"=>"", "album"=>""}}
+Rendering template within layouts/entries
+Rendering entries/new
+Completed in 11ms (View: 5, DB: 0) | 200 OK [http://localhost/entries]
+
+
+Processing EntriesController#create (for 127.0.0.1 at 2010-04-22 21:32:51) [POST]
+  Parameters: {"commit"=>"Create", "authenticity_token"=>"ad8736ae9d8e7e466cdac9e48a4b78764c7a5440", "entry"=>{"artist"=>"Rocks", "title"=>"", "track"=>"10", "album"=>""}}
+Rendering template within layouts/entries
+Rendering entries/new
+Completed in 11ms (View: 4, DB: 0) | 200 OK [http://localhost/entries]
+
+
+Processing EntriesController#create (for 127.0.0.1 at 2010-04-22 21:32:58) [POST]
+  Parameters: {"commit"=>"Create", "authenticity_token"=>"ad8736ae9d8e7e466cdac9e48a4b78764c7a5440", "entry"=>{"artist"=>"Rocks", "title"=>"YEAH!", "track"=>"10", "album"=>"Totally"}}
+  [4;36;1mEntry Create (0.2ms)[0m   [0;1mINSERT INTO "entries" ("artist", "created_at", "title", "track", "updated_at", "album") VALUES('Rocks', '2010-04-23 01:32:58', 'YEAH!', '10', '2010-04-23 01:32:58', 'Totally')[0m
+Redirected to #<Entry:0x7fb0e47ea738>
+Completed in 146ms (DB: 0) | 302 Found [http://localhost/entries]
+
+
+Processing EntriesController#show (for 127.0.0.1 at 2010-04-22 21:32:58) [GET]
+  Parameters: {"id"=>"1"}
+  [4;35;1mEntry Load (0.2ms)[0m   [0mSELECT * FROM "entries" WHERE ("entries"."id" = 1) [0m
+Rendering template within layouts/entries
+Rendering entries/show
+Completed in 7ms (View: 3, DB: 0) | 200 OK [http://localhost/entries/1]
+
+
+Processing EntriesController#index (for 127.0.0.1 at 2010-04-22 21:33:00) [GET]
+  [4;36;1mEntry Load (0.3ms)[0m   [0;1mSELECT * FROM "entries" [0m
+Rendering template within layouts/entries
+Rendering entries/index
+Completed in 9ms (View: 5, DB: 0) | 200 OK [http://localhost/entries]
+
+
+Processing EntriesController#edit (for 127.0.0.1 at 2010-04-22 21:33:06) [GET]
+  Parameters: {"id"=>"1"}
+  [4;35;1mEntry Load (0.2ms)[0m   [0mSELECT * FROM "entries" WHERE ("entries"."id" = 1) [0m
+Rendering template within layouts/entries
+Rendering entries/edit
+Completed in 9ms (View: 5, DB: 0) | 200 OK [http://localhost/entries/1/edit]
+
+
+Processing EntriesController#index (for 127.0.0.1 at 2010-04-22 21:33:09) [GET]
+  [4;36;1mEntry Load (0.3ms)[0m   [0;1mSELECT * FROM "entries" [0m
+Rendering template within layouts/entries
+Rendering entries/index
+Completed in 9ms (View: 5, DB: 0) | 200 OK [http://localhost/entries]
+
+
+Processing EntriesController#index to xml (for 127.0.0.1 at 2010-04-22 21:52:52) [GET]
+  [4;35;1mEntry Load (0.3ms)[0m   [0mSELECT * FROM "entries" [0m
+Completed in 7ms (View: 3, DB: 0) | 200 OK [http://localhost/entries.xml]
+
+
+Processing EntriesController#index to json (for 127.0.0.1 at 2010-04-22 21:53:23) [GET]
+  [4;36;1mEntry Load (0.3ms)[0m   [0;1mSELECT * FROM "entries" [0m
+Completed in 6ms (View: 3, DB: 0) | 200 OK [http://localhost/entries.json]
+
+
+Processing EntriesController#index to json (for 127.0.0.1 at 2010-04-22 21:53:27) [GET]
+  [4;35;1mEntry Load (0.3ms)[0m   [0mSELECT * FROM "entries" [0m
+Completed in 7ms (View: 3, DB: 0) | 200 OK [http://localhost/entries.json]
+
+
+Processing EntriesController#index to json (for 127.0.0.1 at 2010-04-22 21:53:38) [GET]
+  [4;36;1mEntry Load (0.3ms)[0m   [0;1mSELECT * FROM "entries" [0m
+Completed in 5ms (View: 2, DB: 0) | 200 OK [http://localhost/entries.json]
+
+
+Processing EntriesController#index to json (for 127.0.0.1 at 2010-04-22 21:53:54) [GET]
+  [4;35;1mEntry Load (0.3ms)[0m   [0mSELECT * FROM "entries" [0m
+Completed in 3ms (View: 0, DB: 0) | 406 Not Acceptable [http://localhost/entries.json]
