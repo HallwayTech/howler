@@ -1,4 +1,12 @@
 app/tmp/*
 js/*.min.*
 .project
+.classpath
+.settings
 %%*
+target
+devDb.*
+testDb.*
+prodDb.*
+web-app/WEB-INF
+plugins/core
