@@ -6,10 +6,10 @@
     <body>
     	<div id='header'>
     		<div id='header-controls'>
-    			<img src='<g:resource dir='images' file='control_play_blue.png'/>' alt='<g:message code="player.play"/>'/>
-    			<img src='<g:resource dir='images' file='control_end_blue.png'/>' alt='<g:message code="player.prev"/>'/>
-    			<img src='<g:resource dir='images' file='control_start_blue.png'/>' alt='<g:message code="player.next"/>'/>
-    			<img src='<g:resource dir='images' file='control_repeat_blue.png'/>' alt='<g:message code="player.repeat"/>'/>
+    			<img src='${resource(dir:'images', file:'control_play_blue.png')}' alt='${message(code:'player.play')}'/>
+    			<img src='${resource(dir:'images', file:'control_end_blue.png')}' alt='${message(code:'player.prev')}'/>
+    			<img src='${resource(dir:'images', file:'control_start_blue.png')}' alt='${message(code:'player.next')}'/>
+    			<img src='${resource(dir:'images', file:'control_repeat_blue.png')}' alt='${message(code:'player.repeat')}'/>
     		</div>
     		<div id='header-marquee'><g:message code='player.notPlaying' /></div>
     		<!--
