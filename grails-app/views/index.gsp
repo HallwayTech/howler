@@ -23,13 +23,14 @@
     		<div id='header-player'><hr/></div>
     		<div id='header-search'></div>
     		<div id='header-artist'></div>
-    		<g: controller='artist' action='list' update='header-artist'><g:message code='entries.artist'/></g:remoteLink>
     		<div id='header-album'></div>
-    		<g:remoteLink controller='album' action='list' update='header-album'><g:message code='entries.album'/></g:remoteLink>
     	</div>
     	<div id='body'>
     		<div id='collection'></div>
     	</div>
-    	<jq:jquery>Artist.list();</jq:jquery>
+    	<jq:jquery>
+    	<g:remoteFunction controller='artist' action='list' update='header-artist' method='get'/>
+    	<g:remoteFunction controller='album' action='list' update='header-album' method='get'/>
+    	</jq:jquery>
     </body>
 </html>
