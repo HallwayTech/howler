@@ -1,19 +1,27 @@
 package howler
 
 class ArtistController {
-	def index = {
-		[
-			id: '1',
-			label: 'Nah ah!',
-			parent: 'Mo Ron',
-			dirs: [
-		        [id: '1', label: 'First Folder, Yeah!'],
-		        [id: '2', label: "Freakin' Rock"]
-		    ],
-		    files: [
-		        [id: '1', label: 'This song sucks'],
-		        [id: '2', label: 'Yo Momma!']
-		    ]
-        ]
+	def list = {
+        params.max = Math.min(params.max ? params.int('max') : 10, 100)
+		def testEntries = [
+			[
+			 	id: 1,
+				artist:'Mo Ron',
+				album:'Something',
+				title:'Yo Momma'
+		   ]
+		]
+//		entries = Entry.list(params)
+//		entries = testEntries
+		def crit = Entry.createCriteria()
+		def results = crit.list {
+        	eq('artist', params.artist)
+			projections {
+				groupProperty('artist')
+				count('artist')
+			}
+			order('artist')
+		}
+		[entries:testEntries, entriesCount:Entry.count()]
 	}
 }
