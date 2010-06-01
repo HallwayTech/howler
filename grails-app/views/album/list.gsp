@@ -1,17 +1,15 @@
-${params.album}=${entriesCount}
-<div id='collection'>
+
 <g:if test='${entries}'>
-    <ul class='dirs'>
+    <ul class='entries'>
     <g:each var='entry' in='${entries}' status='i'>
-        <li class='dir'>
-        	<a href='#' onclick='Player.play("${entry.id}");return false' title=''>${entry.album}</a>
+        <li class='entry'>
+        	<a href='#' onclick='Player.play("${entry[0]}");return false' title='${message(code:'entry.play', args:[entry[0]])}'>${entry[0]} (${entry[1]})</a>
         	<div class='add-entry-button'>
-	            <a href='#' onclick='Queue.add("${entry.album}");return false' class='fileAdd' title='<g:message code="entry.add.queue" args="${[entry.album]}"/>'>
-	                <img src='${createLinkTo(dir: 'images', file: 'folder_add.png')}' alt='Add "${entry.album}"' />
+	            <a href='#' onclick='Queue.add("${entry[0]}");return false' class='fileAdd' title='${message(code:'entry.add.queue', args:[entry])}'/>
+	                <img src='${createLinkTo(dir: 'images', file: 'bullet_arrow_down.png')}' alt='${message(code:'entry.add.queue', args:[entry])}' />
 	            </a>
             </div>
         </li>
 	</g:each>
     </ul>
 </g:if>
-</div>

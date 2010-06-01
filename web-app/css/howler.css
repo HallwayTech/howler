@@ -96,97 +96,11 @@ img {
     opacity: 0.4;
     filter: alpha(opacity=40);
 }
-/***********************************************************************************/
-/*                           SAVED PLAYLIST STYLES                                 */
-/***********************************************************************************/
-#saved-playlists-container {
-    border: 1px solid #aaa;
-    width: 99%;
-}
-
-#saved-playlists-actions {
-    width: 100%;
-    overflow: hidden;
-}
-
-#saved-playlists-actions .left {
-    float: left;
-}
-
-#saved-playlists-actions .right {
-    float: right;
-}
-
-#saved-playlists {
-    display: none;
-    overflow-y: auto;
-    width: 100%;
-    height: 4em;
-}
-    
-#saved-playlists .list li {
-    overflow: hidden;
-}
-
-#saved-playlists .list li .desc {
-    float: left;
-}
-
-#saved-playlists .list li .actions {
-    float: right;
-    font-size:.75em
-}
 
 /***********************************************************************************/
-/*                               PLAYLIST STYLES                                   */
+/*                           COLLECTION STYLES                                     */
 /***********************************************************************************/
-#playlist {
-    overflow-y: auto;
-    height: 75%;
-    width: 100%;
-}
-
-#playlist .items {
-    padding: 1px;
-    margin: 1px;
-}
-
-.now-playing {
-    background-color: yellow;
-    border: medium double #fff;
-}
-
-.playlist-item {
-    border: 1px solid #aaa;
-    padding: 2px;
-    margin: 3px;
-    overflow:hidden;
-}
-
-.playlist-item .controls {
-    float: left;
-}
-
-.playlist-item .content {
-    float: left;
-    cursor: pointer;
-}
-
-.playlist-item .remove {
-    float: right;
-    text-align: right;
-}
-
-.playlist-item .album,
-#marquee .album {
-    font-style: italic;
-    display: block;
-}
-
-/***********************************************************************************/
-/*                               COLLECTION STYLES                                 */
-/***********************************************************************************/
-#dirs .dir {
+#entries .entry {
 	width: 100%;
 }
 
@@ -195,50 +109,15 @@ img {
 	display: inline;
 }
 
-#alpha-nav {
-    float: left;
-    margin: 0 .75em 0 .75em;
+#artist-selector {
+	border: thin black solid;
+	width: 49.5%;
+	display: inline-block;
 }
 
-#alpha-nav ul li {
-    width: 20px;
-    height: 20px;
-    border: 1px solid #aaa;
-    text-align: center;
-}
-
-#collection-container {
-    height: 100%;
-    width: 92%;
-    float: left;
-}
-
-#collection-nav {
-    float: left;
-    margin-right:.5em;
-}
-
-#collection-header {
-    float: left;
-    font-weight: bold;
-}
-
-#collection-label {
-    font-style: italic;
-}
-
-#collection {
-    height: 98%;
-    width: 100%;
-    overflow-y: auto;
-}
-
-#collection .dirs {
-    padding: .5em 0 .5em .5em;
-    width: 100%;
-}
-
-#collection .files {
-    padding: .5em 0 .5em 1.5em;
-    width: 100%;
+#album-selector {
+	border: thin black solid;
+	width: 49.5%;
+	float: right;
+	display: inline-block;
 }

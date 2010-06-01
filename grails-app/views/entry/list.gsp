@@ -1,23 +1,14 @@
-<div id='collection'>
 <g:if test='${entries}'>
-	<table>
-		<tr>
-			<th><g:message code="entry.title" /></th>
-			<th><g:message code="entry.artist" /></th>
-			<th><g:message code="entry.album" /></th>
-		</tr>
-    	<g:each var='entry' in='${entries}' status='i'>
-	        <tr class='dir'>
-	        	<td></td><a href='#' onclick='Player.play("${entry.id}");return false' title='<g:message code="entry.play" args="${entry.title}" />'>${entry.title}</a></td>
-	        	<td>${entry.artist}</td>
-	        	<td>${entry.album}</td>
-	        	<div class='add-entry-button'>
-		            <a href='#' onclick='Queue.add("${entry.artist}");return false' class='fileAdd' title='<g:message code="entry.add.queue" args="${entry.artist}" />'>
-		                <img src='${createLinkTo(dir: 'images', file: 'folder_add.png')}' alt='<g:message code="entry.add.queue" args="${entry.artist}" />' />
-		            </a>
-	            </div>
-	        </tr>
-		</g:each>
-    </table>
+    <ul class='entries'>
+    <g:each var='entry' in='${entries}' status='i'>
+        <li class='entry'>
+        	<a href='#' onclick='Player.play("${entry[0]}");return false' title='${message(code:'entry.play', args:[entry[0]])}'>${entry[0]} (${entry[1]})</a>
+        	<div class='add-entry-button'>
+	            <a href='#' onclick='Queue.add("${entry[0]}");return false' class='fileAdd' title='${message(code:'entry.add.queue', args:[entry])}'/>
+	                <img src='${createLinkTo(dir: 'images', file: 'bullet_arrow_down.png')}' alt='${message(code:'entry.add.queue', args:[entry])}' />
+	            </a>
+            </div>
+        </li>
+	</g:each>
+    </ul>
 </g:if>
-</div>

@@ -3,25 +3,26 @@ package howler
 class ArtistController {
 	def list = {
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
-		def testEntries = [
-			[
-			 	id: 1,
-				artist:'Mo Ron',
-				album:'Something',
-				title:'Yo Momma'
-		   ]
-		]
-//		entries = Entry.list(params)
-//		entries = testEntries
-		def crit = Entry.createCriteria()
-		def results = crit.list {
-        	eq('artist', params.artist)
+		def entries = Entry.withCriteria {
+			cache false
 			projections {
-				groupProperty('artist')
-				count('artist')
+				groupProperty 'artist'
+				rowCount()
 			}
-			order('artist')
+			order 'artist'
 		}
-		[entries:testEntries, entriesCount:Entry.count()]
+		render(view:'../entry/list', model: [entries:entries])
+	}
+
+	def search = {
+		params.max = Math.min(params.max ? params.int('max') : 10, 100)
+		def entries = Entry.withCriteria {
+			cache false
+			if (params.artist) {
+				eq 'artist', params.artist
+			}
+			order 'artist'
+		}
+		[entries:entries]
 	}
 }
