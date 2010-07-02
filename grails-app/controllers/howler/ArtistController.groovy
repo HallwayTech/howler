@@ -1,6 +1,8 @@
 package howler
 
 class ArtistController {
+	def defaultAction = 'list'
+
 	def list = {
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
 		def entries = Entry.withCriteria {
@@ -11,18 +13,6 @@ class ArtistController {
 			}
 			order 'artist'
 		}
-		render(view:'../entry/list', model: [entries:entries])
-	}
-
-	def search = {
-		params.max = Math.min(params.max ? params.int('max') : 10, 100)
-		def entries = Entry.withCriteria {
-			cache false
-			if (params.artist) {
-				eq 'artist', params.artist
-			}
-			order 'artist'
-		}
-		[entries:entries]
+		render(view: '../entry/list', model: [entries:entries])
 	}
 }

@@ -2,6 +2,7 @@ package howler
 
 class EntryController {
 	def scaffold = Entry
+	
 /*
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
