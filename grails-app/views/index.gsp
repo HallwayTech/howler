@@ -23,12 +23,12 @@
     		<div id='search'></div>
     		<div id='selectors'>
 	    		<div id='artist-selector'>
-	    			<g:message code='entries.artists'/>
-	    			<div id='artists-list'></div>
+	    			<div class='header'><g:message code='entries.artists'/></div>
+	    			<div id='artists-list'><div class='wait'><img src='${resource(dir:'images', file:'wait30trans.gif')}'/></div></div>
 	    		</div>
 	    		<div id='album-selector'>
-		    		<g:message code='entries.albums'/>
-		    		<div id='albums-list'></div>
+		    		<div class='header'><g:message code='entries.albums'/></div>
+		    		<div id='albums-list'><div class='wait'><img src='${resource(dir:'images', file:'wait30trans.gif')}'/></div></div>
 	    		</div>
     		</div>
     	</div>

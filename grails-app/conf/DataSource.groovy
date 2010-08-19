@@ -10,11 +10,17 @@ hibernate {
 environments {
 	development {
 		dataSource {
-			dbCreate = 'create-drop' // one of 'create', 'create-drop','update'
-			driverClassName = 'org.hsqldb.jdbcDriver'
-			url = 'jdbc:hsqldb:mem:devDB'
-			username = 'sa'
-			password = ''
+			dbCreate = 'update'
+			driverClassName = 'com.mysql.jdbc.Driver'
+			url = 'jdbc:mysql://localhost/howler'
+			username = 'root'
+			password = 'mtrpls12'
+
+//			dbCreate = 'create-drop' // one of 'create', 'create-drop','update'
+//			driverClassName = 'org.hsqldb.jdbcDriver'
+//			url = 'jdbc:hsqldb:mem:devDB'
+//			username = 'sa'
+//			password = ''
 		}
 	}
 	test {
