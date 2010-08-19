@@ -5,7 +5,7 @@
         	<a href="#" onclick="Player.play('${entry[0]}');return false" title="${message(code:'entry.play', args:[entry[0]])}">${entry[0]} (${entry[1]})</a>
         	<div class="add-entry-button">
 	            <a href="#" onclick="${remoteFunction(controller:'entry', action:'findByArtist', update:'collection', method:'get', params:[])};return false" class="fileAdd" title="${message(code:'entry.add.queue', args:[entry[0]])}"/>
-	                <img src="${createLinkTo(dir: "images", file: "bullet_arrow_down.png")}" alt="${message(code:"entry.add.queue", args:[entry[0]])}" />
+	                <img src="${createLinkTo(dir: 'images', file: 'bullet_arrow_down.png')}" alt="${message(code:'entry.add.queue', args:[entry[0]])}" />
 	            </a>
             </div>
         </li>

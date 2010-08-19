@@ -10,3 +10,4 @@ testDb.*
 prodDb.*
 web-app/WEB-INF
 plugins/core
+*.log

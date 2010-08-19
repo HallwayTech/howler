@@ -1,8 +1,6 @@
-package howler
-
 import grails.test.*
 
-class EntryControllerTests extends ControllerUnitTestCase {
+class AlbumControllerTests extends ControllerUnitTestCase {
     protected void setUp() {
         super.setUp()
     }
