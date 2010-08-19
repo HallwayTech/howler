@@ -31,6 +31,11 @@ img {
 	text-align: center;
 }
 
+hr {
+	margin: 5x 0 5px 0;
+	height: 1px;
+}
+
 /***********************************************************************************/
 /*                                 PLAYER STYLES                                   */
 /***********************************************************************************/
@@ -105,7 +110,7 @@ img {
 
 #artists-list, #albums-list {
 	height: 9em;
-	overflow-y: scroll;
+	overflow-y: auto;
 }
 
 #artist-selector > .header, #album-selector > .header {
@@ -120,4 +125,5 @@ img {
 #collection {
 	height: 57%;
 	border: thin black solid;
+	overflow-y: auto;
 }
