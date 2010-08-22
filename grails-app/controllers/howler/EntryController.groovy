@@ -5,6 +5,10 @@ import howler.Entry;
 class EntryController {
 	def scaffold = Entry
 	
+	def findBy = {
+		def types = Entry."findAllBy${params.type}"(params."${params.type}")
+		[entries:types]
+	}
 /*
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 

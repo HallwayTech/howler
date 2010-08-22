@@ -22,6 +22,6 @@ class AlbumController {
 			}
 			order 'album'
 		}
-		render(view: '../entry/list', model: [entries:entries])
+		render(view: '../entry/list', model: [entries:entries, type:'Album'])
 	}
 }
