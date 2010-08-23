@@ -36,8 +36,8 @@
     		<div id='collection'></div>
     	</div>
     	<jq:jquery>
-	    	<g:remoteFunction controller='artist' action='list' update='artists-list' method='get'/>
-	    	<g:remoteFunction controller='album' action='list' update='albums-list' method='get'/>
+    		${remoteFunction(controller: 'entry', action:'listBy', params:[type:'artist'], update:'artists-list', method:'get')}
+			${remoteFunction(controller: 'entry', action:'listBy', params:[type:'album'], update:'albums-list', method:'get')}
     	</jq:jquery>
     </body>
 </html>

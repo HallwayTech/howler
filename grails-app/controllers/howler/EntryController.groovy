@@ -6,9 +6,32 @@ class EntryController {
 	def scaffold = Entry
 	
 	def findBy = {
-		def types = Entry."findAllBy${params.type}"(params."${params.type}")
+		def properType = params.type[0].toUpperCase() + params.type[1..-1].toLowerCase()
+		def types = Entry."findAllBy${properType}"(params."${params.type}", params)
 		[entries:types]
 	}
+	
+	def listBy = {
+		params.first = params.first ? params.int('first') : null
+		params.max = params.max ? params.int('max') : null
+		
+		def entries = Entry.withCriteria {
+			cache false
+			projections {
+				groupProperty params.type
+				rowCount()
+			}
+			if (params.first) {
+				firstResult(params.first)
+			}
+			if (params.max) {
+				maxResults(params.max)
+			}
+			order params.type
+		}
+		render(view: '../entry/listBy', model: [entries:entries, type: params.type])
+	}
+	
 /*
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
