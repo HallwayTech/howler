@@ -5,7 +5,7 @@ import howler.Entry;
 class EntryController {
 	def scaffold = Entry
 	
-	def findBy = {
+	def findAllBy = {
 		def properType = params.type[0].toUpperCase() + params.type[1..-1].toLowerCase()
 		def types = Entry."findAllBy${properType}"(params."${params.type}", params)
 		[entries:types]
