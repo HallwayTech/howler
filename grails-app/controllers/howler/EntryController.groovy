@@ -3,7 +3,7 @@ package howler
 import howler.Entry;
 
 class EntryController {
-	def scaffold = Entry
+//	def scaffold = Entry
 	
 	def findAllBy = {
 		def properType = params.type[0].toUpperCase() + params.type[1..-1].toLowerCase()
@@ -32,6 +32,21 @@ class EntryController {
 		render(view: '../entry/listBy', model: [entries:entries, type: params.type])
 	}
 	
+	def show = {
+		def entry = Entry.get(params.id)
+		def file = new File(entry.path)
+		if (file.canRead()) {
+			response.status = 200
+			response.contentType = "audio/mpeg"
+			response.setHeader "Content-Length", "${file.length()}"
+			response.setHeader "Content-Disposition", "attachment; filename=${params.id}"
+			response.outputStream << file.newInputStream()
+			response.outputStream.flush()
+		} else {
+			response.sendError 404
+		}
+	}
+
 /*
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 

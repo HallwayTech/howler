@@ -2,7 +2,8 @@
 		<head>
 			<title><g:message code='application.title'/></title>
 			<meta name='layout' content='main' />
-			<link rel='StyleSheet' href='${resource(dir:'css', file:'jplayer.blue.monday.css')}' type='text/css' media='screen'/>
+			<script type="text/javascript" src="js/player.js"></script>
+			<link rel='stylesheet' href='${resource(dir:'css', file:'jplayer.blue.monday.css')}' type='text/css'/>
 		</head>
 		<body>
 			<div id='header'>
@@ -15,7 +16,7 @@
 				</div>
 				-->
 				<div id='player'></div>
-				<div class="jp-single-player">
+				<div class="jp-playlist-player">
 					<div class="jp-interface">
 						<ul class="jp-controls">
 							<li><a href="#" id="jplayer_play" class="jp-play" tabindex="1">play</a></li>
@@ -23,6 +24,8 @@
 							<li><a href="#" id="jplayer_stop" class="jp-stop" tabindex="1">stop</a></li>
 							<li><a href="#" id="jplayer_volume_min" class="jp-volume-min" tabindex="1">min volume</a></li>
 							<li><a href="#" id="jplayer_volume_max" class="jp-volume-max" tabindex="1">max volume</a></li>
+							<li><a href="#" id="jplayer_previous" class="jp-previous" tabindex="1">previous</a></li>
+							<li><a href="#" id="jplayer_next" class="jp-next" tabindex="1">next</a></li>
 						</ul>
 						<div class="jp-progress">
 							<div id="jplayer_load_bar" class="jp-load-bar">
@@ -41,14 +44,6 @@
 						</ul>
 					</div>
 				</div>
-				<!--
-				<div id='marquee'><g:message code='player.notPlaying' /></div>
-				<span class='label'></span>
-				<span class='artist'></span>
-				-
-				<span class='title'></span>
-				<span class='album'></span>
-				-->
 				<hr/>
 				<div id='search'></div>
 				<div id='selectors'>
@@ -68,7 +63,8 @@
 			<script type="text/javascript" src="js/jquery.jplayer.min.js"></script>
 			<jq:jquery>
 				$("#player").jPlayer({
-					nativeSupport: true
+					nativeSupport: true,
+					ready: Player.init
 				});
 				${remoteFunction(controller: 'entry', action:'listBy', params:[type:'artist'], update:'artists-list', method:'get')}
 			${remoteFunction(controller: 'entry', action:'listBy', params:[type:'album'], update:'albums-list', method:'get')}

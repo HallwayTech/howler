@@ -127,3 +127,7 @@ hr {
 	border: thin black solid;
 	overflow-y: auto;
 }
+
+.entry {
+	font-size: .9em;
+}

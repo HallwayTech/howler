@@ -30,8 +30,7 @@ div.jp-playlist-player {
 div.jp-interface {
 	position: relative;
 	background-color:#eee;
-	/* width:418px; */
-	width:1024px;
+	width:418px;
 	height:80px;
 	border:1px solid #009be3;
 }
@@ -221,8 +220,7 @@ div.jp-playlist ul{
 	background-color:#ccc;
 	border:1px solid #009be3;
 	border-top:none;
-	/* width:378px; */
-	width:984px;
+	width:378px;
 	font-size:.72em;
 }
 div.jp-single-player div.jp-playlist li {
