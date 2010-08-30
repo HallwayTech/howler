@@ -6,7 +6,7 @@
 			<link rel='stylesheet' href='${resource(dir:'css', file:'jplayer.blue.monday.css')}' type='text/css'/>
 		</head>
 		<body>
-			<div id='top'>
+			<div id='left'>
 				<div id='player'></div>
 				<div class="jp-playlist-player">
 					<div class="jp-interface">
@@ -36,22 +36,24 @@
 						</ul>
 					</div>
 				</div>
-				<div id='search'></div>
 			</div>
-			<div id='middle'>
-				<div id='selectors'>
-					<div id='artist-selector'>
-						<div class='header'><g:message code='entries.artists'/></div>
-						<div id='artists-list'><div class='wait'><img src='${resource(dir:'images', file:'wait30trans.gif')}'/></div></div>
-					</div>
-					<div id='album-selector'>
-						<div class='header'><g:message code='entries.albums'/></div>
-						<div id='albums-list'><div class='wait'><img src='${resource(dir:'images', file:'wait30trans.gif')}'/></div></div>
+			<div id='right'>
+				<div id='middle'>
+					<div id='search'></div>
+					<div id='selectors'>
+						<div id='artist-selector'>
+							<div class='header'><g:message code='entries.artists'/></div>
+							<div id='artists-list'><div class='wait'><img src='${resource(dir:'images', file:'wait30trans.gif')}'/></div></div>
+						</div>
+						<div id='album-selector'>
+							<div class='header'><g:message code='entries.albums'/></div>
+							<div id='albums-list'><div class='wait'><img src='${resource(dir:'images', file:'wait30trans.gif')}'/></div></div>
+						</div>
 					</div>
 				</div>
-			</div>
-			<div id='bottom'>
-				<div id='collection'></div>
+				<div id='bottom'>
+					<div id='collection'></div>
+				</div>
 			</div>
 			<script type="text/javascript" src="js/jquery.jplayer.min.js"></script>
 			<jq:jquery>
