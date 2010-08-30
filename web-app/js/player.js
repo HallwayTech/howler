@@ -1,6 +1,5 @@
 /**
- * The player object that contains all controls, trackers and playlist
- * functionality.
+ * The player object that contains all controls, trackers and playlist functionality.
  */
 var Player = function() {
 	var ready = false;
@@ -18,48 +17,29 @@ var Player = function() {
 
 		init: function() {
 			ready = true
+			$('#jplayer_previous').click(Player.previous);
+			$('#jplayer_next').click(Player.next);
 		},
 
-		controls: {
-			next: function() {
-				var next = Playlist.nextId();
-				if (next) {
-					Player.controls.play(next);
-				}
-			},
+		next: function() {
+			var next = Playlist.nextId();
+			if (next) {
+				Player.controls.play(next);
+			}
+		},
 
-			pause: function() {
-				swfplayer.sendEvent('PLAY', false);
-			},
+		play: function(id, title) {
+			$('#' + id).addClass('now-playing')
+			$("#player")
+				.jPlayer("setFile", "entry/stream/" + id)
+				.jPlayer("play")
+			$("#jplayer_playlist ul li").text(title)
+		},
 
-			play: function(id) {
-				$("#player")
-					.jPlayer("setFile", "entry/show/" + id)
-					.jPlayer("play")
-				$("#jplayer_playlist ul li").text(id)
-				/*
-				if (id && id != _currentId) {
-					// load, play and highlight the item
-					var url = 'index.php/files/read/' + id;
-					var item = {file: url, type: 'sound', start: '0'};
-					swfplayer.sendEvent('LOAD', [item]);
-					_currentId = id;
-					swfplayer.sendEvent('PLAY', true);
-					Player.setMarquee(id);
-					Playlist.highlight(id);
-				} else if (_state == 'PLAYING') {
-					swfplayer.sendEvent('PLAY', false);
-				} else {
-					swfplayer.sendEvent('PLAY', true);
-				}
-				*/
-			},
-
-			prev: function() {
-				var prev = Playlist.prevId();
-				if (prev) {
-					Player.controls.play(prev);
-				}
+		previous: function() {
+			var prev = Playlist.prevId();
+			if (prev) {
+				Player.play(prev);
 			}
 		}
 	}

@@ -6,15 +6,7 @@
 			<link rel='stylesheet' href='${resource(dir:'css', file:'jplayer.blue.monday.css')}' type='text/css'/>
 		</head>
 		<body>
-			<div id='header'>
-				<!--
-				<div id='controls'>
-					<img src='${resource(dir:'images', file:'control_play_blue.png')}' alt='${message(code:'player.play')}'/>
-					<img src='${resource(dir:'images', file:'control_end_blue.png')}' alt='${message(code:'player.prev')}'/>
-					<img src='${resource(dir:'images', file:'control_start_blue.png')}' alt='${message(code:'player.next')}'/>
-					<img src='${resource(dir:'images', file:'control_repeat_blue.png')}' alt='${message(code:'player.repeat')}'/>
-				</div>
-				-->
+			<div id='top'>
 				<div id='player'></div>
 				<div class="jp-playlist-player">
 					<div class="jp-interface">
@@ -40,12 +32,13 @@
 					</div>
 					<div id="jplayer_playlist" class="jp-playlist">
 						<ul>
-							<li>Track title</li>
+							<li><g:message code='application.title'/></li>
 						</ul>
 					</div>
 				</div>
-				<hr/>
 				<div id='search'></div>
+			</div>
+			<div id='middle'>
 				<div id='selectors'>
 					<div id='artist-selector'>
 						<div class='header'><g:message code='entries.artists'/></div>
@@ -57,16 +50,16 @@
 					</div>
 				</div>
 			</div>
-			<div id='body'>
+			<div id='bottom'>
 				<div id='collection'></div>
 			</div>
 			<script type="text/javascript" src="js/jquery.jplayer.min.js"></script>
 			<jq:jquery>
-				$("#player").jPlayer({
-					nativeSupport: true,
-					ready: Player.init
-				});
-				${remoteFunction(controller: 'entry', action:'listBy', params:[type:'artist'], update:'artists-list', method:'get')}
+			$("#player").jPlayer({
+				nativeSupport: true,
+				ready: Player.init
+			});
+			${remoteFunction(controller: 'entry', action:'listBy', params:[type:'artist'], update:'artists-list', method:'get')}
 			${remoteFunction(controller: 'entry', action:'listBy', params:[type:'album'], update:'albums-list', method:'get')}
 			</jq:jquery>
 		</body>

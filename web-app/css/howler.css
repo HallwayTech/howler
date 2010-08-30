@@ -1,133 +1,93 @@
 /***********************************************************************************/
 /*                                GENERAL STYLES                                   */
 /***********************************************************************************/
-body {
-	margin: 5px;
-    height: 100%;
-    overflow: hidden;
+html {
+	height:100%;
 }
-
+body {
+	margin:0;
+	padding:0;
+    height:100%;
+    width:99%;
+    overflow:hidden;
+}
 ol,
 ul {
-	padding: 0 0 0 3px;
-    list-style: none;
-    margin: 0;
+	padding:0 0 0 3px;
+    list-style:none;
+    margin:0;
 }
-
 img {
-    border: 0;
+    border:0;
 }
-
 .clear {
-    clear: both;
+    clear:both;
 }
-
 .list .item-odd {
-    background-color: lightgray;
+    background-color:lightgray;
 }
-
 .wait {
-	height: 50%;
-	text-align: center;
+	height:50%;
+	text-align:center;
 }
-
-hr {
-	margin: 5x 0 5px 0;
-	height: 1px;
+#top {
+	margin:5px;
+    width:100%;
 }
-
+#middle {
+	margin:5px;
+	width:100%;
+    clear:left;
+    float:left;
+}
+#bottom {
+	margin: 5px;
+	width:100%;
+	height:53%;
+}
 /***********************************************************************************/
 /*                                 PLAYER STYLES                                   */
 /***********************************************************************************/
-#header {
-    width: 100%;
-}
-
-.player-menu {
-    border: 1px gray dashed;
-    width: 32%;
-    display: inline-block;
-    text-align: center;
-    height: 1.5em;
-    vertical-align: middle;
-}
-
-#marquee {
-    background-color: lightblue;
-    border: medium double #fff;
-    height: 2.5em;
-    text-align: center;
-    font-weight: bold;
-    margin-bottom: 5px;
-}
-
-#player {
-    width: 100%;
-}
-
-#player-actions {
-    display: inline;
-    text-align: right;
-    background-color: transparent;
-    width: 10%;
-}
-
-.player-button {
-    width: 20px;
-    height: 20px;
-}
-
-#swfplayer {
-    display: inline;
-    width: 90%;
-}
-
 .dimmed {
-    opacity: 0.4;
-    filter: alpha(opacity=40);
+    opacity:0.4;
+    filter:alpha(opacity=40);
 }
-
 /***********************************************************************************/
 /*                           COLLECTION STYLES                                     */
 /***********************************************************************************/
 #selectors {
-	height: 10em;
-	padding: 0;
-	margin-bottom: 5px;
+	float:left;
+	position:relative;
+	right:50%;
+	width:100%;
 }
-
 #artist-selector, #album-selector {
-	border: thin black solid;
-	width: 49.5%;
-	display: inline-block;
-	height: 10em;
-	overflow: hidden;
+	border:thin black solid;
+	float:left;
+	left:50%;
+	overflow:hidden;
+	position:relative;
+	width:49.7%;
 }
-
 #album-selector {
-	float: right;
+	float:right;
 }
-
 #artists-list, #albums-list {
-	height: 9em;
-	overflow-y: auto;
+	height:9em;
+	overflow-y:auto;
 }
-
 #artist-selector > .header, #album-selector > .header {
-	background-color: lightgray;
+	background-color:lightgray;
 }
-
-.add-entry-button {
-	float: right;
-	display: inline;
-}
-
 #collection {
-	height: 57%;
-	border: thin black solid;
-	overflow-y: auto;
+	width:100%;
+	height:100%;
+	overflow-y:auto;
 }
-
 .entry {
-	font-size: .9em;
+	font-size:0.9em;
+	width: 100%;
+}
+.now-playing {
+	background-color: yellow;
 }

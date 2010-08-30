@@ -29,10 +29,10 @@ class EntryController {
 			}
 			order params.type
 		}
-		render(view: '../entry/listBy', model: [entries:entries, type: params.type])
+		[entries:entries, type: params.type]
 	}
 	
-	def show = {
+	def stream = {
 		def entry = Entry.get(params.id)
 		def file = new File(entry.path)
 		if (file.canRead()) {
