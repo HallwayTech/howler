@@ -30,14 +30,6 @@ img {
 	height:50%;
 	text-align:center;
 }
-#left {
-	float:left;
-	width:421px;
-}
-#right {
-	overflow:hidden;
-	width:auto;
-}
 #top {
 	margin:5px;
     width:100%;
@@ -63,22 +55,23 @@ img {
 /***********************************************************************************/
 /*                           COLLECTION STYLES                                     */
 /***********************************************************************************/
+#marquee {
+	overflow:hidden
+}
 #selectors {
 	float:left;
 	position:relative;
-	right:50%;
 	width:100%;
 }
 #artist-selector, #album-selector {
 	border:thin black solid;
 	float:left;
-	left:50%;
 	overflow:hidden;
 	position:relative;
-	width:49.7%;
+	width: 49.7%;
 }
 #album-selector {
-	float:right;
+	float: right;
 }
 #artists-list, #albums-list {
 	height:9em;

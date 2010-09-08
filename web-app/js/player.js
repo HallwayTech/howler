@@ -11,6 +11,12 @@ var Player = function() {
 	var _state = null;
 
 	return {
+		add: function(id) {
+			link$ = $('#' + id + ' .play')
+			text = $('#' + id).text()
+			$('#jplayer_playlist ul').append('<li>').append($('#' + id + ' .play')).append(text).append('</li>')
+		},
+
 		currentPlayingId: function() {
 			return _currentId;
 		},
@@ -29,11 +35,12 @@ var Player = function() {
 		},
 
 		play: function(id, title) {
-			$('#' + id).addClass('now-playing')
+			//now-playing
+			$('#' + id).addClass('jplayer_playlist_current')
 			$("#player")
 				.jPlayer("setFile", "entry/stream/" + id)
 				.jPlayer("play")
-			$("#jplayer_playlist ul li").text(title)
+			$("#marquee").text(title)
 		},
 
 		previous: function() {

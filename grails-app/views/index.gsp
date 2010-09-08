@@ -6,7 +6,12 @@
 			<link rel='stylesheet' href='${resource(dir:'css', file:'jplayer.blue.monday.css')}' type='text/css'/>
 		</head>
 		<body>
-			<div id='left'>
+			<div id='top'>
+				<div id="jplayer_playlist" class="jp-playlist">
+					<ul>
+						<li><g:message code='application.title'/></li>
+					</ul>
+				</div>
 				<div id='player'></div>
 				<div class="jp-playlist-player">
 					<div class="jp-interface">
@@ -30,35 +35,30 @@
 						<div id="jplayer_play_time" class="jp-play-time"></div>
 						<div id="jplayer_total_time" class="jp-total-time"></div>
 					</div>
-					<div id="jplayer_playlist" class="jp-playlist">
-						<ul>
-							<li><g:message code='application.title'/></li>
-						</ul>
+					<div id='marquee'><g:message code='application.title'/></div>
+				</div>
+			</div>
+			<div id='middle'>
+				<div id='search'></div>
+				<div id='selectors'>
+					<div id='artist-selector'>
+						<div class='header'><g:message code='entries.artists'/></div>
+						<div id='artists-list'><div class='wait'><img src='${resource(dir:'images', file:'wait30trans.gif')}'/></div></div>
+					</div>
+					<div id='album-selector'>
+						<div class='header'><g:message code='entries.albums'/></div>
+						<div id='albums-list'><div class='wait'><img src='${resource(dir:'images', file:'wait30trans.gif')}'/></div></div>
 					</div>
 				</div>
 			</div>
-			<div id='right'>
-				<div id='middle'>
-					<div id='search'></div>
-					<div id='selectors'>
-						<div id='artist-selector'>
-							<div class='header'><g:message code='entries.artists'/></div>
-							<div id='artists-list'><div class='wait'><img src='${resource(dir:'images', file:'wait30trans.gif')}'/></div></div>
-						</div>
-						<div id='album-selector'>
-							<div class='header'><g:message code='entries.albums'/></div>
-							<div id='albums-list'><div class='wait'><img src='${resource(dir:'images', file:'wait30trans.gif')}'/></div></div>
-						</div>
-					</div>
-				</div>
-				<div id='bottom'>
-					<div id='collection'></div>
-				</div>
+			<div id='bottom'>
+				<div id='collection'></div>
 			</div>
 			<script type="text/javascript" src="js/jquery.jplayer.min.js"></script>
 			<jq:jquery>
 			$("#player").jPlayer({
 				nativeSupport: true,
+				customCssIds: false,
 				ready: Player.init
 			});
 			${remoteFunction(controller: 'entry', action:'listBy', params:[type:'artist'], update:'artists-list', method:'get')}

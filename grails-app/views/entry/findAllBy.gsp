@@ -2,16 +2,22 @@
 	<ul class="entries">
 	<g:each var="entry" in="${entries}" status="i">
 		<%
-		def title = "${entry.artist} - ${entry.album} - ${entry.title}"
-		def titleJs = title.encodeAsJavaScript()
-		def titleHtml = title.encodeAsHTML()
+		// all of this is done here to localize the processing per loop
 		def id = entry.id.encodeAsJavaScript()
-		def imgSrc = resource(dir:'images', file:'control_play_blue.png')
-		def imgAlt = message(code:'entry.play', args:[title], encodeAs: '')
+		def title = "${entry.artist} - ${entry.album} - ${entry.title}"
+
+		def addImgSrc = resource(dir:'images', file:'add.png')
+		def playImgSrc = resource(dir:'images', file:'control_play_blue.png')
+
+		def addTitle = message(code:'entry.add.queue', args:[title])
+		def playTitle = message(code:'entry.play', args:[title])
 		%>
-		<li id="${id}" class="entry"><a onclick='Player.play("${id}", "${titleJs}")' href='#'
-				title='${titleHtml}'><img src='${imgSrc}' alt='${imgAlt}'/>
-			${title}</a></li>
+		<li id="${id}" class="entry">
+			<a href='#' onclick='Player.add("${id}")' class='add'
+				title='${addTitle.encodeAsHTML()}'><img src='${addImgSrc}' alt='${addTitle.encodeAsHTML()}'/></a>
+			<a href='#' onclick='Player.play("${id}", "${title.encodeAsJavaScript()}")' class='play'
+				title='${playTitle.encodeAsHTML()}'><img src='${playImgSrc}' alt='${playTitle.encodeAsHTML()}'/></a>
+			${title.encodeAsHTML()}</li>
 	</g:each>
 	</ul>
 </g:if>
