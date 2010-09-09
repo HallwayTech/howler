@@ -12,8 +12,8 @@
 		def addTitle = message(code:'entry.add.queue', args:[title])
 		def playTitle = message(code:'entry.play', args:[title])
 		%>
-		<li id="${id}" class="entry">
-			<a href='#' onclick='Player.add("${id}")' class='add'
+		<li class="${id} entry">
+			<a href='#' onclick='Player.add("${id}", "${title.encodeAsJavaScript()}")' class='add'
 				title='${addTitle.encodeAsHTML()}'><img src='${addImgSrc}' alt='${addTitle.encodeAsHTML()}'/></a>
 			<a href='#' onclick='Player.play("${id}", "${title.encodeAsJavaScript()}")' class='play'
 				title='${playTitle.encodeAsHTML()}'><img src='${playImgSrc}' alt='${playTitle.encodeAsHTML()}'/></a>

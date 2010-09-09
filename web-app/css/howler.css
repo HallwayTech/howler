@@ -29,34 +29,51 @@ img {
 .wait {
 	height:50%;
 	text-align:center;
+	background:url("../images/wait30trans.gif") no-repeat;
 }
 #top {
 	margin:5px;
     width:100%;
+    height:195px;
 }
 #middle {
 	margin:5px;
 	width:100%;
-    clear:left;
-    float:left;
+	height:auto;
 }
 #bottom {
 	margin: 5px;
 	width:100%;
-	height:53%;
+	height:50%;
 }
-/***********************************************************************************/
-/*                                 PLAYER STYLES                                   */
-/***********************************************************************************/
 .dimmed {
     opacity:0.4;
     filter:alpha(opacity=40);
 }
 /***********************************************************************************/
-/*                           COLLECTION STYLES                                     */
+/*                             SPECIFIC STYLES                                     */
 /***********************************************************************************/
+.jp-playlist-player {
+	width:49.7%;
+}
+#jplayer_playlist {
+	float:left;
+	border:thin #009be3 solid; 
+	background-color: white;
+	overflow-x:hidden;
+	overflow-y:auto;
+	height:100%;
+	width:49.7%;
+}
+#jplayer_playlist ul {
+	height:100%;
+	font-size:0.9em;
+	width:100%;
+}
 #marquee {
-	overflow:hidden
+	width:100%;
+	overflow:hidden;
+	font-size:.72em;
 }
 #selectors {
 	float:left;
@@ -64,20 +81,17 @@ img {
 	width:100%;
 }
 #artist-selector, #album-selector {
-	border:thin black solid;
-	float:left;
+	border:thin #009be3 solid;
+	display:inline-table;
 	overflow:hidden;
 	position:relative;
 	width: 49.7%;
 }
-#album-selector {
-	float: right;
-}
 #artists-list, #albums-list {
-	height:9em;
+	height:15em;
 	overflow-y:auto;
 }
-#artist-selector > .header, #album-selector > .header {
+#artist-selector .header, #album-selector .header {
 	background-color:lightgray;
 }
 #collection {
@@ -87,8 +101,8 @@ img {
 }
 .entry {
 	font-size:0.9em;
-	width: 100%;
+	width:100%;
 }
 .now-playing {
-	background-color: yellow;
+	background-color:lightblue;
 }

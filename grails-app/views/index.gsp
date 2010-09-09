@@ -7,10 +7,8 @@
 		</head>
 		<body>
 			<div id='top'>
-				<div id="jplayer_playlist" class="jp-playlist">
-					<ul>
-						<li><g:message code='application.title'/></li>
-					</ul>
+				<div id="jplayer_playlist">
+					<ul></ul>
 				</div>
 				<div id='player'></div>
 				<div class="jp-playlist-player">
@@ -43,11 +41,11 @@
 				<div id='selectors'>
 					<div id='artist-selector'>
 						<div class='header'><g:message code='entries.artists'/></div>
-						<div id='artists-list'><div class='wait'><img src='${resource(dir:'images', file:'wait30trans.gif')}'/></div></div>
+						<div id='artists-list'><div class='wait'></div></div>
 					</div>
 					<div id='album-selector'>
 						<div class='header'><g:message code='entries.albums'/></div>
-						<div id='albums-list'><div class='wait'><img src='${resource(dir:'images', file:'wait30trans.gif')}'/></div></div>
+						<div id='albums-list'><div class='wait'></div></div>
 					</div>
 				</div>
 			</div>

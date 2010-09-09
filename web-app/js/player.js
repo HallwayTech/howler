@@ -11,10 +11,10 @@ var Player = function() {
 	var _state = null;
 
 	return {
-		add: function(id) {
-			link$ = $('#' + id + ' .play')
-			text = $('#' + id).text()
-			$('#jplayer_playlist ul').append('<li>').append($('#' + id + ' .play')).append(text).append('</li>')
+		add: function(id, title) {
+			var imgLink$ = $('.' + id + ' .play').clone()
+			var li = $('<li>').addClass(id).append(imgLink$).append(title)
+			$('#jplayer_playlist ul').append(li)
 		},
 
 		currentPlayingId: function() {
@@ -34,13 +34,25 @@ var Player = function() {
 			}
 		},
 
-		play: function(id, title) {
-			//now-playing
-			$('#' + id).addClass('jplayer_playlist_current')
-			$("#player")
-				.jPlayer("setFile", "entry/stream/" + id)
-				.jPlayer("play")
-			$("#marquee").text(title)
+		play: function(id, title, entry) {
+			var player$ = $("#player")
+			
+			var file = "entry/stream" + id
+			var currentFile = player$.jPlayer("getData", "diag.src")
+
+			if (file == currentFile) {
+				var isPlaying = player$.jPlayer("getData", "diag.isPlaying")
+				if (isPlaying) {
+					player$.jPlayer("pause")
+				} else {
+					player$.jPlayer("play")
+				}
+			} else {
+				$("#marquee").text(title)
+				$('.now-playing').removeClass('now-playing')
+				$('.' + id).addClass('now-playing')
+				player$.jPlayer("setFile", file).jPlayer("play")
+			}
 		},
 
 		previous: function() {

@@ -29,7 +29,7 @@ class EntryController {
 			}
 			order params.type
 		}
-		[entries:entries, type: params.type]
+		[entries: entries, type: params.type]
 	}
 	
 	def stream = {
@@ -45,6 +45,21 @@ class EntryController {
 		} else {
 			response.sendError 404
 		}
+	}
+
+	def category(name) {
+		def categoryMatch = name =~ /(A-Za-z0-9)/
+		def category = ''
+		(name =~ /([A-Za-z0-9])/).each {match, group ->
+			if (category == '') {
+				if (group.isNumber()) {
+					category = '#'
+				} else {
+					category = group.toUpperCase()
+				}
+			}
+		}
+		return category
 	}
 
 /*
