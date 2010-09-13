@@ -5,17 +5,17 @@ html {
 	height:100%;
 }
 body {
+	height:100%;
 	margin:0;
-	padding:0;
-    height:100%;
-    width:99%;
-    overflow:hidden;
+	overflow:hidden;
+	padding:5px;
+    width:100%;
 }
 ol,
 ul {
-	padding:0 0 0 3px;
-    list-style:none;
+	list-style:none;
     margin:0;
+	padding-left:3px;
 }
 img {
     border:0;
@@ -27,81 +27,70 @@ img {
     background-color:lightgray;
 }
 .wait {
+	background:url("../images/wait30trans.gif") no-repeat;
 	height:50%;
 	text-align:center;
-	background:url("../images/wait30trans.gif") no-repeat;
-}
-#top {
-	margin:5px;
-    width:100%;
-    height:195px;
-}
-#middle {
-	margin:5px;
-	width:100%;
-	height:auto;
-}
-#bottom {
-	margin: 5px;
-	width:100%;
-	height:50%;
 }
 .dimmed {
-    opacity:0.4;
     filter:alpha(opacity=40);
+    opacity:0.4;
 }
 /***********************************************************************************/
 /*                             SPECIFIC STYLES                                     */
 /***********************************************************************************/
-.jp-playlist-player {
-	width:49.7%;
-}
-#jplayer_playlist {
-	float:left;
-	border:thin #009be3 solid; 
-	background-color: white;
-	overflow-x:hidden;
-	overflow-y:auto;
-	height:100%;
-	width:49.7%;
-}
-#jplayer_playlist ul {
-	height:100%;
-	font-size:0.9em;
-	width:100%;
-}
 #marquee {
-	width:100%;
-	overflow:hidden;
+	border-top:thin #009be3 solid;
+	bottom:0;
+	float:left;
 	font-size:.72em;
+	font-style:italic;
+	font-weight:bold;
+	overflow:hidden;
+	padding:0 5px;
+	position:absolute;
+	width:99%;
 }
 #selectors {
-	float:left;
-	position:relative;
-	width:100%;
+	margin:5px 0;
+	width:99%;
 }
 #artist-selector, #album-selector {
 	border:thin #009be3 solid;
 	display:inline-table;
 	overflow:hidden;
-	position:relative;
-	width: 49.7%;
+	width:49.75%;
+}
+#album-selector {
+	float:right;
+}
+#artist-selector .header, #album-selector .header {
+	background-color:lightgray;
 }
 #artists-list, #albums-list {
 	height:15em;
 	overflow-y:auto;
 }
-#artist-selector .header, #album-selector .header {
-	background-color:lightgray;
-}
 #collection {
-	width:100%;
-	height:100%;
+	border:thin #009be3 solid;
+	height:60%;
 	overflow-y:auto;
+	width:99%;
+}
+#entries {
+	width:100%;
 }
 .entry {
 	font-size:0.9em;
+	vertical-align:middle;
 	width:100%;
+}
+.entry a {
+	text-decoration:none;
+}
+.entry .play img {
+	position:relative;
+	margin: 0 5px;
+	top: 2px;
 }
 .now-playing {
 	background-color:lightblue;

@@ -14,7 +14,6 @@
  * Date: 13th May 2010
  */
 
-div.jp-single-player,
 div.jp-playlist-player {
 
 	/* Edit the font-size to counteract inherited font sizing.
@@ -26,17 +25,13 @@ div.jp-playlist-player {
 	font-family:Verdana, Arial, sans-serif;
 	line-height:1.6;
 	color: #666;
-	float:right;
 }
 div.jp-interface {
 	position: relative;
 	background-color:#eee;
-	width:418px;
-	height:80px;
+	width:99%;
+	height:85px;
 	border:1px solid #009be3;
-}
-div.jp-single-player div.jp-interface {
-	border-bottom:none;
 }
 div.jp-playlist-player div.jp-interface {
 }
@@ -44,7 +39,7 @@ div.jp-playlist-player div.jp-interface {
 div.jp-interface ul.jp-controls {
 	list-style-type:none;
 	padding:0;
-	margin: 0;
+	margin:0;
 }
 div.jp-interface ul.jp-controls li {
 	position: absolute;
@@ -56,13 +51,9 @@ div.jp-interface ul.jp-controls a {
 }
 a.jp-play,
 a.jp-pause {
-	top:20px;
+	top:15px;
 	width:40px;
 	height:40px;
-}
-div.jp-single-player a.jp-play,
-div.jp-single-player a.jp-pause {
-	left:40px;
 }
 div.jp-playlist-player a.jp-play,
 div.jp-playlist-player a.jp-pause {
@@ -82,13 +73,10 @@ a.jp-pause:hover {
 	background: url("jplayer.blue.monday.jpg") -41px -42px no-repeat;
 }
 a.jp-stop {
-	top:26px;
+	top:21px;
 	background: url("jplayer.blue.monday.jpg") 0 -83px no-repeat;
 	width:28px;
 	height:28px;
-}
-div.jp-single-player a.jp-stop {
-	left:90px;
 }
 div.jp-playlist-player a.jp-stop {
 	left:126px;
@@ -98,7 +86,7 @@ a.jp-stop:hover {
 }
 a.jp-previous {
 	left:20px;
-	top:26px;
+	top:21px;
 	background: url("jplayer.blue.monday.jpg") 0 -112px no-repeat;
 	width:28px;
 	height:28px;
@@ -108,7 +96,7 @@ a.jp-previous:hover {
 }
 a.jp-next {
 	left:88px;
-	top:26px;
+	top:21px;
 	background: url("jplayer.blue.monday.jpg") 0 -141px no-repeat;
 	width:28px;
 	height:28px;
@@ -119,15 +107,10 @@ a.jp-next:hover {
 div.jp-progress {
 	position: absolute;
 	overflow:hidden;
-	top:32px;
+	top:27px;
 	background-color: #ddd;
-	width:122px;
+	width:500px;
 	height:15px;
-}
-div.jp-single-player div.jp-progress {
-	left:130px;
-}
-div.jp-playlist-player div.jp-progress {
 	left:164px;
 }
 div.jp-load-bar {
@@ -142,31 +125,21 @@ div.jp-play-bar {
 	height:15px;
 }
 a.jp-volume-min {
-	top:32px;
+	top:27px;
 	background: url("jplayer.blue.monday.jpg") 0 -170px no-repeat;
 	width:18px;
 	height:15px;
-}
-div.jp-single-player a.jp-volume-min {
-	left:274px;
-}
-div.jp-playlist-player a.jp-volume-min {
-	left:296px;
+	left:675px;
 }
 a.jp-volume-min:hover {
 	background: url("jplayer.blue.monday.jpg") -19px -170px no-repeat;
 }
 a.jp-volume-max {
-	top:32px;
+	top:27px;
 	background: url("jplayer.blue.monday.jpg") 0 -186px no-repeat;
 	width:18px;
 	height:15px;
-}
-div.jp-single-player a.jp-volume-max {
-	left:346px;
-}
-div.jp-playlist-player a.jp-volume-max {
-	left:368px;
+	left:745px;
 }
 a.jp-volume-max:hover {
 	background: url("jplayer.blue.monday.jpg") -19px -186px no-repeat;
@@ -175,17 +148,12 @@ a.jp-volume-max:hover {
 div.jp-volume-bar {
 	position: absolute;
 	overflow:hidden;
-	top:37px;
+	top:32px;
 	background: url("jplayer.blue.monday.jpg") 0 -250px repeat-x;
-	width:46px;
+	width:50px;
 	height:5px;
 	cursor: pointer;
-}
-div.jp-single-player div.jp-volume-bar {
-	left:292px;
-}
-div.jp-playlist-player div.jp-volume-bar {
-	left:314px;
+	left:690px;
 }
 div.jp-volume-bar-value {
 	background: url("jplayer.blue.monday.jpg") 0 -256px repeat-x;
@@ -195,17 +163,13 @@ div.jp-volume-bar-value {
 div.jp-play-time,
 div.jp-total-time {
 	position: absolute;
-	top:49px;
+	top:45px;
 	width:122px;
 	font-size:.64em;
 	font-style:oblique;
 }
 div.jp-total-time {
 	text-align: right;
-}
-div.jp-single-player div.jp-play-time,
-div.jp-single-player div.jp-total-time {
-	left:130px;
 }
 div.jp-playlist-player div.jp-play-time,
 div.jp-playlist-player div.jp-total-time {
@@ -224,10 +188,6 @@ div.jp-playlist ul{
 	border-top:none;
 	width:578px;
 	font-size:.72em;
-}
-div.jp-single-player div.jp-playlist li {
-	padding:5px 0 5px 20px;
-	font-weight:bold;
 }
 div.jp-playlist-player div.jp-playlist li {
 	padding:5px 0 4px 20px;

@@ -4,19 +4,27 @@ import howler.Entry;
 
 class EntryController {
 //	def scaffold = Entry
-	
+
 	def findAllBy = {
 		def properType = params.type[0].toUpperCase() + params.type[1..-1].toLowerCase()
-		def types = Entry."findAllBy${properType}"(params."${params.type}", params)
+
+		def types = Entry.withCriteria {
+			cache true
+			eq params.type, params."${params.type}"
+			order 'album'
+			order 'track'
+			order 'artist'
+		}
+//		def types = Entry."findAllBy${properType}"(params."${params.type}", params)
 		[entries:types]
 	}
-	
+
 	def listBy = {
 		params.first = params.first ? params.int('first') : null
 		params.max = params.max ? params.int('max') : null
-		
+
 		def entries = Entry.withCriteria {
-			cache false
+			cache true
 			projections {
 				groupProperty params.type
 				rowCount()
@@ -31,19 +39,24 @@ class EntryController {
 		}
 		[entries: entries, type: params.type]
 	}
-	
+
 	def stream = {
-		def entry = Entry.get(params.id)
-		def file = new File(entry.path)
-		if (file.canRead()) {
-			response.status = 200
-			response.contentType = "audio/mpeg"
-			response.setHeader "Content-Length", "${file.length()}"
-			response.setHeader "Content-Disposition", "attachment; filename=${params.id}"
-			response.outputStream << file.newInputStream()
-			response.outputStream.flush()
-		} else {
-			response.sendError 404
+		try {
+			def entry = Entry.get(params.id)
+			def file = new File(entry.path)
+			if (file.canRead()) {
+				response.status = 200
+				response.contentType = "audio/mpeg"
+				response.setHeader "Content-Length", "${file.length()}"
+				response.setHeader "Content-Disposition", "attachment; filename=${params.id}"
+				def os = response.outputStream
+				os << file.newInputStream()
+				os.flush()
+			} else {
+				response.sendError 404
+			}
+		} catch (e) {
+			e.printStackTrace()
 		}
 	}
 
