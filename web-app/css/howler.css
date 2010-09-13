@@ -79,6 +79,10 @@ img {
 #entries {
 	width:100%;
 }
+#entries th {
+	border-bottom:thin #009be3 solid;
+	text-align:left;
+}
 .entry {
 	font-size:0.9em;
 	vertical-align:middle;
