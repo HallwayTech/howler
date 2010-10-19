@@ -1,47 +1,49 @@
 <% if !@entries.blank? %>
-	<table id="entries">
-		<thead>
-			<tr>
-				<th></th>
-				<th>Artist</th>
-				<th>Album</th>
-				<th>Title</th>
-			</tr>
-		</thead>
-		<tbody>
-		<% @entries.each do |entry|
-			<%
-			# Note: all of this is done here to localize the processing per loop
+  <table id="entries">
+    <thead>
+      <tr>
+        <th></th>
+        <th>Artist</th>
+        <th>Album</th>
+        <th>Title</th>
+      </tr>
+    </thead>
+    <tbody>
+    <% @entries.each do |entry|
+      # Note: all of this is done here to localize the processing per loop
 
-			# encode items for the entry
-			def id = h entry.id
-			def artist = h entry.artist
-			def album = h entry.album
-			def title = h entry.title
+      # encode items for the entry
+      id = h entry.id
+      artist = h entry.artist
+      album = h entry.album
+      title = h entry.title
 
-			# construct JavaScript calls
-			def artist_link = link_to_remote artist, :update => 'collection', :method => 'get',
-			    :url => { :controller => 'entry', :action => 'find_all_by', :type => 'artist', :artist => entry.artist }
-			def album_link = link_to_remote album, :update => 'collection', :method => 'get',
-			    :url => { :controller => 'entry', :action => 'find_all_by', :type => 'album', :album => entry.album }
+      # build messages
+      add_title = t :entry_add_queue, :name => title
+      play_title = t :entry_play, :name => title
+      artist_title = t :artist_findby, :name => artist
+      album_title = t :album_findby, :name => album
+      
+      # construct JavaScript calls
+      artist_link = link_to_remote artist, :update => 'collection', :method => 'get',
+        :url => { :controller => 'entry', :action => 'find_all_by', :type => 'artist', :artist => entry.artist },
+        :title => artist_title
+      album_link = link_to_remote album, :update => 'collection', :method => 'get',
+        :url => { :controller => 'entry', :action => 'find_all_by', :type => 'album', :album => entry.album },
+        :title => album_title
 
-            # build messages
-			def add_title = t :entry_add_queue, :name => title
-			def play_title = t :entry_play, :name => title
-			def artist_title = t :artist_findby, :name => artist
-			def album_title = t :album_findby, :name => album
-
-			# get image sources
-			def add_img = link_to image_tag('add.png'), :href => '#', :title => add_title, :class => 'add', :onclick => 'player.add("' id '")'
-			def play_img = link_to image_tag('control_play_blue.png'), :href => '#', :title => play_title, :class => 'play', :onclick => 'player.play("' id '")'
-			%>
-			<tr id="<%= id %>" class="entry">
-				<td class="actions"><%= play_img %></td>
-                <td class="artist"><%= artist_link %></td>
-				<td class="album"><%= album_link %></td>
-				<td class="title"><a href='#' onclick='player.play("<%= id %>")' class='play' title='<%= playTitle %>'><%= title %></a></td>
-			</tr>
-		<% end %>
-		</tbody>
-	</table>
+      # get image sources
+      add_link = link_to image_tag('add.png'), :href => '#', :title => add_title, :class => 'add', :onclick => "player.add('#{id}')"
+      play_link = link_to image_tag('control_play_blue.png'), :href => '#', :title => play_title, :class => 'play', :onclick => "player.play('#{id}')"
+      artist_link = link_to 
+      %>
+      <tr id="<%= id %>" class="entry">
+        <td class="actions"><%= play_link %></td>
+        <td class="artist"><%= artist_link %></td>
+        <td class="album"><%= album_link %></td>
+        <td class="title"><a href='#' onclick='player.play("<%= id %>")' class='play' title='<%= play_title %>'><%= title %></a></td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
 <% end %>
