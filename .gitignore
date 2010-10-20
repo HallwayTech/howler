@@ -11,3 +11,4 @@ prodDb.*
 web-app/WEB-INF
 plugins/core
 *.log
+*.sqlite3
