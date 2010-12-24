@@ -1,3 +1,4 @@
+bin
 app/tmp/*
 js/*.min.*
 .project

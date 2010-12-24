@@ -16,7 +16,8 @@ class Entry {
 	
 	static constraints = {
 		track nullable: true
-		artist blank: false
+		artist blank: false, index: 'Artist_Idx'
+		album index: 'Album_Idx'
 		title blank: false
 		year nullable: true
 		genre nullable: true
