@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Howler</title>
-  <%= stylesheet_link_tag :all %>
-  <%= javascript_include_tag :defaults %>
-  <%= csrf_meta_tag %>
+    <title>Howler</title>
+    <%= stylesheet_link_tag :all %>
+    <%= javascript_include_tag :defaults %>
+    <%= csrf_meta_tag %>
+    <link rel='stylesheet' href='${resource(dir:"css", file:"howler.css")}' />
+    <link rel='stylesheet' href='${resource(dir:'css', file:'jplayer.blue.monday.css')}' type='text/css'/>
+    <link rel='shortcut icon' href='${resource(dir:"images", file:"favicon.ico")}" type='image/x-icon' />
 </head>
 <body>
 
