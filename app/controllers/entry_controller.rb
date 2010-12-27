@@ -2,15 +2,7 @@ class EntryController < ApplicationController
     # Find entries by a field.
     def find_all_by
         @entries = Entry.where({ params[:type] => params[params[:type]] }).order('album, track, artist')
-        # def properType = params.type[0].toUpperCase() + params.type[1..-1].toLowerCase()
-        # 
-        # def types = Entry.withCriteria {
-        #     cache true
-        #     eq params.type, params."${params.type}"
-        #     order 'album'
-        #     order 'track'
-        #     order 'artist'
-        # }
+        render :find_all_by, :layout => false
     end
 
     # List all entries by a certain type (e.g. artist, album).
@@ -19,7 +11,9 @@ class EntryController < ApplicationController
         # params.max = params.max ? params.int('max') : null
 
         @type = params[:type]
-        @entries = Entry.count(:all, :conditions => "#{params[:type]} = #{params[params[:type]]}", :order => params[:type])
+        #  :conditions => "#{params[:type]} = #{params[params[:type]]}",
+        @entries = Entry.count(:all, :group => params[:type], :order => params[:type])
+        render :list_by, :layout => false
         # def entries = Entry.withCriteria {
         #     cache true
         #     projections {
@@ -38,8 +32,8 @@ class EntryController < ApplicationController
     end
 
     # def stream
-    #     def entry = Entry.get(params[:id])
-    #     def file = new File(entry.path)
+    #     entry = Entry.get(params[:id])
+    #     file = new File(entry.path)
     #     if (file.canRead())
     #         response.status = 200
     #         response.contentType = "audio/mpeg"
@@ -54,8 +48,8 @@ class EntryController < ApplicationController
     # end
     # 
     # def category(name)
-    #     def categoryMatch = name =~ /(A-Za-z0-9)/
-    #     def category = ''
+    #     categoryMatch = name =~ /(A-Za-z0-9)/
+    #     category = ''
     #     (name =~ /([A-Za-z0-9])/).each do |match, group|
     #         if (category == '') {
     #             if (group.isNumber())

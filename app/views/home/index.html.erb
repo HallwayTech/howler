@@ -43,3 +43,19 @@
 </div>
 
 <div id='collection'></div>
+<script type="text/javascript">
+$(document).ready(function() {
+    $("#player").jPlayer({
+        swfPath: 'javascripts',
+        nativeSupport: true,
+        customCssIds: false,
+        ready: player.init
+    })
+    $.get('<%= url_for(:controller => 'entry', :action => 'list_by') %>', {'type': 'artist'}, function(data) {
+        $('#artists-list').html(data)
+    })
+    $.get('<%= url_for(:controller => 'entry', :action => 'list_by') %>', {'type': 'album'}, function(data) {
+        $('#albums-list').html(data)
+    })
+})
+</script>

@@ -1,7 +1,7 @@
 class CreateEntries < ActiveRecord::Migration
   def self.up
     create_table :entries do |t|
-      t.unique_identifier :id, :null => false
+      t.string :uuid, :null => false
       t.string :album
       t.string :track
       t.string :artist, :null => false
@@ -12,7 +12,7 @@ class CreateEntries < ActiveRecord::Migration
 
       t.timestamps
     end
-    add_index :entries, :unique_identifier, :unique => true
+    add_index :entries, :uuid, :unique => true
   end
 
   def self.down

@@ -1,9 +1,11 @@
+require 'uuidtools'
+
 class Entry < ActiveRecord::Base
     attr_protected :uuid
-    before_validation_on_create :init_uuid
+    before_validation :init_uuid, :on => :create
     validates_presence_of :uuid
     validates_uniqueness_of :uuid
-    
+
     private
     def init_uuid
         self.uuid = UUIDTools::UUID.timestamp_create.to_s
