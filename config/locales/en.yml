@@ -2,9 +2,7 @@
 # See http://github_com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points_
 
 en:
-  hello: "Hello world"
-
-  application_title: &#164;&#164; Howler Media Player &#164;&#164;
+  application_title: ¤¤ Howler Media Player ¤¤
 
   player_play: Play
   player_prev: Previous
@@ -21,5 +19,5 @@ en:
   entries_album: Album
   entries_albums: Albums
 
-  album_findby: Find by album: "%{name}"
-  artist_findby: Find by artist: "%{name}"
+  album_findby: "Find by album: \"%{name}\""
+  artist_findby: "Find by artist: \"%{name}\""
