@@ -1,34 +1,15 @@
 class EntryController < ApplicationController
     # Find entries by a field.
     def find_all_by
-        @entries = Entry.where({ params[:type] => params[params[:type]] }).order('album, track, artist')
-        render :find_all_by, :layout => false
+        @entries = Entry.where("#{params[:type]} = ?", params[params[:type]]).order('album, track, artist')
+        render(:find_all_by, :layout => false)
     end
 
     # List all entries by a certain type (e.g. artist, album).
     def list_by
-        # params.first = params.first ? params.int('first') : null
-        # params.max = params.max ? params.int('max') : null
-
         @type = params[:type]
-        #  :conditions => "#{params[:type]} = #{params[params[:type]]}",
         @entries = Entry.count(:all, :group => params[:type], :order => params[:type])
-        render :list_by, :layout => false
-        # def entries = Entry.withCriteria {
-        #     cache true
-        #     projections {
-        #         groupProperty params.type
-        #         rowCount()
-        #     }
-            # if (params.first)
-            #     firstResult(params.first)
-            # end
-            # if (params.max)
-            #     maxResults(params.max)
-            # end
-        #     order params.type
-        # }
-        # [entries: entries, type: params.type]
+        render(:list_by, :layout => false)
     end
 
     # def stream
@@ -37,8 +18,8 @@ class EntryController < ApplicationController
     #     if (file.canRead())
     #         response.status = 200
     #         response.contentType = "audio/mpeg"
-    #         response.setHeader "Content-Length", "${file.length()}"
-    #         response.setHeader "Content-Disposition", "attachment; filename=${params.id}"
+    #         response.setHeader "Content-Length", "#{file.length()}"
+    #         response.setHeader "Content-Disposition", "attachment; filename=#{params.id}"
     #         def os = response.outputStream
     #         os << file.newInputStream()
     #         os.flush()

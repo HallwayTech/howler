@@ -1,10 +1,11 @@
 <% if !@entries.blank? %>
 <ul class="entries">
-    <% @entries.each do |entry|
-    name = entry[0]
-    count = entry[1]
-    onclick = "$.get('#{url_for(:controller => 'entry', :action => 'find_all_by')}', {'type': '#{@type}'}, function(data) {$('#collection').html(data)});return false"
-    title = h(t("#{@type}_findby", :name => name))
+    <%
+    @entries.each do |entry|
+        name = entry[0]
+        count = entry[1]
+        onclick = remote_function(:controller => 'entry', :action => 'find_all_by', :update => '#collection', :params => {'type' => @type, @type => name})
+        title = h(t("#{@type}_findby", :name => name))
     %>
     <li class="entry">
         <a href="#" onclick="<%= onclick %>" title="<%= title %>"><%= name %> (<%= count %>)</a>
