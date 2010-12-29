@@ -25,17 +25,17 @@
         album_title = t(:album_findby, :name => album)
 
         # construct JavaScript calls
-        artist_link = link_to_remote(artist, :update => 'collection', :method => 'get', :title => artist_title, :url => { :controller => 'entry', :action => 'find_all_by', :type => 'artist', :artist => entry.artist })
-        album_link = link_to_remote(album, :update => 'collection', :method => 'get', :title => album_title, :url => { :controller => 'entry', :action => 'find_all_by', :type => 'album', :album => entry.album })
+        artist_link = link_to_remote(:text => artist, :update => 'collection', :title => artist_title, :controller => 'entry', :action => 'find_all_by', params => {:type => 'artist', :artist => entry.artist })
+        album_link = link_to_remote(:text => album, :update => 'collection', :title => album_title, :controller => 'entry', :action => 'find_all_by', params => {:type => 'album', :album => entry.album })
 
         # get image sources
-        add_link = link_to(image_tag('add.png'), :href => '#', :title => add_title, :class => 'add', :onclick => "player.add('#{id}')")
+        #add_link = link_to(image_tag('add.png'), :href => '#', :title => add_title, :class => 'add', :onclick => "player.add('#{id}')")
         play_link = link_to(image_tag('control_play_blue.png'), :href => '#', :title => play_title, :class => 'play', :onclick => "player.play('#{id}')")
         %>
         <tr id="<%= id %>" class="entry">
-            <td class="actions"><%= play_link %></td>
-            <td class="artist"><%= artist_link %></td>
-            <td class="album"><%= album_link %></td>
+            <td class="actions"><%= raw play_link %></td>
+            <td class="artist"><%= raw artist_link %></td>
+            <td class="album"><%= raw album_link %></td>
             <td class="title"><a href='#' onclick='player.play("<%= id %>")' class='play' title='<%= play_title %>'><%= title %></a></td>
         </tr>
         <% end %>
