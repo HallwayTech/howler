@@ -25,8 +25,8 @@
         album_title = t(:album_findby, :name => album)
 
         # construct JavaScript calls
-        artist_link = link_to(artist, :update => 'collection', :method => 'get', :title => artist_title, :url => { :controller => 'entry', :action => 'find_all_by', :type => 'artist', :artist => entry.artist })
-        album_link = link_to(album, :update => 'collection', :method => 'get', :title => album_title, :url => { :controller => 'entry', :action => 'find_all_by', :type => 'album', :album => entry.album })
+        artist_link = link_to_remote(artist, :update => 'collection', :method => 'get', :title => artist_title, :url => { :controller => 'entry', :action => 'find_all_by', :type => 'artist', :artist => entry.artist })
+        album_link = link_to_remote(album, :update => 'collection', :method => 'get', :title => album_title, :url => { :controller => 'entry', :action => 'find_all_by', :type => 'album', :album => entry.album })
 
         # get image sources
         add_link = link_to(image_tag('add.png'), :href => '#', :title => add_title, :class => 'add', :onclick => "player.add('#{id}')")
