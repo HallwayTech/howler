@@ -1,9 +1,9 @@
 Howler::Application.routes.draw do
-  get "home/index"
+  get 'home/index'
 
-  #resources :entry
-  get "entry/find_all_by"
-  get "entry/list_by"
+  get 'entry/find_all_by'
+  get 'entry/list_by'
+  get 'entry/stream'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
