@@ -13,30 +13,32 @@
         # Note: all of this is done here to localize the processing per loop
 
         # encode items for the entry
-        id = h(entry.id)
-        artist = h(entry.artist)
-        album = h(entry.album)
-        title = h(entry.title)
+        #id = h(entry.id)
+        #artist = h(entry.artist)
+        #album = h(entry.album)
+        #title = h(entry.title)
 
-        # build messages
-        add_title = t(:entry_add_queue, :name => title)
-        play_title = t(:entry_play, :name => title)
-        artist_title = t(:artist_findby, :name => artist)
-        album_title = t(:album_findby, :name => album)
+        # artist bits
+        artist_title = t(:artist_findby, :name => entry.artist)
+        artist_onclick = remote_function(:update => '#collection', :controller => 'entry', :action => 'find_all_by', :params => {:type => 'artist', :artist => entry.artist })
 
-        # construct JavaScript calls
-        artist_link = link_to_remote(:text => artist, :update => 'collection', :title => artist_title, :controller => 'entry', :action => 'find_all_by', params => {:type => 'artist', :artist => entry.artist })
-        album_link = link_to_remote(:text => album, :update => 'collection', :title => album_title, :controller => 'entry', :action => 'find_all_by', params => {:type => 'album', :album => entry.album })
+        # album bits
+        album_title = t(:album_findby, :name => entry.album)
+        album_onclick = remote_function(:update => '#collection', :controller => 'entry', :action => 'find_all_by', :params => {:type => 'album', :album => entry.album })
 
-        # get image sources
+        # play bits
+        play_title = t(:entry_play, :name => entry.title)
+        play_onclick = "player.play('#{entry.id}')"
+
+        # add bits
+        #add_title = t(:entry_add_queue, :name => title)
         #add_link = link_to(image_tag('add.png'), :href => '#', :title => add_title, :class => 'add', :onclick => "player.add('#{id}')")
-        play_link = link_to(image_tag('control_play_blue.png'), :href => '#', :title => play_title, :class => 'play', :onclick => "player.play('#{id}')")
         %>
-        <tr id="<%= id %>" class="entry">
-            <td class="actions"><%= raw play_link %></td>
-            <td class="artist"><%= raw artist_link %></td>
-            <td class="album"><%= raw album_link %></td>
-            <td class="title"><a href='#' onclick='player.play("<%= id %>")' class='play' title='<%= play_title %>'><%= title %></a></td>
+        <tr id="<%= entry.id %>" class="entry">
+          <td class="actions"><%= link_to_function(image_tag('control_play_blue.png'), :title => play_title, :class => 'play', :onclick => play_onclick) %></td>
+          <td class="artist"><%= link_to_function(entry.artist, :title => artist_title, :onclick => artist_onclick) %></td>
+          <td class="album"><%= link_to_function(entry.album, :title => album_title, :onclick => album_onclick) %></td>
+          <td class="title"><%= link_to_function(entry.title, :title => play_title, :class => 'play', :onclick => play_onclick) %></td>
         </tr>
         <% end %>
     </tbody>

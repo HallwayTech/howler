@@ -7,17 +7,8 @@ module EntryHelper
   # update:: HTML entity to update. Accepts a jQuery selector.
   def remote_function(args)
     url = url_for(:controller => args[:controller], :action => args[:action])
-    js = "$.get('#{url}'"
-    js += ", #{ActiveSupport::JSON.encode(args[:params])}" if args[:params]
-    js += ", function(data) {$('#{args[:update]}').html(data)}" if args[:update]
-    js += ');return false'
-    return js
-  end
-
-  # Renders an anchor link that makes a remote call using AJAX. See
-  # +remote_function+.
-  def link_to_remote(args)
-    link = "<a href='#' onclick='#{remote_function(args)}' title='#{args[:title]}'>#{args[:text]}</a>"
-    return link
+    params = ", #{ActiveSupport::JSON.encode(args[:params])}" if args[:params]
+    update = ", function(data) {$('#{args[:update]}').html(data)}" if args[:update]
+    "$.get('#{url}'#{params}#{update})"
   end
 end

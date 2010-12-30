@@ -5,10 +5,10 @@
         name = entry[0]
         count = entry[1]
         onclick = remote_function(:controller => 'entry', :action => 'find_all_by', :update => '#collection', :params => {'type' => @type, @type => name})
-        title = h(t("#{@type}_findby", :name => name))
+        title = t("#{@type}_findby", :name => name)
     %>
     <li class="entry">
-        <a href="#" onclick="<%= onclick %>" title="<%= title %>"><%= name %> (<%= count %>)</a>
+      <%= link_to_function("#{name} (#{count})", :title => title, :onclick => onclick) %>
     </li>
     <% end %>
 </ul>
