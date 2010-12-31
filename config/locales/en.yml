@@ -14,10 +14,16 @@ en:
   entry_play: Play "%{name}"
   entry_track: Track
 
-  entries_artist: Artist
-  entries_artists: Artists
-  entries_album: Album
-  entries_albums: Albums
+  artist: Artist
+  artists: Artists
+
+  album: Album
+  albums: Albums
+
+  title: Title
 
   album_findby: "Find by album: \"%{name}\""
   artist_findby: "Find by artist: \"%{name}\""
+
+  albums_refresh: Refresh albums
+  artists_refresh: Refresh artists

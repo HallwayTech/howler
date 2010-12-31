@@ -13,11 +13,10 @@
 ActiveRecord::Schema.define(:version => 20101018000605) do
 
   create_table "entries", :force => true do |t|
-    t.string   "uuid", :null => false
     t.string   "album"
     t.string   "track"
-    t.string   "artist",            :null => false
-    t.string   "title",             :null => false
+    t.string   "artist",     :null => false
+    t.string   "title",      :null => false
     t.string   "year"
     t.string   "genre"
     t.string   "path"
@@ -25,6 +24,7 @@ ActiveRecord::Schema.define(:version => 20101018000605) do
     t.datetime "updated_at"
   end
 
-  add_index "entries", ["uuid"], :name => "index_entries_on_uuid", :unique => true
+  add_index "entries", ["album"], :name => "index_entries_on_album"
+  add_index "entries", ["artist"], :name => "index_entries_on_artist"
 
 end

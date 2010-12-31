@@ -1,15 +1,17 @@
 <% if !@entries.blank? %>
-<table id="entries">
+  <table id="entries">
     <thead>
-        <tr>
-            <th></th>
-            <th>Artist</th>
-            <th>Album</th>
-            <th>Title</th>
-        </tr>
+      <tr>
+        <!--
+        <th></th>
+        -->
+        <th><%= t(:artist) %></th>
+        <th><%= t(:album) %></th>
+        <th><%= t(:title) %></th>
+      </tr>
     </thead>
     <tbody>
-        <% @entries.each do |entry|
+      <% @entries.each do |entry|
         # Note: all of this is done here to localize the processing per loop
 
         # encode items for the entry
@@ -35,12 +37,14 @@
         #add_link = link_to(image_tag('add.png'), :href => '#', :title => add_title, :class => 'add', :onclick => "player.add('#{id}')")
         %>
         <tr id="<%= entry.id %>" class="entry">
-          <td class="actions"><%= link_to_function(image_tag('control_play_blue.png'), :title => play_title, :class => 'play', :onclick => play_onclick) %></td>
+          <!--
+          <td class="actions">< = link_to_function(image_tag('control_play_blue.png'), :title => play_title, :class => 'play', :onclick => play_onclick) ></td>
+          -->
           <td class="artist"><%= link_to_function(entry.artist, :title => artist_title, :onclick => artist_onclick) %></td>
           <td class="album"><%= link_to_function(entry.album, :title => album_title, :onclick => album_onclick) %></td>
           <td class="title"><%= link_to_function(entry.title, :title => play_title, :class => 'play', :onclick => play_onclick) %></td>
         </tr>
-        <% end %>
+      <% end %>
     </tbody>
-</table>
+  </table>
 <% end %>
