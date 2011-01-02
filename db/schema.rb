@@ -14,12 +14,12 @@ ActiveRecord::Schema.define(:version => 20101018000605) do
 
   create_table "entries", :force => true do |t|
     t.string   "album"
-    t.string   "track"
+    t.integer  "track"
     t.string   "artist",     :null => false
     t.string   "title",      :null => false
-    t.string   "year"
+    t.integer  "year"
     t.string   "genre"
-    t.string   "path"
+    t.string   "path",       :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
