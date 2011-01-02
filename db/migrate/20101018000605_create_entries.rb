@@ -4,12 +4,12 @@ class CreateEntries < ActiveRecord::Migration
     create_table :entries do |t|
       #t.string :uuid, :null => false
       t.string :album
-      t.string :track
+      t.integer :track
       t.string :artist, :null => false
       t.string :title, :null => false
-      t.string :year
+      t.integer :year
       t.string :genre
-      t.string :path
+      t.string :path, :null => false
 
       t.timestamps
     end

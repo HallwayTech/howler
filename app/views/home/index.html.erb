@@ -33,11 +33,11 @@
 
 <div id='selectors'>
     <div id='artist-selector'>
-        <div class='header'><%= t(:artists) %> <%= link_to(image_tag('arrow_refresh_small.png', :alt => t(:artists_refresh)), :title => t(:artists_refresh), :onclick => "howler.update('artist', '#artists-list')") %></div>
+        <div class='header'><%= t(:artists) %> <%= link_to_function(image_tag('arrow_refresh_small.png', :alt => t(:artists_refresh)), :title => t(:artists_refresh), :onclick => "howler.listBy('artist', '#artists-list')") %></div>
         <div id='artists-list'><div class='wait'></div></div>
     </div>
     <div id='album-selector'>
-        <div class='header'><%= t(:albums) %> <%= link_to_function(image_tag('arrow_refresh_small.png', :alt => t(:albums_refresh)), :title => t(:albums_refresh), :onclick => "howler.update('album', '#albums-list')") %></div>
+        <div class='header'><%= t(:albums) %> <%= link_to_function(image_tag('arrow_refresh_small.png', :alt => t(:albums_refresh)), :title => t(:albums_refresh), :onclick => "howler.listBy('album', '#albums-list')") %></div>
         <div id='albums-list'><div class='wait'></div></div>
     </div>
 </div>
@@ -49,10 +49,10 @@ $(document).ready(function() {
         swfPath: '/javascripts',
         nativeSupport: true,
         customCssIds: false,
-        ready: player.init
+        ready: function() {howler.player.init(); howler.init()}
     })
-    howler.update('artist', '#artists-list')
-    howler.update('album', '#albums-list')
+    howler.listBy('artist', '#artists-list')
+    howler.listBy('album', '#albums-list')
     //<%= raw remote_function(:update => '#artists-list', :controller => 'entry', :action => 'list_by', :params => {:type => 'artist'}) %>
     //<%= raw remote_function(:update => '#albums-list', :controller => 'entry', :action => 'list_by', :params => {:type => 'album'}) %>
 })

@@ -36,11 +36,11 @@ ActiveRecord::Base.transaction do
           else
             e = Entry.find_or_initialize_by_path(entry)
           end
-          e.artist = c.iconv(t.artist)
-          e.album = c.iconv(t.album)
-          e.title = c.iconv(t.title)
+          e.artist = c.iconv(t.artist.strip)
+          e.album = c.iconv(t.album.strip)
+          e.title = c.iconv(t.title.strip)
           e.track = t.tracknum
-          e.genre = t.genre_s
+          e.genre = t.genre_s.strip
           e.year = t.year
           e.save!
         end if File.file?(entry) and entry[/.+\.mp3$/]

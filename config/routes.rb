@@ -2,7 +2,7 @@ Howler::Application.routes.draw do
   get 'home/index'
 
   #resources :entry
-  get 'entry/find_all_by'
+  get 'entry/find_by'
   get 'entry/list_by'
   get 'entry/stream/:id' => 'entry#stream'
 

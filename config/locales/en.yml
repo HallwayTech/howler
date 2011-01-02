@@ -12,15 +12,14 @@ en:
 
   entry_add_queue: Add "%{name}" to play queue
   entry_play: Play "%{name}"
-  entry_track: Track
 
   artist: Artist
   artists: Artists
-
   album: Album
   albums: Albums
-
   title: Title
+  track: Track
+  year: Year
 
   album_findby: "Find by album: \"%{name}\""
   artist_findby: "Find by artist: \"%{name}\""

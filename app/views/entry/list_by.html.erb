@@ -1,15 +1,16 @@
 <% if !@entries.blank? %>
-<ul class="entries">
+  <ul class="entries">
     <%
     @entries.each do |entry|
-        name = entry[0]
-        count = entry[1]
-        onclick = remote_function(:controller => 'entry', :action => 'find_all_by', :update => '#collection', :params => {'type' => @type, @type => name})
-        title = t("#{@type}_findby", :name => name)
-    %>
-    <li class="entry">
-      <%= link_to_function("#{name} (#{count})", :title => title, :onclick => onclick) %>
-    </li>
+      name = entry[0]
+      count = entry[1]
+      title = 
+      %>
+      <li class="entry">
+        <%= link_to("#{name} (#{count})",
+          "#findBy[#{@type}]=#{u(name)}&update=#collection",
+          :title => t("#{@type}_findby", :name => name)) %>
+      </li>
     <% end %>
-</ul>
+  </ul>
 <% end %>

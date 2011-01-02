@@ -83,7 +83,15 @@ img {
 #entries th {
     border-bottom:thin #009be3 solid;
     text-align:left;
-    width:33%;
+}
+#entries .track {
+    width:3%;
+}
+#entries td {
+    width:31%;
+}
+#entries .track {
+    width:4%;
 }
 .entry {
     font-size:0.9em;
