@@ -39,16 +39,10 @@ img {
 /***********************************************************************************/
 /*                             SPECIFIC STYLES                                     */
 /***********************************************************************************/
-#marquee {
+.marquee {
     border-top:thin #009be3 solid;
-    bottom:0;
-    float:left;
-    font-size:.72em;
     font-style:italic;
-    font-weight:bold;
     overflow:hidden;
-    padding:0 5px;
-    position:absolute;
     width:99%;
 }
 #selectors {
