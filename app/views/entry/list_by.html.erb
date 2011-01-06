@@ -4,12 +4,11 @@
     @entries.each do |entry|
       name = entry[0]
       count = entry[1]
-      title = 
-      %>
+    %>
       <li class="entry">
         <%= link_to("#{name} (#{count})",
           "#findBy[#{@type}]=#{u(name)}&update=#collection",
-          :title => t("#{@type}_findby", :name => name)) %>
+          title: t("#{@type}_findby", name: name)) %>
       </li>
     <% end %>
   </ul>

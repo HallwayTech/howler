@@ -7,11 +7,11 @@
 #   Mayor.create(:name => 'Daley', :city => cities.first)
 #if (Rails.env.development?)
 #  Entry.create([
-#      {:artist => 'Mo Ron', :album => 'Nah ah!', :title => 'This song sucks', :path => '/Mo Ron/Nah ah!/This song sucks.ogg'},
-#      {:artist => 'Mo Ron', :album => 'Nah ah!', :title => 'This song sucks', :path => '/Mo Ron/Nah ah!/This song sucks.ogg'},
-#      {:artist => 'Mo Ron', :album => 'Nah ah!', :title => 'Yo Momma!', :path => '/Mo Ron/Nah ah!/Yo Momma!.ogg'},
-#      {:artist => 'Johnny Rocket', :album => 'To The Moon', :title => 'Shippity Do Dah', :path => '/Johnny Rocket/To The Moon/Shippity Doo Dah.ogg'},
-#      {:artist => 'Tommy Bells', :album => 'Ringer', :title => 'Cling Clang', :path => '/Tommy Bells/Ringer/Cling Clang.ogg'},
-#      {:artist => 'Johnny Knocks', :album => 'Ringer', :title => 'Cling Clang', :path => '/Johnny Knocks/Ringer/Cling Clang.ogg'}
+#      {artist:  'Mo Ron', album: 'Nah ah!', title: 'This song sucks', path: '/Mo Ron/Nah ah!/This song sucks.ogg'},
+#      {artist:  'Mo Ron', album: 'Nah ah!', title: 'This song sucks', path: '/Mo Ron/Nah ah!/This song sucks.ogg'},
+#      {artist:  'Mo Ron', album: 'Nah ah!', title: 'Yo Momma!', path: '/Mo Ron/Nah ah!/Yo Momma!.ogg'},
+#      {artist:  'Johnny Rocket', album: 'To The Moon', title: 'Shippity Do Dah', path: '/Johnny Rocket/To The Moon/Shippity Doo Dah.ogg'},
+#      {artist:  'Tommy Bells', album: 'Ringer', title: 'Cling Clang', path: '/Tommy Bells/Ringer/Cling Clang.ogg'},
+#      {artist:  'Johnny Knocks', album: 'Ringer', title: 'Cling Clang', path: '/Johnny Knocks/Ringer/Cling Clang.ogg'}
 #    ])
 #end

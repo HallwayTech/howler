@@ -14,27 +14,26 @@
         # Note: all of this is done here to localize the processing per loop
 
         # add bits
-        #add_title = t(:entry_add_queue, :name => title)
-        #add_link = link_to(image_tag('add.png'), :href => '#', :title => add_title, :class => 'add', :onclick => "player.add('#{id}')")
+        #add_title = t(:entry_add_queue, name: title)
+        #add_link = link_to(image_tag('add.png'), href: '#', title: add_title, class: 'add', onclick: "player.add('#{id}')")
         %>
         <tr id="<%= entry.id %>" class="entry">
           <!--
           <td class="actions">< = link_to_function(image_tag('control_play_blue.png'),
-              :title => play_title, :class => 'play', :onclick => play_onclick) ></td>
+              title: play_title, class: 'play', onclick: play_onclick) ></td>
           -->
           <td class="track"><%= entry.track %></td>
 
           <td class="artist"><%= link_to(entry.artist,
               "#findBy[artist]=#{u(entry.artist)}&update=#collection",
-              :title => t(:artist_findby, :name => entry.artist)) %></td>
+              title: t(:artist_findby, name: entry.artist)) %></td>
 
           <td class="album"><%= link_to(entry.album,
               "#findBy[album]=#{u(entry.album)}&update=#collection",
-              :title => t(:album_findby, :name => entry.album)) %></td>
+              title: t(:album_findby, name: entry.album)) %></td>
 
           <td class="title"><%= link_to(entry.title, "#play=#{entry.id}",
-              :title => t(:entry_play, :name => entry.title),
-              :class => 'play') %></td>
+              title: t(:entry_play, name: entry.title), class: 'play') %></td>
 
           <td class="year"><%= entry.year %></td>
         </tr>
