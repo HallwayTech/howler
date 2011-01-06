@@ -11,16 +11,18 @@
     </thead>
     <tbody>
       <% @entries.each do |entry|
-        # Note: all of this is done here to localize the processing per loop
-
         # add bits
-        #add_title = t(:entry_add_queue, name: title)
-        #add_link = link_to(image_tag('add.png'), href: '#', title: add_title, class: 'add', onclick: "player.add('#{id}')")
-        %>
+        #add_link = 
+      %>
         <tr id="<%= entry.id %>" class="entry">
           <!--
-          <td class="actions">< = link_to_function(image_tag('control_play_blue.png'),
-              title: play_title, class: 'play', onclick: play_onclick) ></td>
+          <td class="actions">< = link_to_function(image_tag('add.png'),
+              "player.add('#{id}')", title: t(:entry_add_queue, name: title),
+              class: 'add') >
+            < = link_to_function(image_tag('control_play_blue.png'),
+              "howler.player.play('#{entry.id}')", class: 'play',
+              title: t(:entry_play, name: entry.title),
+              href: "#play=#{entry.id}") ></td>
           -->
           <td class="track"><%= entry.track %></td>
 
@@ -33,8 +35,8 @@
               title: t(:album_findby, name: entry.album)) %></td>
 
           <td class="title"><%= link_to_function(entry.title,
-              "howler.player.play('#{entry.id}')",
-              title: t(:entry_play, name: entry.title), class: 'play',
+              "howler.player.play('#{entry.id}')", class: 'play',
+              title: t(:entry_play, name: entry.title),
               href: "#play=#{entry.id}") %></td>
 
           <td class="year"><%= entry.year %></td>
