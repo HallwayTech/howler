@@ -32,8 +32,10 @@
               "#findBy[album]=#{u(entry.album)}&update=#collection",
               title: t(:album_findby, name: entry.album)) %></td>
 
-          <td class="title"><%= link_to(entry.title, "#play=#{entry.id}",
-              title: t(:entry_play, name: entry.title), class: 'play') %></td>
+          <td class="title"><%= link_to_function(entry.title,
+              "howler.player.play('#{entry.id}')",
+              title: t(:entry_play, name: entry.title), class: 'play',
+              href: "#play=#{entry.id}") %></td>
 
           <td class="year"><%= entry.year %></td>
         </tr>
